@@ -51,12 +51,10 @@ public class DBget {
         }
         try {
             while (resultSet.next()) {
-                if (resultSet.getInt("ID") == ID && resultSet.getBoolean("isAdmin") == true) {
+                if (resultSet.getInt("ID") == ID && resultSet.getInt("isAdmin") == 1) {
                     BufferedImage image = ImageProcessing.convertToBufferedImage(resultSet.getBytes("image"));
                     tmp = new Admin(resultSet.getInt("ID"), resultSet.getString("username"),
                             resultSet.getString("password"), resultSet.getString("date"), image);
-                } else {
-                    System.out.println("Admin not Found");
                 }
             }
         } catch (SQLException e) {

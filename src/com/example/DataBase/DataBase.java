@@ -55,7 +55,7 @@ public class DataBase {
         System.out.println("Creating new DataBase");
         try {
             DB.createNewFile();
-            System.out.println("DataBase Created Successfully");
+            System.out.println("DataBase Created Successfully Youpppiiiiiii !!!!!");
         } catch (IOException e) {
             System.err.println("Failed to Create new DataBase");
         }

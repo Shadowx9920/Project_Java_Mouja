@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import com.example.Accounts.Admin;
 import com.example.Accounts.User;
 import com.example.DataBase.DBget;
-import com.example.DataBase.DataBase;
 
 public class Authenticate extends javax.swing.JFrame {
 
@@ -60,18 +59,16 @@ public class Authenticate extends javax.swing.JFrame {
         ConnectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Admin admin = null;
-                User user = null;
                 int ID = DBmanagement.searchForUsers(loginText.getText(), passwordText.getText());
                 if(ID == -1) return;
                 if(ID == -2) return;
                 DBmanagement.checkIfAdmin(ID);
                 if(DBmanagement.checkIfAdmin(ID)){
                     System.out.println("in Admin");
-                    admin = DBget.getAdmin(ID);
+                    Admin admin = DBget.getAdmin(ID);
                 }else{
                     System.out.println("in User");
-                    user = DBget.getUser(ID);
+                    User user = DBget.getUser(ID);
                 }
             }});
 

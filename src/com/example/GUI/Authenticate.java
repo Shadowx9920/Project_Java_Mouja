@@ -3,10 +3,6 @@ package com.example.GUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.example.Accounts.Admin;
-import com.example.Accounts.User;
-import com.example.DataBase.DBget;
-
 public class Authenticate extends javax.swing.JFrame {
 
     public Authenticate() {
@@ -21,7 +17,7 @@ public class Authenticate extends javax.swing.JFrame {
         loginLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         loginText = new javax.swing.JTextField();
-        passwordText = new javax.swing.JTextField();
+        passwordText = new javax.swing.JPasswordField();
         NewAccountButton = new javax.swing.JButton();
         ConnectButton = new javax.swing.JButton();
 
@@ -47,29 +43,23 @@ public class Authenticate extends javax.swing.JFrame {
         passwordLabel.setForeground(new java.awt.Color(255, 255, 255));
         passwordLabel.setText("Password");
 
-        loginText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginTextActionPerformed(evt);
-            }
-        });
+        loginText.setFont(new java.awt.Font("Tahoma", 0, 14));
+        passwordText.setFont(new java.awt.Font("Tahoma", 0, 14));
 
         NewAccountButton.setText("Sign Up");
+        NewAccountButton.setFont(new java.awt.Font("Tahoma", 0, 14));
+        NewAccountButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SignUp.createSignUpPage();
+            }});
 
         ConnectButton.setText("Log In");
+        ConnectButton.setFont(new java.awt.Font("Tahoma", 0, 14));
         ConnectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int ID = DBmanagement.searchForUsers(loginText.getText(), passwordText.getText());
-                if(ID == -1) return;
-                if(ID == -2) return;
-                DBmanagement.checkIfAdmin(ID);
-                if(DBmanagement.checkIfAdmin(ID)){
-                    System.out.println("in Admin");
-                    Admin admin = DBget.getAdmin(ID);
-                }else{
-                    System.out.println("in User");
-                    User user = DBget.getUser(ID);
-                }
+                DBmanagement.signIn(loginText.getText(),passwordText.getText());
             }});
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -116,11 +106,7 @@ public class Authenticate extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void loginTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loginTextActionPerformed
+    }
 
     public static void startAuthentification() {
         try {
@@ -139,17 +125,12 @@ public class Authenticate extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Authenticate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Authenticate().setVisible(true);
             }
         });
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ConnectButton;
     private javax.swing.JButton NewAccountButton;
     private javax.swing.JPanel jPanel1;
@@ -157,7 +138,6 @@ public class Authenticate extends javax.swing.JFrame {
     private javax.swing.JLabel loginLabel;
     private javax.swing.JTextField loginText;
     private javax.swing.JLabel passwordLabel;
-    private javax.swing.JTextField passwordText;
+    private javax.swing.JPasswordField passwordText;
     private javax.swing.JLabel titleLabel;
-    // End of variables declaration//GEN-END:variables
 }

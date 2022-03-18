@@ -4,9 +4,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import java.awt.image.BufferedImage;
+
+import com.example.Accounts.Admin;
+import com.example.Accounts.User;
+import com.example.DataBase.DBget;
+import com.example.DataBase.DBset;
 import com.example.DataBase.DataBase;
 
 public class DBmanagement {
+    public static void signIn(String login,String password){
+        int ID = DBmanagement.searchForUsers(login,password);
+                if(ID == -1) return;
+                if(ID == -2) return;
+                DBmanagement.checkIfAdmin(ID);
+                if(DBmanagement.checkIfAdmin(ID)){
+                    Admin admin = DBget.getAdmin(ID);
+                }else{
+                    User user = DBget.getUser(ID);
+                }
+    }
     public static int searchForUsers(String login, String password){
         int ID = -1;
         Statement statement = null;
@@ -53,4 +70,25 @@ public class DBmanagement {
         }
         return false;
     } 
+    public static boolean signUp(String login,String password,BufferedImage image){
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String sqlQuery = "SELECT username FROM Users";
+        try {
+            statement = DataBase.getConnection().createStatement();
+            resultSet = statement.executeQuery(sqlQuery);
+            while (resultSet.next()) {
+                if (resultSet.getString("username").equals(login)) {
+                    System.out.println(resultSet.getString("username"));
+                    System.out.println("User Already Exists");
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DBset.addUser(login, password, false, image);
+        System.out.println("User created");
+        return true;
+    }
 }

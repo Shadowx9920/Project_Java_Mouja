@@ -7,6 +7,6 @@ public class Main {
     public static void main(String[] args) {
         DataBase.initDB("./src/com/example/DataBase/data.db"); 
         Authenticate.startAuthentification();
-        DataBase.endConnection();
+        //DataBase.endConnection();
     }
 }

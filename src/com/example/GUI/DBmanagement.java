@@ -13,15 +13,18 @@ import com.example.DataBase.DBset;
 import com.example.DataBase.DataBase;
 
 public class DBmanagement {
-    public static void signIn(String login,String password){
+    public static boolean signIn(String login,String password){
         int ID = DBmanagement.searchForUsers(login,password);
-                if(ID == -1) return;
-                if(ID == -2) return;
+                if(ID == -1) return false;
+                if(ID == -2) return false;
                 DBmanagement.checkIfAdmin(ID);
                 if(DBmanagement.checkIfAdmin(ID)){
                     Admin admin = DBget.getAdmin(ID);
+                    return true;
                 }else{
                     User user = DBget.getUser(ID);
+                    UserScreen.startUserScreen();
+                    return true;
                 }
     }
     public static int searchForUsers(String login, String password){
@@ -90,5 +93,15 @@ public class DBmanagement {
         DBset.addUser(login, password, false, image);
         System.out.println("User created");
         return true;
+    }
+    public static void selectProducts(){
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String Query = "SELECT * FROM Products;";
+        try {
+            statement = DataBase.getConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -75,41 +75,46 @@ public class DataBase {
                 " password            CHAR(50)     NOT NULL, " +
                 "isAdmin            BOOLEAN," +
                 "image             BLOB     , " +
-                "date        TEXT          NOT NULL)";
-        String sqlCreateCommandeQuery = "CREATE TABLE Commandes " +
+                "date        TEXT          NOT NULL,"+
+                "email        TEXT          NOT NULL,"+
+                "phoneNumber  TEXT          NOT NULL)";
+        String sqlCreateProductsQuery = "CREATE TABLE Products " +
                 "(ID INT PRIMARY KEY     NOT NULL," +
-                " productID           INT    NOT NULL, " +
-                " userID           INT      NOT NULL, " +
-                " date        TEXT          NOT NULL)";
+                " name           char(100)    NOT NULL," +
+                "description     TEXT," +
+                "image            BLOB," +
+                "date        TEXT          NOT NULL"+
+                "price       DOUBLE        NOT NULL)";
         String sqlCreateFournisseurQuery = "CREATE TABLE Fournisseurs " +
                 "(ID INT PRIMARY KEY     NOT NULL," +
                 " name           CHAR(50)    NOT NULL," +
                 "date        TEXT          NOT NULL)";
-        String sqlCreateProductsQuery = "CREATE TABLE Products " +
-                "(ID INT PRIMARY KEY     NOT NULL," +
-                " name           char(100)    NOT NULL," +
-                "description     char(500)," +
-                "image            BLOB," +
-                "date        TEXT          NOT NULL)";
+        String sqlCreateCommandeQuery = "CREATE TABLE Commandes " +
+                "(ID      INT  PRIMARY KEY    NOT NULL," +
+                " productID           INT    NOT NULL, " +
+                " userID           INT      NOT NULL, " +
+                " date        TEXT          NOT NULL,"  +
+                "totalPrice    DOUBLE       NOT NULL)";
 
+        String sqlCreateCommandeProductQuery = "CREATE TABLE CommandeProducts " +
+        "(CommandeID          INT      NOT NULL," +
+        " ProductID           INT    NOT NULL)";
         String sqlCreateFournisseurProductsQuery = "CREATE TABLE FournisseurProducts " +
                 "(ProductID  INT PRIMARY KEY     NOT NULL," +
                 " FournisseurID           INT    NOT NULL)";
 
-        String addAdmin = "INSERT INTO USERS (ID,username,password,isAdmin,image,date) " +
-                "VALUES (0, 'Root', 'Root',true,null,datetime('now'));";
+        String addAdmin = "INSERT INTO USERS (ID,username,password,isAdmin,image,date,email,phoneNumber) " +
+                "VALUES (0, 'Root', 'Root',true,null,datetime('now'),'Root@gmail.com','+212642965547');";
+        
         try {
             statement = connection.createStatement();
-        } catch (SQLException e) {
-            System.err.println("Statement Creation Failed");
-            e.printStackTrace();
-        }
-        try {
+
             statement.executeUpdate(sqlCreateUsersQuery);
-            statement.executeUpdate(sqlCreateCommandeQuery);
-            statement.executeUpdate(sqlCreateFournisseurQuery);
-            statement.executeUpdate(sqlCreateFournisseurProductsQuery);
             statement.executeUpdate(sqlCreateProductsQuery);
+            statement.executeUpdate(sqlCreateFournisseurQuery);
+            statement.executeUpdate(sqlCreateCommandeQuery);
+            statement.executeUpdate(sqlCreateFournisseurProductsQuery);
+            statement.executeUpdate(sqlCreateCommandeProductQuery);
             statement.executeUpdate(addAdmin);
             statement.close();
         } catch (SQLException e) {

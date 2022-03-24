@@ -3,8 +3,9 @@ package com.example.Accounts;
 import java.awt.image.BufferedImage;
 
 public class Admin extends Compte{
-    public Admin(int id, String username, String password, String date, BufferedImage image){
-        super(id,username,password,date,image);
+    public Admin(int id, String username, String password, String date, BufferedImage image,String email,
+    String phoneNumber){
+        super(id,username,password,date,image,email,phoneNumber);
     }
     
     //Handling Products

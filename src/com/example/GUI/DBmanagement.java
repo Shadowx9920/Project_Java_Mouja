@@ -3,14 +3,18 @@ package com.example.GUI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.LinkedList;
 import java.awt.image.BufferedImage;
 
+import com.example.Product;
 import com.example.Accounts.Admin;
 import com.example.Accounts.User;
 import com.example.DataBase.DBget;
 import com.example.DataBase.DBset;
 import com.example.DataBase.DataBase;
+import com.example.GUI.JForms.AdminScreen;
+import com.example.GUI.JForms.UserScreen;
+import com.example.GUI.JForms.UserTableModel;
 
 public class DBmanagement {
     public static boolean signIn(String login,String password){
@@ -20,6 +24,7 @@ public class DBmanagement {
                 DBmanagement.checkIfAdmin(ID);
                 if(DBmanagement.checkIfAdmin(ID)){
                     Admin admin = DBget.getAdmin(ID);
+                    AdminScreen.startAdminScreen();
                     return true;
                 }else{
                     User user = DBget.getUser(ID);
@@ -73,7 +78,7 @@ public class DBmanagement {
         }
         return false;
     } 
-    public static boolean signUp(String login,String password,BufferedImage image){
+    public static boolean signUp(String login,String password,BufferedImage image,String email,String phoneNumber){
         Statement statement = null;
         ResultSet resultSet = null;
         String sqlQuery = "SELECT username FROM Users";
@@ -90,18 +95,88 @@ public class DBmanagement {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        DBset.addUser(login, password, false, image);
+        DBset.addUser(login, password, false, image,email,phoneNumber);
         System.out.println("User created");
         return true;
     }
-    public static void selectProducts(){
+    public static LinkedList<Product> selectProducts(){
+        LinkedList<Product> products = new LinkedList<Product>();
         Statement statement = null;
         ResultSet resultSet = null;
-        String Query = "SELECT * FROM Products;";
+        String query = "SELECT ID FROM Products;";
         try {
             statement = DataBase.getConnection().createStatement();
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                products.add(DBget.getProduct(resultSet.getInt("ID")));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return products;
+    }
+    public static Object[][] getUsersTableData(){
+        int userCount = DBget.getUserCount();
+        LinkedList<User> admins = DBget.getAllUsers();
+        Object[][] data = new Object[userCount][6];
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < 6; j++) {
+                switch (j) {
+                    case 0:
+                    data[i][j] = admins.get(i).getId();
+                        break;
+                    case 1:
+                    data[i][j] = admins.get(i).getUsername();
+                        break;
+                    case 2:
+                    data[i][j] = admins.get(i).getPassword();
+                        break;
+                    case 3:
+                    data[i][j] = admins.get(i).getEmail();
+                        break;
+                    case 4:
+                    data[i][j] = admins.get(i).getPhoneNumber();
+                        break;
+                    case 5:
+                    data[i][j] = admins.get(i).getDate();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return data;
+    }
+    public static Object[][] getAdminsTableData(){
+        int userCount = DBget.getAdminCount();
+        LinkedList<Admin> admins = DBget.getAllAdmins();
+        Object[][] data = new Object[userCount][6];
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < 6; j++) {
+                switch (j) {
+                    case 0:
+                    data[i][j] = admins.get(i).getId();
+                        break;
+                    case 1:
+                    data[i][j] = admins.get(i).getUsername();
+                        break;
+                    case 2:
+                    data[i][j] = admins.get(i).getPassword();
+                        break;
+                    case 3:
+                    data[i][j] = admins.get(i).getEmail();
+                        break;
+                    case 4:
+                    data[i][j] = admins.get(i).getPhoneNumber();
+                        break;
+                    case 5:
+                    data[i][j] = admins.get(i).getDate();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return data;
     }
 }

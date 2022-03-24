@@ -1,23 +1,36 @@
-package com.example.GUI;
+package com.example.GUI.JForms;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicButtonUI;
+
+import com.example.Accounts.User;
+import com.example.GUI.DBmanagement;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-public class UserScreen extends javax.swing.JFrame {
+public class AdminScreen extends javax.swing.JFrame {
 
-    public UserScreen() {
+    public AdminScreen() {
         initComponents();
+        exitButton.setUI(new BasicButtonUI());
+        exitButton.setIcon(new javax.swing.ImageIcon(
+            getClass().getResource("/com/example/GUI/resources/x-mark-24.png")));
+        exitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }});
         logOutButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,7 +64,7 @@ public class UserScreen extends javax.swing.JFrame {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    if (jButton == logOutButton) {
+                    if (jButton == logOutButton || jButton == exitButton) {
                         jButton.setBackground(new java.awt.Color(51, 51, 51));
                     } else {
                         jButton.setBackground(new java.awt.Color(15, 15, 15));
@@ -63,18 +76,24 @@ public class UserScreen extends javax.swing.JFrame {
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);
         setLocation(x, y);
-        JLabel homeLabel = new JLabel(new ImageIcon(getClass().getResource("/com/example/GUI/resources/home-7-32.png")));
-        logoPanel.setPreferredSize(new Dimension(logoPanel.getWidth(),logoPanel.getHeight()));
+        JLabel homeLabel = new JLabel(new ImageIcon(getClass().getResource("/com/example/GUI/resources/home-4-48.png")));
+        logoPanel.setPreferredSize(new Dimension(logoPanel.getWidth(),(int)(logoPanel.getHeight()*1.5)));
         logoPanel.setLayout(new java.awt.BorderLayout());
         logoPanel.add(homeLabel,java.awt.BorderLayout.CENTER);
         mainButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/icons8-squared-menu-24.png")));
         accountButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/user-2-24.png")));
         dataButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/database-24.png")));
         optionsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/settings-10-24.png")));
+
+        
+
     }
-
+    
     private void initComponents() {
-
+        String[] columns = new String[] {
+            "Id", "Name", "Password", "Email","PhoneNumber","Creation Date"
+        };
+        jTable1 = new javax.swing.JTable(DBmanagement.getUsersTableData(),columns);
         sidePanel = new javax.swing.JPanel();
         logoPanel = new javax.swing.JPanel();
         buttonsPanel = new javax.swing.JPanel();
@@ -84,9 +103,12 @@ public class UserScreen extends javax.swing.JFrame {
         optionsButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
+        contentTitle = new javax.swing.JLabel();
+        exitButton = new javax.swing.JButton();
         footer = new javax.swing.JPanel();
         logOutButton = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -140,15 +162,35 @@ public class UserScreen extends javax.swing.JFrame {
 
         header.setBackground(new java.awt.Color(51, 51, 51));
 
+        contentTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        contentTitle.setForeground(new java.awt.Color(255, 255, 255));
+        contentTitle.setText("jLabel1");
+
+        exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
+        exitButton.setBackground(new java.awt.Color(51, 51, 51));
+
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 622, Short.MAX_VALUE)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contentTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 496, Short.MAX_VALUE)
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(headerLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(contentTitle))
+                    .addGroup(headerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         mainPanel.add(header, java.awt.BorderLayout.PAGE_START);
@@ -156,27 +198,24 @@ public class UserScreen extends javax.swing.JFrame {
         footer.setBackground(new java.awt.Color(51, 51, 51));
         footer.setMaximumSize(new java.awt.Dimension(612, 100));
         footer.setMinimumSize(new java.awt.Dimension(612, 100));
-        footer.setLayout(new java.awt.BorderLayout());
+        footer.setPreferredSize(new java.awt.Dimension(622, 100));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING, 5, 65);
+        flowLayout1.setAlignOnBaseline(true);
+        footer.setLayout(flowLayout1);
 
         logOutButton.setBackground(new java.awt.Color(51, 51, 51));
         logOutButton.setForeground(new java.awt.Color(51, 51, 51));
-        logOutButton.setPreferredSize(new java.awt.Dimension(50, 50));
-        footer.add(logOutButton, java.awt.BorderLayout.LINE_END);
+        logOutButton.setPreferredSize(new java.awt.Dimension(30, 30));
+        footer.add(logOutButton);
 
         mainPanel.add(footer, java.awt.BorderLayout.PAGE_END);
 
         contentPanel.setBackground(new java.awt.Color(51, 51, 51));
+        contentPanel.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
-        contentPanel.setLayout(contentPanelLayout);
-        contentPanelLayout.setHorizontalGroup(
-            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 622, Short.MAX_VALUE)
-        );
-        contentPanelLayout.setVerticalGroup(
-            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
-        );
+        jScrollPane1.setViewportView(jTable1);
+
+        contentPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         mainPanel.add(contentPanel, java.awt.BorderLayout.CENTER);
 
@@ -184,7 +223,7 @@ public class UserScreen extends javax.swing.JFrame {
 
         pack();
     }
-    public static void startUserScreen() {
+    public static void startAdminScreen() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -193,17 +232,17 @@ public class UserScreen extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserScreen().setVisible(true);
+                new AdminScreen().setVisible(true);
             }
         });
     }
@@ -211,9 +250,13 @@ public class UserScreen extends javax.swing.JFrame {
     private javax.swing.JButton accountButton;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JPanel contentPanel;
+    private javax.swing.JLabel contentTitle;
     private javax.swing.JButton dataButton;
+    private javax.swing.JButton exitButton;
     private javax.swing.JPanel footer;
     private javax.swing.JPanel header;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton logOutButton;
     private javax.swing.JPanel logoPanel;
     private javax.swing.JButton mainButton;

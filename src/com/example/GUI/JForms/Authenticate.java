@@ -1,11 +1,15 @@
-package com.example.GUI;
+package com.example.GUI.JForms;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+import com.example.GUI.DBmanagement;
+
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -30,15 +34,18 @@ public class Authenticate extends javax.swing.JFrame {
         newAccountButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                setEnabled(false);
                 SignUp.createSignUpPage();
-                setEnabled(true);
             }});
         connectButton.setBackground(new java.awt.Color(51, 51, 51));
         connectButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (DBmanagement.signIn(loginText.getText(),passwordText.getText())) dispose();
+                    boolean logged = DBmanagement.signIn(loginText.getText(),passwordText.getText());
+                    if (logged){
+                        dispose();
+                    }else{
+                        loginText.setBorder(new LineBorder(Color.RED, 2));
+                    }
                 }});
 
         JButton exit = new JButton("Exit");

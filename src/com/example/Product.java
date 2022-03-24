@@ -9,13 +9,17 @@ public class Product {
     private String description;
     private String date;
     private BufferedImage productPicture;
+    private Double price;
 
-    public Product(int id,String name, String description, BufferedImage productPicture,String date) {
+    
+
+    public Product(int id, String name, String description, String date, BufferedImage productPicture, Double price) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.productPicture = productPicture;
         this.date = date;
+        this.productPicture = productPicture;
+        this.price = price;
     }
 
     public int getId() {
@@ -56,6 +60,14 @@ public class Product {
 
     public void setProductPicture(BufferedImage productPicture) {
         this.productPicture = productPicture;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Override

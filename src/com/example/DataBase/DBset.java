@@ -7,11 +7,11 @@ import java.sql.Statement;
 import java.awt.image.BufferedImage;
 
 public class DBset {
-    public static void addUser(String name, String password, boolean isAdmin, BufferedImage image) {
+    public static void addUser(String name, String password, boolean isAdmin, BufferedImage image,String email,String phoneNumber) {
         PreparedStatement statement = null;
         byte[] imgData = ImageProcessing.convertImgtoBytes(image);
         int ID = IdManager.generateNewID(DataBase.getConnection());
-        String sqlAddProductQuery = "INSERT INTO Users VALUES(?,?,?,?,?,datetime('now'));";
+        String sqlAddProductQuery = "INSERT INTO Users VALUES(?,?,?,?,?,datetime('now'),?,?);";
         try {
             statement = DataBase.getConnection().prepareStatement(sqlAddProductQuery);
         } catch (SQLException e) {
@@ -23,6 +23,8 @@ public class DBset {
             statement.setString(3, password);
             statement.setBoolean(4, isAdmin);
             statement.setBytes(5, imgData);
+            statement.setString(6, email);
+            statement.setString(7, phoneNumber);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,19 +42,10 @@ public class DBset {
 
         try {
             statement = DataBase.getConnection().createStatement();
-        } catch (SQLException e) {
-            System.err.println("Statement Creation Failed");
-            e.printStackTrace();
-        }
-        try {
             statement.executeUpdate(sqlDelUserQuery);
-        } catch (Exception e) {
-            System.err.println("SQL query failed");
-            e.printStackTrace();
-        }
-        try {
             statement.close();
         } catch (SQLException e) {
+            System.err.println("Statement Creation Failed");
             e.printStackTrace();
         }
     }
@@ -68,20 +61,12 @@ public class DBset {
         try {
             statement = DataBase.getConnection().prepareStatement(sqlAddProductQuery);
             stmt = DataBase.getConnection().createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
             statement.setInt(1, ID);
             statement.setString(2, name);
             statement.setString(3, description);
             statement.setBytes(4, imgData);
             statement.executeUpdate();
             stmt.executeUpdate(addFournisseurLink);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
             statement.close();
             stmt.close();
         } catch (SQLException e) {
@@ -92,22 +77,12 @@ public class DBset {
     public static void delProduct(int ID) {
         Statement statement = null;
         String sqlDelUserQuery = "DELETE from Products where ID=" + ID + ";";
-
         try {
             statement = DataBase.getConnection().createStatement();
-        } catch (SQLException e) {
-            System.err.println("Statement Creation Failed");
-            e.printStackTrace();
-        }
-        try {
             statement.executeUpdate(sqlDelUserQuery);
+            statement.close();
         } catch (Exception e) {
             System.err.println("SQL query failed");
-            e.printStackTrace();
-        }
-        try {
-            statement.close();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -118,19 +93,10 @@ public class DBset {
                 "VALUES (" + IdManager.generateNewID(DataBase.getConnection()) + ", '" + name + "',datetime('now'))";
         try {
             statement = DataBase.getConnection().createStatement();
-        } catch (SQLException e) {
-            System.err.println("Statement Creation Failed");
-            e.printStackTrace();
-        }
-        try {
             statement.executeUpdate(sqlAddFournisseurQuery);
+            statement.close();
         } catch (Exception e) {
             System.err.println("SQL query failed");
-            e.printStackTrace();
-        }
-        try {
-            statement.close();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -138,22 +104,12 @@ public class DBset {
     public static void delFournisseur(int ID) {
         Statement statement = null;
         String sqlDelUserQuery = "DELETE from Fournisseurs where ID=" + ID + ";";
-
         try {
             statement = DataBase.getConnection().createStatement();
-        } catch (SQLException e) {
-            System.err.println("Statement Creation Failed");
-            e.printStackTrace();
-        }
-        try {
             statement.executeUpdate(sqlDelUserQuery);
+            statement.close();
         } catch (Exception e) {
             System.err.println("SQL query failed");
-            e.printStackTrace();
-        }
-        try {
-            statement.close();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -165,19 +121,10 @@ public class DBset {
                 + ",datetime('now'))";
         try {
             statement = DataBase.getConnection().createStatement();
-        } catch (SQLException e) {
-            System.err.println("Statement Creation Failed");
-            e.printStackTrace();
-        }
-        try {
             statement.executeUpdate(sqlAddFournisseurQuery);
+            statement.close();
         } catch (Exception e) {
             System.err.println("SQL query failed");
-            e.printStackTrace();
-        }
-        try {
-            statement.close();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -185,20 +132,9 @@ public class DBset {
     public static void delCommande(int ID) {
         Statement statement = null;
         String sqlDelUserQuery = "DELETE from Commandes where ID=" + ID + ";";
-
         try {
             statement = DataBase.getConnection().createStatement();
-        } catch (SQLException e) {
-            System.err.println("Statement Creation Failed");
-            e.printStackTrace();
-        }
-        try {
             statement.executeUpdate(sqlDelUserQuery);
-        } catch (Exception e) {
-            System.err.println("SQL query failed");
-            e.printStackTrace();
-        }
-        try {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();

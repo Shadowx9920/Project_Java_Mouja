@@ -83,7 +83,7 @@ public class DataBase {
                 " name           char(100)    NOT NULL," +
                 "description     TEXT," +
                 "image            BLOB," +
-                "date        TEXT          NOT NULL"+
+                "date        TEXT          NOT NULL,"+
                 "price       DOUBLE        NOT NULL)";
         String sqlCreateFournisseurQuery = "CREATE TABLE Fournisseurs " +
                 "(ID INT PRIMARY KEY     NOT NULL," +
@@ -94,7 +94,8 @@ public class DataBase {
                 " productID           INT    NOT NULL, " +
                 " userID           INT      NOT NULL, " +
                 " date        TEXT          NOT NULL,"  +
-                "totalPrice    DOUBLE       NOT NULL)";
+                "totalPrice    DOUBLE       NOT NULL,"   +
+                "isAccepted     BOOLEAN     NOT NULL)";
 
         String sqlCreateCommandeProductQuery = "CREATE TABLE CommandeProducts " +
         "(CommandeID          INT      NOT NULL," +

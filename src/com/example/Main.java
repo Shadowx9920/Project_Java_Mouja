@@ -1,16 +1,16 @@
 package com.example;
 
-import java.util.LinkedList;
+import java.awt.image.BufferedImage;
 
-import com.example.Accounts.Admin;
-import com.example.Accounts.User;
-import com.example.DataBase.DBget;
+import com.example.DataBase.DBset;
 import com.example.DataBase.DataBase;
-import com.example.GUI.JForms.UserScreen;
+import com.example.GUI.JForms.MainFrame;
+import com.example.GUI.TestUI.AdminScreen;
+import com.example.GUI.TestUI.UserScreen;
 
 public class Main {
     public static void main(String[] args) {
         DataBase.initDB("./src/com/example/DataBase/data.db"); 
-        UserScreen.startUserScreen();
+        MainFrame.startMainFrame();
     }
 }

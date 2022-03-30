@@ -92,7 +92,7 @@ public class DBget {
                 }
                 tmp = new Commande(resultSetCommande.getInt("ID"), products,
                         getUser(resultSetCommande.getInt("UserID")), resultSetCommande.getString("date"),
-                        Commande.getTotalPrice(tmp));
+                        Commande.getTotalPrice(tmp),resultSetCommande.getBoolean("isAccepted"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -187,6 +187,23 @@ public class DBget {
         return users;
     }
 
+    public static LinkedList<Product> getAllProducts(){
+        LinkedList<Product> products = new LinkedList<Product>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT ID FROM Products;";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                products.add(getProduct(rs.getInt("ID")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
     public static int getUserCount() {
         int nmbr = 0;
         PreparedStatement statement = null;
@@ -209,6 +226,83 @@ public class DBget {
         String sqlQuery = "SELECT COUNT(*) FROM Users WHERE isAdmin = 1;";
         try {
             statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            rs = statement.executeQuery();
+            nmbr = rs.getInt("COUNT(*)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nmbr;
+    }
+
+    public static int getProductCount() {
+        int nmbr = 0;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT COUNT(*) FROM Products";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            rs = statement.executeQuery();
+            nmbr = rs.getInt("COUNT(*)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nmbr;
+    }
+
+    public static int getProductCount(int fournisseurID) {
+        int nmbr = 0;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT COUNT(*) FROM FournisseurProducts WHERE FournisseurID = ?";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            statement.setInt(1, fournisseurID);
+            rs = statement.executeQuery();
+            nmbr = rs.getInt("COUNT(*)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nmbr;
+    }
+
+    public static int getFournisseurCount() {
+        int nmbr = 0;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT COUNT(*) FROM Fournisseurs";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            rs = statement.executeQuery();
+            nmbr = rs.getInt("COUNT(*)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nmbr;
+    }
+
+    public static int getCommandeCount() {
+        int nmbr = 0;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT COUNT(*) FROM Commandes";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            rs = statement.executeQuery();
+            nmbr = rs.getInt("COUNT(*)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nmbr;
+    }
+
+    public static int getCommandeCount(int userID) {
+        int nmbr = 0;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT COUNT(*) FROM Commandes WHERE userID = ?";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            statement.setInt(1, userID);
             rs = statement.executeQuery();
             nmbr = rs.getInt("COUNT(*)");
         } catch (SQLException e) {

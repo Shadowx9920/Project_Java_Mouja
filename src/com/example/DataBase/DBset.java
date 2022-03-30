@@ -50,12 +50,12 @@ public class DBset {
         }
     }
 
-    public static void addProduct(int FournisseurID, String name, String description, BufferedImage image) {
+    public static void addProduct(int FournisseurID, String name, String description, BufferedImage image, Double price) {
         PreparedStatement statement = null;
         Statement stmt = null;
         byte[] imgData = ImageProcessing.convertImgtoBytes(image);
         int ID = IdManager.generateNewID(DataBase.getConnection());
-        String sqlAddProductQuery = "INSERT INTO Products VALUES(?,?,?,?,datetime('now'));";
+        String sqlAddProductQuery = "INSERT INTO Products VALUES(?,?,?,?,datetime('now'),?);";
         String addFournisseurLink = "INSERT INTO FournisseurProducts (ProductID,FournisseurID)" +
                 "VALUES(" + ID + "," + FournisseurID + ")";
         try {
@@ -65,6 +65,7 @@ public class DBset {
             statement.setString(2, name);
             statement.setString(3, description);
             statement.setBytes(4, imgData);
+            statement.setDouble(5,price);
             statement.executeUpdate();
             stmt.executeUpdate(addFournisseurLink);
             statement.close();
@@ -114,14 +115,19 @@ public class DBset {
         }
     }
 
-    public static void addCommande(int productID, int userID) {
-        Statement statement = null;
-        String sqlAddFournisseurQuery = "INSERT INTO Commandes (ID,productID,userID,date) " +
-                "VALUES (" + IdManager.generateNewID(DataBase.getConnection()) + ", " + productID + "," + userID
-                + ",datetime('now'))";
+    //TODO : Add Products
+    public static void addCommande(int productID, int userID,double totalPrice,Boolean isAccepted) {
+        PreparedStatement statement = null;
+        String sqlAddProductQuery = "INSERT INTO Commandes (ID,productID,userID,date,totalPrice,isAccepted) " +
+                "VALUES ( ? , ? ,?,datetime('now'),?,?)";
         try {
-            statement = DataBase.getConnection().createStatement();
-            statement.executeUpdate(sqlAddFournisseurQuery);
+            statement = DataBase.getConnection().prepareStatement(sqlAddProductQuery);
+            statement.setInt(1, IdManager.generateNewID(DataBase.getConnection()));
+            statement.setInt(2, productID);
+            statement.setInt(3, userID);
+            statement.setDouble(4, totalPrice);
+            statement.setBoolean(5, isAccepted);
+            statement.executeUpdate();
             statement.close();
         } catch (Exception e) {
             System.err.println("SQL query failed");

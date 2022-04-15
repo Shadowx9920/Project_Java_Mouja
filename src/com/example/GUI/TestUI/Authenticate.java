@@ -23,7 +23,7 @@ public class Authenticate extends javax.swing.JFrame {
         setLocation(x, y);
         exitButton.setUI(new BasicButtonUI());
         exitButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/x-mark-24.png")));
+            getClass().getResource("/com/example/GUI/resources/img/x-mark-24.png")));
         exitButton.setBackground(new java.awt.Color(51, 51, 51));
         exitButton.addActionListener(new ActionListener(){
             @Override

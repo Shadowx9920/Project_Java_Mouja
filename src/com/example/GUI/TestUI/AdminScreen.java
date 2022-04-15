@@ -78,15 +78,15 @@ public class AdminScreen extends javax.swing.JFrame {
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);
         setLocation(x, y);
-        JLabel homeLabel = new JLabel(new ImageIcon(getClass().getResource("/com/example/GUI/resources/home-4-48.png")));
+        JLabel homeLabel = new JLabel(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/home-4-48.png")));
         logoPanel.setPreferredSize(new Dimension(logoPanel.getWidth(),(int)(logoPanel.getHeight()*1.5)));
         logoPanel.setLayout(new java.awt.BorderLayout());
         logoPanel.add(homeLabel,java.awt.BorderLayout.CENTER);
-        exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/x-mark-24.png")));
-        mainButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/icons8-squared-menu-24.png")));
-        accountButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/user-2-24.png")));
-        dataButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/database-24.png")));
-        optionsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/settings-10-24.png")));
+        exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/img/x-mark-24.png")));
+        mainButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/icons8-squared-menu-24.png")));
+        accountButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user-2-24.png")));
+        dataButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/database-24.png")));
+        optionsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/settings-10-24.png")));
     }
     
     private void initComponents() {

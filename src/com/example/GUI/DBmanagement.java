@@ -18,27 +18,8 @@ import com.example.Accounts.User;
 import com.example.DataBase.DBget;
 import com.example.DataBase.DBset;
 import com.example.DataBase.DataBase;
-import com.example.GUI.TestUI.AdminScreen;
-import com.example.GUI.TestUI.UserScreen;
 
 public class DBmanagement {
-    public static boolean signIn(String login, String password) {
-        int ID = DBmanagement.searchForUsers(login, password);
-        if (ID == -1)
-            return false;
-        if (ID == -2)
-            return false;
-        DBmanagement.checkIfAdmin(ID);
-        if (DBmanagement.checkIfAdmin(ID)) {
-            Admin admin = DBget.getAdmin(ID);
-            AdminScreen.startAdminScreen();
-            return true;
-        } else {
-            User user = DBget.getUser(ID);
-            UserScreen.startUserScreen();
-            return true;
-        }
-    }
 
     public static int searchForUsers(String login, String password) {
         int ID = -1;

@@ -115,7 +115,6 @@ public class DBset {
         }
     }
 
-    //TODO : Add Products
     public static void addCommande(int productID, int userID,double totalPrice,Boolean isAccepted) {
         PreparedStatement statement = null;
         String sqlAddProductQuery = "INSERT INTO Commandes (ID,productID,userID,date,totalPrice,isAccepted) " +

@@ -91,22 +91,22 @@ public class DBmanagement {
         return true;
     }
 
-    public static LinkedList<Product> selectProducts() {
-        LinkedList<Product> products = new LinkedList<Product>();
-        Statement statement = null;
-        ResultSet resultSet = null;
-        String query = "SELECT ID FROM Products;";
-        try {
-            statement = DataBase.getConnection().createStatement();
-            resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                products.add(DBget.getProduct(resultSet.getInt("ID")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return products;
-    }
+    // public static LinkedList<Product> selectProducts() {
+    //     LinkedList<Product> products = new LinkedList<Product>();
+    //     Statement statement = null;
+    //     ResultSet resultSet = null;
+    //     String query = "SELECT ID FROM Products;";
+    //     try {
+    //         statement = DataBase.getConnection().createStatement();
+    //         resultSet = statement.executeQuery(query);
+    //         while (resultSet.next()) {
+    //             products.add(DBget.getProduct(resultSet.getInt("ID")));
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+    //     return products;
+    // }
 
     public static TableModel getUsersTableModel() {
         String[] columns = new String[] {

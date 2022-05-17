@@ -1,7 +1,7 @@
 package com.example.GUI;
 
-import com.example.Accounts.Admin;
-import com.example.Accounts.User;
+import com.example.Beans.Accounts.Admin;
+import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
 
 public class CurrentSession {

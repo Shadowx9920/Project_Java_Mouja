@@ -100,6 +100,9 @@ public class DataBase {
         String sqlCreateCommandeProductQuery = "CREATE TABLE CommandeProducts " +
         "(CommandeID          INT      NOT NULL," +
         " ProductID           INT    NOT NULL)";
+        String sqlCreateUserCommandesQuery = "CREATE TABLE Commandes " +
+        "(CommandeID          INT      NOT NULL," +
+        " UserID           INT    NOT NULL)";
         String sqlCreateFournisseurProductsQuery = "CREATE TABLE FournisseurProducts " +
                 "(ProductID  INT PRIMARY KEY     NOT NULL," +
                 " FournisseurID           INT    NOT NULL)";
@@ -115,6 +118,7 @@ public class DataBase {
             statement.executeUpdate(sqlCreateFournisseurQuery);
             statement.executeUpdate(sqlCreateCommandeQuery);
             statement.executeUpdate(sqlCreateFournisseurProductsQuery);
+            statement.executeUpdate(sqlCreateUserCommandesQuery);
             statement.executeUpdate(sqlCreateCommandeProductQuery);
             statement.executeUpdate(addAdmin);
             statement.close();

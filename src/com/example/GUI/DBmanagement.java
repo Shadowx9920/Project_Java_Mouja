@@ -12,9 +12,11 @@ import javax.swing.table.TableModel;
 
 import java.awt.image.BufferedImage;
 
-import com.example.Product;
-import com.example.Accounts.Admin;
-import com.example.Accounts.User;
+import com.example.Beans.Commande;
+import com.example.Beans.Fournisseur;
+import com.example.Beans.Product;
+import com.example.Beans.Accounts.Admin;
+import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
 import com.example.DataBase.DBset;
 import com.example.DataBase.DataBase;
@@ -107,6 +109,72 @@ public class DBmanagement {
     //     }
     //     return products;
     // }
+
+    public static Fournisseur getFournisseur(String name){
+        Fournisseur f = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String query = "SELECT ID FROM Fournisseurs WHERE name = '"+name+"';";
+        try {
+            statement = DataBase.getConnection().createStatement();
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                f = DBget.getFournisseur(resultSet.getInt("ID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+
+    public static Boolean searchForFournisseur(String name){
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String sqlQuery = "SELECT name FROM Fournisseurs";
+        try {
+            statement = DataBase.getConnection().createStatement();
+            resultSet = statement.executeQuery(sqlQuery);
+            while (resultSet.next()) {
+                if (resultSet.getString("name").equals(name)) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void addProduct(String FournisseurName, String Productname, String description, BufferedImage image, Double price){
+        if (searchForFournisseur(FournisseurName)) {
+            Fournisseur tmp = getFournisseur(FournisseurName);
+            DBset.addProduct(tmp.id, Productname, description, image, price);
+        }else{
+            DBset.addFournisseur(FournisseurName);
+            Fournisseur tmp = getFournisseur(FournisseurName);
+            DBset.addProduct(tmp.id, Productname, description, image, price);
+        }
+    }
+
+    public static void removeProductByID(int Id) {
+        DBset.delProduct(Id);
+    }
+
+    public static void removeUserByID(int Id) {
+        DBset.delUser(Id);
+    }
+
+    public static void createNewCommande(LinkedList<Product> products) {
+        if(!CurrentSession.checkIfLogged()){
+            return;
+        }
+        if (CurrentSession.checkIfAdmin()) {
+            return;
+        }
+        for (Product product : products) {
+            DBset.addCommande(product.getId(),CurrentSession.getUser().getId(),product.getPrice(),true);
+        }
+    }
 
     public static TableModel getUsersTableModel() {
         String[] columns = new String[] {

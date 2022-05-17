@@ -14,6 +14,6 @@ public class Main {
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }
-        MainFrame.startMainFrame();
+        MainFrame.startMainFrame(MainFrame.color);
     }
 }

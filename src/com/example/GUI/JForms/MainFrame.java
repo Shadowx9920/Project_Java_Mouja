@@ -1,7 +1,4 @@
-package com.example.GUI.JForms;
-
-import java.awt.*;    
-import javax.swing.*;   
+package com.example.GUI.JForms; 
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,37 +9,96 @@ import java.util.LinkedList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.GridLayout;
 
-import com.example.Product;
+import com.example.Beans.Commande;
+import com.example.Beans.Product;
 import com.example.DataBase.DBget;
 import com.example.GUI.CurrentSession;
 import com.example.GUI.DBmanagement;
 import com.example.GUI.Components.GradientPanel;
 import com.example.GUI.Components.MoujaButton;
 import com.example.GUI.Components.ProductItemPanel;
-import com.example.GUI.Components.SettingsFrame;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
-public class MainFrame extends javax.swing.JFrame {
-
+public class MainFrame extends JFrame {
+    
     LinkedList<Product> products;
     LinkedList<Product> cartList;
     LinkedList<ProductItemPanel> items;
     LinkedList<ProductItemPanel> cartItems;
 
-    public static Color color = Color.BLACK;
+    LinkedList<Commande> commands = new LinkedList<Commande>();
+    
+    public static Color color = Color.red;
+
+    ActionListener pActionListener = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String search = searchBar.getText();
+                if(search.equals("")){
+                    productGrid.removeAll();
+                    for (int i = 0; i < products.size(); i++) {
+                        items.add(new ProductItemPanel(products.get(i)));
+                        productGrid.add(items.get(i));
+                    }
+                    productGrid.setLayout(new GridLayout(0,3,20,20));
+                }else{
+                    productGrid.removeAll();
+                    for (int i = 0; i < products.size(); i++) {
+                        if(products.get(i).getName().toLowerCase().contains(search.toLowerCase())){
+                            items.add(new ProductItemPanel(products.get(i)));
+                            productGrid.add(items.get(i));
+                        }
+                    }
+                    productGrid.setLayout(new GridLayout(0,3,20,20));
+                }
+                SwingUtilities.updateComponentTreeUI(MainFrame.this);
+        }};
+
+    ActionListener cActionListener = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String search = searchBar.getText();
+                if(search.equals("")){
+                    kartGrid.removeAll();
+                    for (int i = 0; i < cartList.size(); i++) {
+                        cartItems.add(new ProductItemPanel(cartList.get(i)));
+                        kartGrid.add(cartItems.get(i));
+                    }
+                    kartGrid.setLayout(new GridLayout(0,3,20,20));
+                }else{
+                    kartGrid.removeAll();
+                    for (int i = 0; i < cartList.size(); i++) {
+                        if(cartList.get(i).getName().toLowerCase().contains(search.toLowerCase())){
+                            cartItems.add(new ProductItemPanel(cartList.get(i)));
+                            kartGrid.add(cartItems.get(i));
+                        }
+                    }
+                    kartGrid.setLayout(new GridLayout(0,3,20,20));
+                }
+                SwingUtilities.updateComponentTreeUI(MainFrame.this);
+        }};
+
 
     public MainFrame() {
         initLayout();
@@ -131,8 +187,8 @@ public class MainFrame extends javax.swing.JFrame {
         kartTablePanel = new javax.swing.JPanel();
         kartSpacerPanel = new javax.swing.JPanel();
         kartActionsPanel = new javax.swing.JPanel();
-        payButton = new MoujaButton("Pay",30, 30, Color.white,Color.gray);
-        removeFromKartButton = new MoujaButton("Remove",30, 30, Color.white,Color.gray);
+        payButton = new MoujaButton("",30, 30, Color.white,Color.gray);
+        removeFromKartButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         kartPane = new javax.swing.JScrollPane();
         changeColorButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         loggedInPanel = new javax.swing.JPanel();
@@ -147,32 +203,23 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private void initIcons(){
-        logOutButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/sign-out.png")));
-        uploadPictureHolder.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/com/example/GUI/resources/img/user.png")));
+        logOutButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
+        uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
         uploadPictureHolder.setVerticalAlignment(SwingConstants.CENTER);
         uploadPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
-        signInPuctureHolder.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/user.png")));
+        signInPuctureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
         signInPuctureHolder.setVerticalAlignment(SwingConstants.CENTER);
         signInPuctureHolder.setHorizontalAlignment(SwingConstants.CENTER);
-        exitButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/cross.png")));
-        homeButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/user-16.png")));
-        productsButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/world.png")));
-        kartButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/shopping-cart.png")));
-        settingsButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/settings-sliders.png")));
-        uploadPicButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/upload.png")));
-        modifyUserButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/edit.png")));
-        addToKartButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/shopping-cart.png")));
+        exitButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
+        homeButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/user-16.png")));
+        productsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/world.png")));
+        kartButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/shopping-cart.png")));
+        settingsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
+        uploadPicButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/upload.png")));
+        modifyUserButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/edit.png")));
+        addToKartButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/shopping-cart.png")));
+        payButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/dollar.png")));
+        removeFromKartButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/bin.png")));
     }  
     
     private void initButtonListeners(){
@@ -193,18 +240,28 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuTabs.setSelectedIndex(1);
+                ActionListener[] actions = searchBar.getActionListeners();
+                for (ActionListener listener : actions) {
+                    searchBar.removeActionListener(listener);
+                }
+                searchBar.addActionListener(pActionListener);
                 searchBar.setVisible(true);
             }});
         kartButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuTabs.setSelectedIndex(2);
+                ActionListener[] actions = searchBar.getActionListeners();
+                for (ActionListener listener : actions) {
+                    searchBar.removeActionListener(listener);
+                }
+                searchBar.addActionListener(cActionListener);
                 searchBar.setVisible(true);
             }});
         settingsButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                SettingsFrame.createSettingsPage();
+                SettingsFrame.createSettingsPage(MainFrame.color);
             }});
         signUpButton.addActionListener(new ActionListener(){
             @Override
@@ -266,13 +323,22 @@ public class MainFrame extends javax.swing.JFrame {
                     if (logged){
                         if(CurrentSession.checkIfLogged()){
                             if(CurrentSession.checkIfAdmin()){
-                                System.out.println("Admin Logged");
+                                MainFrame.this.dispose();
+                                if (CurrentSession.getAdmin() != null) {
+                                    AdminControlFrame.startAdminControlFrame(MainFrame.color);
+                                    System.out.println("An Admin is now Logged");
+                                }
                             }else{
                                 loggedEmail.setText(CurrentSession.getUser().getEmail());
                                 loggedPhoneNumber.setText(CurrentSession.getUser().getPhoneNumber());
                                 loggedUserName.setText(CurrentSession.getUser().getUsername());
                                 loggedcreationDate.setText(CurrentSession.getUser().getDate());
-                                loggedInPictureHolder.setIcon(new javax.swing.ImageIcon(CurrentSession.getUser().getImage()));
+                                if (CurrentSession.getUser().getImage() != null) {
+                                    loggedInPictureHolder.setIcon(new javax.swing.ImageIcon(CurrentSession.getUser().getImage()));
+                                }else{
+                                    BufferedImage bi = new BufferedImage(35, 20, BufferedImage.TYPE_INT_RGB);
+                                    loggedInPictureHolder.setIcon(new javax.swing.ImageIcon(bi));
+                                }
                                 acountMgmtTabs.setSelectedIndex(2);
                             }
                         }
@@ -312,10 +378,11 @@ public class MainFrame extends javax.swing.JFrame {
                         public void actionPerformed(ActionEvent e) {
                             if(CurrentSession.checkIfLogged()){
                                 if(CurrentSession.checkIfAdmin()){
-                                    JOptionPane.showMessageDialog(null, "You are not allowed to add products to the kart", "Error", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "You are not allowed to add products to the cart because you are an admin", "Error", JOptionPane.ERROR_MESSAGE);
                                 }else{
                                     for (int i = 0; i < items.size(); i++) {
                                         if (items.get(i).selected) {
+                                            cartList.add(items.get(i).product);
                                             cartItems.add(items.get(i));
                                         }
                                     }
@@ -323,20 +390,45 @@ public class MainFrame extends javax.swing.JFrame {
                                         kartGrid.add(cartItems.get(i));
                                     }
                                     kartGrid.setLayout((new GridLayout(0,3,20,20)));
-                                    JOptionPane.showMessageDialog(null, "Products added to kart succesfully", "Succes", JOptionPane.INFORMATION_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "Products added to cart succesfully", "Succes", JOptionPane.INFORMATION_MESSAGE);
                                 }
                             }else{
-                                JOptionPane.showMessageDialog(null, "You must be logged in to add products to your kart", "Error", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "You must be logged in to add products to your cart", "Error", JOptionPane.ERROR_MESSAGE);
                             }
+                            SwingUtilities.updateComponentTreeUI(MainFrame.this);
                         }});
-    }                    
+
+        payButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(CurrentSession.checkIfLogged()){
+                    if(CurrentSession.checkIfAdmin()){
+                        JOptionPane.showMessageDialog(null, "You are not allowed to pay because you are an admin", "Error", JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        if(cartList.size() == 0){
+                            JOptionPane.showMessageDialog(null, "You must add products to your cart before you can pay", "Error", JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            DBmanagement.createNewCommande(cartList);
+                            JOptionPane.showMessageDialog(null, "You have paid succesfully", "Succes", JOptionPane.INFORMATION_MESSAGE);
+                            cartList.clear();
+                            cartItems.clear();
+                            kartGrid.removeAll();
+                            initCart();
+                        }
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "You must be logged in to pay", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                SwingUtilities.updateComponentTreeUI(MainFrame.this);
+            }});
+    }    
     
     private void initProducts(){
         productScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         products = DBget.getAllProducts();
         items = new LinkedList<>();
         for (int i = 0; i < products.size(); i++) {
-            items.add(new ProductItemPanel(products.get(i),Color.GRAY,Color.GRAY.darker()));
+            items.add(new ProductItemPanel(products.get(i)));
             productGrid.add(items.get(i));
         }
         productGrid.setLayout(new GridLayout(0,3,20,20));
@@ -345,7 +437,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void initCart(){
         kartPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         cartItems = new LinkedList<>();
-
+        cartList = new LinkedList<>();
         kartGrid.setLayout(new GridLayout(0,3,20,20));
     }
 
@@ -387,7 +479,10 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
+        framePanel.setBackground(new java.awt.Color(255, 255, 255));
         framePanel.setLayout(new java.awt.BorderLayout());
+
+        SidePanel.setBackground(new java.awt.Color(153, 0, 153));
 
         homeButton.setPreferredSize(new java.awt.Dimension(73, 30));
 
@@ -434,12 +529,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         framePanel.add(SidePanel, java.awt.BorderLayout.LINE_START);
 
+        MainPanel.setBackground(new java.awt.Color(255, 255, 255));
         MainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Header.setBackground(new java.awt.Color(255, 255, 255));
 
         exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
+        titleSeparator.setBackground(new java.awt.Color(0, 0, 0));
+
         titleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         titleLabel.setText("Mouja Store");
+
+        seatchPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout seatchPanelLayout = new javax.swing.GroupLayout(seatchPanel);
         seatchPanel.setLayout(seatchPanelLayout);
@@ -507,6 +609,10 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         MainPanel.add(Header, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 160));
+
+        menuTabs.setBackground(new java.awt.Color(255, 255, 255));
+
+        signUpPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         signUpButton.setText("Sign Up");
         signUpButton.setPreferredSize(new java.awt.Dimension(69, 30));
@@ -626,6 +732,8 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         acountMgmtTabs.addTab("tab2", signUpPanel);
+
+        signInPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         loginSignInLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         loginSignInLabel.setText("Login :");
@@ -752,7 +860,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuTabs.addTab("tab5", acountMgmtTabs);
 
+        productsPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        productTablePanel.setBackground(new java.awt.Color(255, 255, 255));
         productTablePanel.setLayout(new java.awt.BorderLayout());
+
+        productScroll.setBackground(new java.awt.Color(255, 255, 255));
         productScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout productGridLayout = new javax.swing.GroupLayout(productGrid);
@@ -770,6 +883,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         productTablePanel.add(productScroll, java.awt.BorderLayout.CENTER);
 
+        productSpacerPanel.setBackground(new java.awt.Color(255, 255, 255));
         productSpacerPanel.setPreferredSize(new java.awt.Dimension(865, 25));
 
         javax.swing.GroupLayout productSpacerPanelLayout = new javax.swing.GroupLayout(productSpacerPanel);
@@ -785,9 +899,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         productTablePanel.add(productSpacerPanel, java.awt.BorderLayout.PAGE_START);
 
+        productsActionsPanel.setBackground(new java.awt.Color(255, 255, 255));
         productsActionsPanel.setPreferredSize(new java.awt.Dimension(865, 50));
-
-        viewDetailsButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         addToKartButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
@@ -796,19 +909,15 @@ public class MainFrame extends javax.swing.JFrame {
         productsActionsPanelLayout.setHorizontalGroup(
             productsActionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, productsActionsPanelLayout.createSequentialGroup()
-                .addContainerGap(786, Short.MAX_VALUE)
+                .addContainerGap(825, Short.MAX_VALUE)
                 .addComponent(addToKartButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(viewDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         productsActionsPanelLayout.setVerticalGroup(
             productsActionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(productsActionsPanelLayout.createSequentialGroup()
                 .addGap(0, 20, Short.MAX_VALUE)
-                .addGroup(productsActionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(viewDetailsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addToKartButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(addToKartButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         productTablePanel.add(productsActionsPanel, java.awt.BorderLayout.PAGE_END);
@@ -829,8 +938,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuTabs.addTab("tab1", productsPanel);
 
+        kartPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        kartTablePanel.setBackground(new java.awt.Color(255, 255, 255));
         kartTablePanel.setLayout(new java.awt.BorderLayout());
 
+        kartSpacerPanel.setBackground(new java.awt.Color(255, 255, 255));
         kartSpacerPanel.setPreferredSize(new java.awt.Dimension(895, 25));
 
         javax.swing.GroupLayout kartSpacerPanelLayout = new javax.swing.GroupLayout(kartSpacerPanel);
@@ -846,6 +959,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         kartTablePanel.add(kartSpacerPanel, java.awt.BorderLayout.PAGE_START);
 
+        kartActionsPanel.setBackground(new java.awt.Color(255, 255, 255));
         kartActionsPanel.setPreferredSize(new java.awt.Dimension(895, 50));
 
         payButton.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -874,6 +988,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         kartTablePanel.add(kartActionsPanel, java.awt.BorderLayout.PAGE_END);
 
+        kartPane.setBackground(new java.awt.Color(255, 255, 255));
         kartPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout kartGridLayout = new javax.swing.GroupLayout(kartGrid);
@@ -925,11 +1040,12 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }
     
-    public static void startMainFrame() {
+    public static void startMainFrame(Color color) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new MainFrame().setVisible(true);
+                changeColors(color);
             }
         });
     }
@@ -953,53 +1069,56 @@ public class MainFrame extends javax.swing.JFrame {
     private static MoujaButton viewDetailsButton;
     private static MoujaButton cancelSignUpButton;
 
-    private javax.swing.JPanel Header;
-    private static javax.swing.JPanel MainPanel;
+    private JPanel Header;
+    private static JPanel MainPanel;
+    private JPanel framePanel;
     private static GradientPanel SidePanel;
-    private javax.swing.JTabbedPane acountMgmtTabs;
-    private javax.swing.JTextField authLoginTextField;
-    private javax.swing.JPasswordField authPasswordField;
-    private javax.swing.JLabel emailLabel;
-    private javax.swing.JTextField emailTextField;
-    private javax.swing.JPanel framePanel;
-    private javax.swing.JLabel imageLabel;
-    private javax.swing.JPanel kartActionsPanel;
-    private javax.swing.JScrollPane kartPane;
-    private javax.swing.JPanel kartPanel;
-    private javax.swing.JPanel kartSpacerPanel;
-    private javax.swing.JPanel kartTablePanel;
-    private javax.swing.JLabel loggedEmail;
-    private javax.swing.JPanel loggedInPanel;
-    private javax.swing.JLabel loggedInPictureHolder;
-    private javax.swing.JLabel loggedPhoneNumber;
-    private javax.swing.JLabel loggedUserName;
-    private javax.swing.JLabel loggedcreationDate;
-    private javax.swing.JLabel loginLabel;
-    private javax.swing.JLabel loginSignInLabel;
-    private javax.swing.JTextField loginTextField;
-    private javax.swing.JTabbedPane menuTabs;
-    private javax.swing.JPasswordField passwordField;
-    private javax.swing.JLabel passwordLabel;
-    private javax.swing.JLabel passwordSignInLabel;
-    private javax.swing.JLabel phoneLabel;
-    private javax.swing.JTextField phoneNumberTextField;
-    private javax.swing.JScrollPane productScroll;
-    private javax.swing.JPanel productSpacerPanel;
-    private javax.swing.JPanel productTablePanel;
-    private javax.swing.JPanel productsActionsPanel;
-    private javax.swing.JPanel productsPanel;
-    private javax.swing.JPasswordField reTypePasswordField;
-    private javax.swing.JLabel retypePasswordLabel;
-    private javax.swing.JTextField searchBar;
-    private javax.swing.JLabel searchIcon;
-    private javax.swing.JPanel seatchPanel;
-    private javax.swing.JPanel signInPanel;
-    private javax.swing.JLabel signInPuctureHolder;
-    private javax.swing.JPanel signUpDataPanel;
-    private javax.swing.JPanel signUpPanel;
-    private javax.swing.JLabel titleLabel;
-    private javax.swing.JSeparator titleSeparator;
-    private javax.swing.JLabel uploadPictureHolder;
-    private javax.swing.JPanel kartGrid;
-    private javax.swing.JPanel productGrid;
+    private JPanel kartPanel;
+    private JPanel kartSpacerPanel;
+    private JPanel kartTablePanel;
+    private JPanel productSpacerPanel;
+    private JPanel productTablePanel;
+    private JPanel productsActionsPanel;
+    private JPanel productsPanel;
+    private JPanel seatchPanel;
+    private JPanel signInPanel;
+    private JPanel signUpDataPanel;
+    private JPanel signUpPanel;
+    private JPanel kartGrid;
+    private JPanel productGrid;
+    private JPanel kartActionsPanel;
+    private JPanel loggedInPanel;
+
+    private JLabel emailLabel;
+    private JLabel imageLabel;
+    private JLabel loggedEmail;
+    private JLabel loggedInPictureHolder;
+    private JLabel loggedPhoneNumber;
+    private JLabel loggedUserName;
+    private JLabel loggedcreationDate;
+    private JLabel loginLabel;
+    private JLabel loginSignInLabel;
+    private JLabel passwordLabel;
+    private JLabel passwordSignInLabel;
+    private JLabel phoneLabel;
+    private JLabel retypePasswordLabel;
+    private JLabel searchIcon;
+    private JLabel signInPuctureHolder;
+    private JLabel titleLabel;
+    private JLabel uploadPictureHolder;
+
+    private JTabbedPane acountMgmtTabs;
+    private JTextField authLoginTextField;
+    private JPasswordField authPasswordField;
+    private JTextField emailTextField;
+    private JScrollPane kartPane;
+    
+    private JTextField loginTextField;
+    private JTabbedPane menuTabs;
+    private JPasswordField passwordField;
+    private JTextField phoneNumberTextField;
+    private JScrollPane productScroll;
+    private JPasswordField reTypePasswordField;
+    private JTextField searchBar;
+    private JSeparator titleSeparator;
 }

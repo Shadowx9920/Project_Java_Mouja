@@ -2,9 +2,10 @@ package com.example.GUI.Components;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.example.Product;
+import com.example.Beans.Product;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,16 +13,17 @@ import java.awt.Color;
 
 import java.awt.image.BufferedImage;
 
-public class ProductItemPanel extends GradientPanel{
+public class ProductItemPanel extends JPanel{
     public boolean selected = false;
-    public ProductItemPanel(Product product,Color color,Color hoverColor) {
+    public Product product;
+    public ProductItemPanel(Product product) {
+        this.product = product;
         initComponents();
-        setBackground(color);
 
         setBorder(BorderFactory.createRaisedBevelBorder());
 
-        // productImage.setVerticalAlignment(SwingConstants.CENTER);
-        // productImage.setHorizontalAlignment(SwingConstants.CENTER);
+        productImage.setVerticalAlignment(SwingConstants.CENTER);
+        productImage.setHorizontalAlignment(SwingConstants.CENTER);
         productName.setVerticalAlignment(SwingConstants.CENTER);
         productName.setHorizontalAlignment(SwingConstants.CENTER);
         productPrice.setVerticalAlignment(SwingConstants.CENTER);

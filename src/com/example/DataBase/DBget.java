@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-import com.example.Commande;
-import com.example.Fournisseur;
-import com.example.Product;
-import com.example.Accounts.Admin;
-import com.example.Accounts.User;
+import com.example.Beans.Commande;
+import com.example.Beans.Fournisseur;
+import com.example.Beans.Product;
+import com.example.Beans.Accounts.Admin;
+import com.example.Beans.Accounts.User;
 
 public class DBget {
     public static User getUser(int ID) {

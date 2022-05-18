@@ -153,7 +153,7 @@ public class AdminControlFrame extends JFrame {
         logOutButton = new MoujaButton("",30, 30, Color.white,Color.gray);
 
         framePanel = new javax.swing.JPanel();
-        SidePanel = new GradientPanel();
+        SidePanel = new JPanel();
         usersButton = new MoujaButton("Users",30, 75, Color.white,Color.gray);
         productsButton = new MoujaButton("Products",30, 75, Color.white,Color.gray);
         settingsButton = new MoujaButton("",30, 75, Color.white,Color.gray);
@@ -466,7 +466,7 @@ public class AdminControlFrame extends JFrame {
     public static void changeColors(Color color){
         AdminControlFrame.color = color;
         if (color != null) {
-            SidePanel.changeColors(color);
+            SidePanel.setBackground(color);
             addUserButton.changeButtonColor(color.brighter(), color.darker());
             //changeColorButton.changeButtonColor(color.brighter(), color.darker());
             usersButton.changeButtonColor(color.brighter(), color.darker());
@@ -1069,7 +1069,7 @@ public class AdminControlFrame extends JFrame {
     private JPanel Header;
     private static JPanel MainPanel;
     private JPanel framePanel;
-    private static GradientPanel SidePanel;
+    private static JPanel SidePanel;
     private JPanel productPanel;
     private JPanel productSpacerPanel;
     private JPanel productTablePanel;

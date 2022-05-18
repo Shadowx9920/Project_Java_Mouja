@@ -140,7 +140,7 @@ public class MainFrame extends JFrame {
         logOutButton = new MoujaButton("",30, 30, Color.white,Color.gray);
 
         framePanel = new javax.swing.JPanel();
-        SidePanel = new GradientPanel();
+        SidePanel = new JPanel();
         productsButton = new MoujaButton("Products",30, 75, Color.white,Color.gray);
         kartButton = new MoujaButton("Cart",30, 75, Color.white,Color.gray);
         settingsButton = new MoujaButton("",30, 75, Color.white,Color.gray);
@@ -266,7 +266,7 @@ public class MainFrame extends JFrame {
         signUpButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (loginTextField.getText() == "" || String.valueOf(passwordField.getPassword()) == "") {
+                if (loginTextField.getText().equals("") || String.valueOf(passwordField.getPassword()).equals("")) {
                     showMessageDialog(null, "Account can not be created");
                     return;
                 }
@@ -390,6 +390,7 @@ public class MainFrame extends JFrame {
                                         kartGrid.add(cartItems.get(i));
                                     }
                                     kartGrid.setLayout((new GridLayout(0,3,20,20)));
+                                    initProducts();
                                     JOptionPane.showMessageDialog(null, "Products added to cart succesfully", "Succes", JOptionPane.INFORMATION_MESSAGE);
                                 }
                             }else{
@@ -421,10 +422,37 @@ public class MainFrame extends JFrame {
                 }
                 SwingUtilities.updateComponentTreeUI(MainFrame.this);
             }});
-    }    
+        removeFromKartButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(CurrentSession.checkIfLogged()){
+                    if(CurrentSession.checkIfAdmin()){
+                        JOptionPane.showMessageDialog(null, "You are not allowed to remove products from the cart because you are an admin", "Error", JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        for (int i = 0; i < cartItems.size(); i++) {
+                            if (cartItems.get(i).selected) {
+                                cartList.remove(cartItems.get(i).product);
+                                cartItems.remove(cartItems.get(i));
+                            }
+                        }
+                        kartGrid.removeAll();
+                        for (int i = 0; i < cartItems.size(); i++) {
+                            kartGrid.add(cartItems.get(i));
+                        }
+                        kartGrid.setLayout((new GridLayout(0,3,20,20)));
+                        initProducts();
+                        JOptionPane.showMessageDialog(null, "Products removed from cart succesfully", "Succes", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "You must be logged in to remove products from your cart", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                SwingUtilities.updateComponentTreeUI(MainFrame.this);
+            }});
+    }  
     
     private void initProducts(){
         productScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        productGrid.removeAll();
         products = DBget.getAllProducts();
         items = new LinkedList<>();
         for (int i = 0; i < products.size(); i++) {
@@ -444,7 +472,7 @@ public class MainFrame extends JFrame {
     public static void changeColors(Color color){
         MainFrame.color = color;
         if (color != null) {
-            SidePanel.changeColors(color);
+            SidePanel.setBackground(color);
             addToKartButton.changeButtonColor(color.brighter(), color.darker());
             changeColorButton.changeButtonColor(color.brighter(), color.darker());
             productsButton.changeButtonColor(color.brighter(), color.darker());
@@ -1072,7 +1100,7 @@ public class MainFrame extends JFrame {
     private JPanel Header;
     private static JPanel MainPanel;
     private JPanel framePanel;
-    private static GradientPanel SidePanel;
+    private static JPanel SidePanel;
     private JPanel kartPanel;
     private JPanel kartSpacerPanel;
     private JPanel kartTablePanel;

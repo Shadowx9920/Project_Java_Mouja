@@ -171,9 +171,12 @@ public class DBmanagement {
         if (CurrentSession.checkIfAdmin()) {
             return;
         }
+        double totalPrice = 0;
         for (Product product : products) {
-            DBset.addCommande(product.getId(),CurrentSession.getUser().getId(),product.getPrice(),true);
+            totalPrice = product.getPrice();
         }
+        Commande c = DBset.addCommande(CurrentSession.getUser().getId(), totalPrice, true );
+        DBset.addCommandeUser(c.getId(), CurrentSession.getUser().getId());
     }
 
     public static TableModel getUsersTableModel() {

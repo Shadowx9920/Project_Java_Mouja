@@ -91,7 +91,6 @@ public class DataBase {
                 "date        TEXT          NOT NULL)";
         String sqlCreateCommandeQuery = "CREATE TABLE Commandes " +
                 "(ID      INT  PRIMARY KEY    NOT NULL," +
-                " productID           INT    NOT NULL, " +
                 " userID           INT      NOT NULL, " +
                 " date        TEXT          NOT NULL,"  +
                 "totalPrice    DOUBLE       NOT NULL,"   +
@@ -100,7 +99,7 @@ public class DataBase {
         String sqlCreateCommandeProductQuery = "CREATE TABLE CommandeProducts " +
         "(CommandeID          INT      NOT NULL," +
         " ProductID           INT    NOT NULL)";
-        String sqlCreateUserCommandesQuery = "CREATE TABLE Commandes " +
+        String sqlCreateUserCommandesQuery = "CREATE TABLE CommandesUser " +
         "(CommandeID          INT      NOT NULL," +
         " UserID           INT    NOT NULL)";
         String sqlCreateFournisseurProductsQuery = "CREATE TABLE FournisseurProducts " +

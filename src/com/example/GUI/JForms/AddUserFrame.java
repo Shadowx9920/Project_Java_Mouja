@@ -79,7 +79,7 @@ public class AddUserFrame extends JFrame {
         signUpButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (loginTextField.getText() == "" || String.valueOf(passwordField.getPassword()) == "") {
+                if (loginTextField.getText().equals("") || String.valueOf(passwordField.getPassword()).equals("")) {
                     showMessageDialog(null, "Account can not be created");
                     return;
                 }

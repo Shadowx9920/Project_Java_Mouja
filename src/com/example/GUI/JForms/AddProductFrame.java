@@ -1,28 +1,31 @@
 package com.example.GUI.JForms;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
-import javax.swing.Icon;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import static javax.swing.JOptionPane.showMessageDialog;
 
 import com.example.GUI.DBmanagement;
-import com.example.GUI.Components.MoujaButton;
+import com.example.GUI.Components.MoujaTextField;
+import com.example.GUI.Components.Buttons.MoujaButton;
 
 public class AddProductFrame extends javax.swing.JFrame {
+
+    BufferedImage image = null;
 
     public AddProductFrame() {
         initComponents();
@@ -31,6 +34,13 @@ public class AddProductFrame extends javax.swing.JFrame {
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);
         setLocation(x, y);
+
+        nameTextField.setLabelText("Product Name");
+        priceTextField.setLabelText("Price");
+        fournisseurTextField.setLabelText("Provider");
+
+        uploadPictureHolder.setVerticalAlignment(SwingConstants.CENTER);
+        uploadPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
 
         uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/product.png")));
 
@@ -72,6 +82,11 @@ public class AddProductFrame extends javax.swing.JFrame {
                     File selFile = file.getSelectedFile();
                     String path = selFile.getAbsolutePath();
                     uploadPictureHolder.setIcon(resize(path));
+                    try {
+                        image = ImageIO.read(selFile);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                     pack();
                 }
             }});
@@ -84,13 +99,6 @@ public class AddProductFrame extends javax.swing.JFrame {
                     String description = descriptionTextArea.getText();
                     String Fournisseur = fournisseurTextField.getText();
                     
-                    Icon icon = uploadPictureHolder.getIcon();
-                    BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
-                        BufferedImage.TYPE_INT_ARGB);
-                    Graphics g = image.getGraphics();
-                    icon.paintIcon(new JLabel(), g, 0, 0);
-                    g.dispose();
-
                     try {
                         DBmanagement.addProduct(Fournisseur,name,description,image, Double.parseDouble(price));
                     } catch (Exception e) {
@@ -103,6 +111,9 @@ public class AddProductFrame extends javax.swing.JFrame {
     }
 
     private static void changeColors(Color color){
+        nameTextField.setLineColor(color);
+        priceTextField.setLineColor(color);
+        fournisseurTextField.setLineColor(color);
         addButton.changeButtonColor(color.brighter(), color.darker());
         exitButton.changeButtonColor(color.brighter(), color.darker());
         uploadPicButton.changeButtonColor(color.brighter(), color.darker());
@@ -119,27 +130,21 @@ public class AddProductFrame extends javax.swing.JFrame {
         priceLabel = new javax.swing.JLabel();
         fournisseurLabel = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
-        nameTextField = new javax.swing.JTextField();
+        nameTextField = new MoujaTextField();
         uploadPicButton = new MoujaButton("",30, 30, Color.white,Color.gray);
-        fournisseurTextField = new javax.swing.JTextField();
-        priceTextField = new javax.swing.JTextField();
+        fournisseurTextField = new MoujaTextField();
+        priceTextField = new MoujaTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
         cancelButton = new MoujaButton("Cancel",30, 30, Color.white,Color.gray);
         exitButton = new MoujaButton("",30, 30, Color.white,Color.gray);
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setUndecorated(true);
-        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        signUpPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        addButton.setText("Sign Up");
         addButton.setPreferredSize(new java.awt.Dimension(69, 30));
-
-        uploadPictureHolder.setBackground(new java.awt.Color(0, 0, 0));
-
-        dataPanel.setBackground(new java.awt.Color(255, 255, 255));
-
         nameLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         nameLabel.setText("Name :");
 
@@ -162,6 +167,14 @@ public class AddProductFrame extends javax.swing.JFrame {
         descriptionTextArea.setRows(5);
         jScrollPane1.setViewportView(descriptionTextArea);
 
+        jLabel1.setText("Product Name :");
+
+        jLabel2.setText("Provider (Fournisseur) :");
+
+        jLabel3.setText("Price :");
+
+        jLabel4.setText("Description :");
+
         javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
         dataPanel.setLayout(dataPanelLayout);
         dataPanelLayout.setHorizontalGroup(
@@ -169,43 +182,46 @@ public class AddProductFrame extends javax.swing.JFrame {
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fournisseurLabel)
-                    .addComponent(priceLabel)
-                    .addComponent(descriptionLabel)
                     .addComponent(uploadPicButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
-                    .addComponent(fournisseurTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
-                    .addComponent(priceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap(225, Short.MAX_VALUE))
+                    .addGroup(dataPanelLayout.createSequentialGroup()
+                        .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fournisseurTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
         dataPanelLayout.setVerticalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataPanelLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(uploadPicButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLabel)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fournisseurLabel)
-                    .addComponent(fournisseurTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(fournisseurTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(dataPanelLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dataPanelLayout.createSequentialGroup()
-                        .addComponent(priceLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(descriptionLabel))
-                    .addGroup(dataPanelLayout.createSequentialGroup()
-                        .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(37, 37, 37))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         cancelButton.setText("Cancel");
@@ -255,7 +271,7 @@ public class AddProductFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 875, Short.MAX_VALUE)
+            .addGap(0, 876, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -264,12 +280,12 @@ public class AddProductFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 491, Short.MAX_VALUE)
+            .addGap(0, 512, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 12, Short.MAX_VALUE)
                     .addComponent(signUpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 13, Short.MAX_VALUE)))
         );
 
         pack();
@@ -288,17 +304,21 @@ public class AddProductFrame extends javax.swing.JFrame {
     private static MoujaButton cancelButton;
     private javax.swing.JPanel dataPanel;
     private javax.swing.JLabel descriptionLabel;
-    private javax.swing.JTextArea descriptionTextArea;
+    private static javax.swing.JTextArea descriptionTextArea;
     private static MoujaButton exitButton;
     private javax.swing.JLabel fournisseurLabel;
-    private javax.swing.JTextField fournisseurTextField;
+    private static MoujaTextField fournisseurTextField;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JTextField nameTextField;
+    private static MoujaTextField nameTextField;
     private javax.swing.JLabel priceLabel;
-    private javax.swing.JTextField priceTextField;
+    private static MoujaTextField priceTextField;
     private javax.swing.JPanel signUpPanel;
     private static MoujaButton uploadPicButton;
-    private javax.swing.JLabel uploadPictureHolder;                   
+    private javax.swing.JLabel uploadPictureHolder; 
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
 }
 

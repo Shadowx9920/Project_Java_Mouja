@@ -1,14 +1,17 @@
 package com.example.DataBase;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.awt.image.BufferedImage;
+
 import javax.imageio.ImageIO;
 
 public class ImageProcessing {
     public static byte[] convertImgtoBytes(BufferedImage image) {
+        if (image == null) return null;
         BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
@@ -34,6 +37,10 @@ public class ImageProcessing {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        BufferedImage rgbImage = new BufferedImage(newBi.getWidth(), newBi.getHeight(),
+        BufferedImage.TYPE_3BYTE_BGR);
+        ColorConvertOp op = new ColorConvertOp(null);
+        op.filter(newBi, rgbImage);
         return newBi;
     }
 }

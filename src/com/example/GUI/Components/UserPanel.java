@@ -1,25 +1,50 @@
 package com.example.GUI.Components;
 
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.example.Beans.Accounts.User;
+import com.example.GUI.Components.Buttons.MoujaButton;
+import com.example.GUI.JForms.ModifyUserFrame;
+import com.example.GUI.JForms.UserDataFrame;
 
-import java.awt.Color;
+import org.imgscalr.Scalr;
 
-public class UserPanel extends JPanel {
+public class UserPanel extends PanelRound {
 
     public Boolean selected = false;
     public User user;
+    public Color color;
 
-    public UserPanel(User user) {
+    public UserPanel(){
         initComponents();
+        setRoundBottomLeft(100);
+        setRoundBottomRight(100);
+        setRoundTopLeft(100);
+        setRoundTopRight(100);
+        userImage.setVisible(false);
+        userName.setVisible(false);
+        userEmail.setVisible(false);
+        userPhoneNumber.setVisible(false);
+        userPassword.setVisible(false);
+        modifyUserButton.setVisible(false);
+        viewDetailsButton.setVisible(false);
+    }
+
+    public UserPanel(User user,Color color) {
+        initComponents();
+
+        changeColors(color);
+
+        setRoundBottomLeft(100);
+        setRoundBottomRight(100);
+        setRoundTopLeft(100);
+        setRoundTopRight(100);
 
         this.user = user;
 
@@ -27,71 +52,118 @@ public class UserPanel extends JPanel {
         this.userPassword.setText(user.getPassword());
         this.userEmail.setText(user.getEmail());
         this.userPhoneNumber.setText(user.getPhoneNumber());
-        this.userImage.setIcon(new ImageIcon(user.getImage()));
+
+        userImage.setGradientColor1(color);
+        userImage.setGradientColor2(color);
+        
+        if (user.getImage() == null) {
+            this.userImage.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
+            //this.userImage.setIcon();
+        }else{
+            this.userImage.setImage(new ImageIcon(Scalr.resize(user.getImage(), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, 160, 160)));
+        }
 
         userName.setVerticalAlignment(SwingConstants.CENTER);
         userName.setHorizontalAlignment(SwingConstants.CENTER);
         userPassword.setVerticalAlignment(SwingConstants.CENTER);
         userPassword.setHorizontalAlignment(SwingConstants.CENTER);
+        
         userEmail.setVerticalAlignment(SwingConstants.CENTER);
         userEmail.setHorizontalAlignment(SwingConstants.CENTER);
+
         userPhoneNumber.setVerticalAlignment(SwingConstants.CENTER);
         userPhoneNumber.setHorizontalAlignment(SwingConstants.CENTER);
 
-        selectedCheckBox.addActionListener(new ActionListener(){
+        modifyUserButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/edit.png")));
+        viewDetailsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/icons8_info_16px_1.png")));
+
+        setMaximumSize(getPreferredSize());
+
+        addMouseListener(new MouseListener(){
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if(selectedCheckBox.isSelected()){
-                    selected = true;
-                }
-                if (!selectedCheckBox.isSelected()) {
-                    selected = false;
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                selected = !selected;
+                if(selected) {
+                    setBorder(BorderFactory.createLoweredBevelBorder());
+                } else {
+                    setBorder(BorderFactory.createRaisedBevelBorder());
                 }
             }
-        });
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+            }});
 
         setBorder(BorderFactory.createRaisedBevelBorder());
 
-        userImage.setVerticalAlignment(SwingConstants.CENTER);
-        userImage.setHorizontalAlignment(SwingConstants.CENTER);
+        // userImage.setVerticalAlignment(SwingConstants.CENTER);
+        // userImage.setHorizontalAlignment(SwingConstants.CENTER);
+
+        modifyUserButton.addActionListener(e -> {
+            ModifyUserFrame.startModifyUserFrame(user, color);
+        });
+
+        viewDetailsButton.addActionListener(e -> {
+            UserDataFrame.startUserDataFrame(user, color);
+        });
+    }
+
+    public void changeColors(Color color){
+        this.color = color;
+        modifyUserButton.changeButtonColor(color, Color.GRAY);
+        viewDetailsButton.changeButtonColor(color, Color.GRAY);
+        userImage.setGradientColor1(color);
+        userImage.setGradientColor2(color);
     }
     
     private void initComponents() {
 
-        userImage = new javax.swing.JLabel();
+        userImage = new ImageAvatar();
         userName = new javax.swing.JLabel();
-        selectedCheckBox = new javax.swing.JCheckBox();
         userPassword = new javax.swing.JLabel();
         userEmail = new javax.swing.JLabel();
         userPhoneNumber = new javax.swing.JLabel();
+        modifyUserButton = new MoujaButton("", 30, 30, Color.RED, Color.GRAY);
+        viewDetailsButton = new MoujaButton("", 30, 30, Color.RED, Color.GRAY);
+
+        modifyUserButton.setMaximumSize(new java.awt.Dimension(30, 30));
+        modifyUserButton.setMinimumSize(new java.awt.Dimension(30, 30));
+        modifyUserButton.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        viewDetailsButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(selectedCheckBox))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(userImage, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                     .addComponent(userName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(userPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(userPhoneNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(userPhoneNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(modifyUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(viewDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(selectedCheckBox)
-                .addGap(8, 8, 8)
                 .addComponent(userImage, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -99,15 +171,19 @@ public class UserPanel extends JPanel {
                 .addComponent(userEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(modifyUserButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(viewDetailsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
     }       
     
     private javax.swing.JLabel userEmail;
-    private javax.swing.JLabel userImage;
+    private ImageAvatar userImage;
     private javax.swing.JLabel userName;
     private javax.swing.JLabel userPassword;
     private javax.swing.JLabel userPhoneNumber;
-    private javax.swing.JCheckBox selectedCheckBox;
-    
+    private static MoujaButton modifyUserButton;
+    private static MoujaButton viewDetailsButton;
 }

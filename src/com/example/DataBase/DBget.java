@@ -85,14 +85,18 @@ public class DBget {
 
             resultSetCommande = commandeStatement.executeQuery();
             resultSetProducts = productsStatement.executeQuery();
-
+            
+            double totalPrice = 0;
+            
             if (resultSetCommande.next()) {
                 while (resultSetProducts.next()) {
                     products.add(getProduct(resultSetProducts.getInt("ProductID")));
+                    totalPrice += getProduct(resultSetProducts.getInt("ProductID")).getPrice();
                 }
+
                 tmp = new Commande(resultSetCommande.getInt("ID"), products,
                         getUser(resultSetCommande.getInt("UserID")), resultSetCommande.getString("date"),
-                        Commande.getTotalPrice(tmp),resultSetCommande.getBoolean("isAccepted"));
+                        totalPrice,resultSetCommande.getBoolean("isAccepted"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -203,6 +207,59 @@ public class DBget {
         }
         return products;
     }
+
+    public static LinkedList<Commande> getAllCommandes(){
+        LinkedList<Commande> commandes = new LinkedList<Commande>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT ID FROM Commandes;";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                commandes.add(getCommande(rs.getInt("ID")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return commandes;
+    }
+
+    public static LinkedList<Commande> getAllUserCommandes(int UserID){
+        LinkedList<Commande> commandes = new LinkedList<Commande>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT ID FROM Commandes WHERE UserID = ?;";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            statement.setInt(1,UserID);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                commandes.add(getCommande(rs.getInt("ID")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return commandes;
+    }
+
+    public static LinkedList<Product> getAllCommandeProducts(int CommandeID){
+        LinkedList<Product> products = new LinkedList<Product>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT ProductID FROM CommandeProducts WHERE CommandeID = ?;";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlQuery);
+            statement.setInt(1,CommandeID);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                products.add(getProduct(rs.getInt("ProductID")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }	
 
     public static int getUserCount() {
         int nmbr = 0;

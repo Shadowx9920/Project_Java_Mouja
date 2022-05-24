@@ -1,14 +1,17 @@
 package com.example.GUI.JForms;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.LinkedList;
 
-import javax.swing.Icon;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,30 +20,26 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import static javax.swing.JOptionPane.showMessageDialog;
-
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.GridLayout;
 
 import com.example.Beans.Product;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
 import com.example.GUI.CurrentSession;
 import com.example.GUI.DBmanagement;
-import com.example.GUI.Components.GradientPanel;
-import com.example.GUI.Components.MoujaButton;
+import com.example.GUI.Components.ImageAvatar;
+import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.ProductItemPanel;
 import com.example.GUI.Components.UserPanel;
+import com.example.GUI.Components.Buttons.MoujaButton;
+import com.example.GUI.Components.SearchBar.EventCallBack;
+import com.example.GUI.Components.SearchBar.EventTextField;
+import com.example.GUI.Components.SearchBar.TextFieldAnimation;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import org.imgscalr.Scalr;
 
 public class AdminControlFrame extends JFrame {
 
@@ -51,69 +50,10 @@ public class AdminControlFrame extends JFrame {
     
     public static Color color = Color.red;
 
-    ActionListener pActionListener = new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String search = searchBar.getText();
-                if(search.equals("")){
-                    usersGrid.removeAll();
-                    for (int i = 0; i < users.size(); i++) {
-                        userPanels.add(new UserPanel(users.get(i)));
-                        usersGrid.add(userPanels.get(i));
-                    }
-                    usersGrid.setLayout(new GridLayout(0,3,20,20));
-                }else{
-                    usersGrid.removeAll();
-                    for (int i = 0; i < users.size(); i++) {
-                        if(users.get(i).getUsername().toLowerCase().contains(search.toLowerCase())){
-                            userPanels.add(new UserPanel(users.get(i)));
-                            usersGrid.add(userPanels.get(i));
-                        }
-                    }
-                    usersGrid.setLayout(new GridLayout(0,3,20,20));
-                }
-                SwingUtilities.updateComponentTreeUI(AdminControlFrame.this);
-        }};
-
-    ActionListener cActionListener = new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String search = searchBar.getText();
-                if(search.equals("")){
-                    productsGrid.removeAll();
-                    for (int i = 0; i < productList.size(); i++) {
-                        productPanels.add(new ProductItemPanel(productList.get(i)));
-                        productsGrid.add(productPanels.get(i));
-                    }
-                    productsGrid.setLayout(new GridLayout(0,3,20,20));
-                }else{
-                    productsGrid.removeAll();
-                    for (int i = 0; i < productList.size(); i++) {
-                        if(productList.get(i).getName().toLowerCase().contains(search.toLowerCase())){
-                            productPanels.add(new ProductItemPanel(productList.get(i)));
-                            productsGrid.add(productPanels.get(i));
-                        }
-                    }
-                    productsGrid.setLayout(new GridLayout(0,3,20,20));
-                }
-                SwingUtilities.updateComponentTreeUI(AdminControlFrame.this);
-        }};
-
-
     public AdminControlFrame() {
         initLayout();
 
-        loggedEmail.setText(CurrentSession.getAdmin().getEmail());
-        loggedPhoneNumber.setText(CurrentSession.getAdmin().getPhoneNumber());
-        loggedUserName.setText(CurrentSession.getAdmin().getUsername());
-        loggedcreationDate.setText(CurrentSession.getAdmin().getDate());
-        if (CurrentSession.getAdmin().getImage() != null) {
-            loggedInPictureHolder.setIcon(new javax.swing.ImageIcon(CurrentSession.getAdmin().getImage()));
-        }else{
-            BufferedImage bi = new BufferedImage(160, 160, BufferedImage.TYPE_INT_RGB);
-            loggedInPictureHolder.setIcon(new javax.swing.ImageIcon(bi));
-        }
-        acountMgmtTabs.setSelectedIndex(2);
+        connect();
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);
@@ -134,17 +74,17 @@ public class AdminControlFrame extends JFrame {
         loggedcreationDate.setVerticalAlignment(SwingConstants.CENTER);
         loggedcreationDate.setHorizontalAlignment(SwingConstants.CENTER);
 
+        usersGrid.setBorder(new EmptyBorder(10, 10, 10, 10));
+        productsGrid.setBorder(new EmptyBorder(10, 10, 10, 10));
+
         initIcons();
         initUsers();
         initProducts();
         initButtonListeners();
 
-        SidePanel.setBackground(Color.BLACK);
     } 
 
     private void initVar(){
-
-        //TODO : change Vars
         connectButton = new MoujaButton("Sign In",30, 75, Color.white,Color.gray);
         signOutButton = new MoujaButton("Sign Out",30, 75, Color.white,Color.gray);
         createNewAcountButton = new MoujaButton("Create New Account",30, 75, Color.white,Color.gray);
@@ -165,30 +105,30 @@ public class AdminControlFrame extends JFrame {
         titleLabel = new javax.swing.JLabel();
         seatchPanel = new javax.swing.JPanel();
         searchIcon = new javax.swing.JLabel();
-        searchBar = new javax.swing.JTextField();
+        searchBar = new TextFieldAnimation();
         menuTabs = new javax.swing.JTabbedPane();
         acountMgmtTabs = new javax.swing.JTabbedPane();
         signUpPanel = new javax.swing.JPanel();
         signUpButton = new MoujaButton("Sign Up",30, 30, Color.white,Color.gray);
-        uploadPictureHolder = new javax.swing.JLabel();
+        uploadPictureHolder = new ImageAvatar();
         signUpDataPanel = new javax.swing.JPanel();
         loginLabel = new javax.swing.JLabel();
         retypePasswordLabel = new javax.swing.JLabel();
         phoneLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
-        emailTextField = new javax.swing.JTextField();
-        phoneNumberTextField = new javax.swing.JTextField();
-        loginTextField = new javax.swing.JTextField();
+        emailTextField = new MoujaTextField();
+        phoneNumberTextField = new MoujaTextField();
+        loginTextField = new MoujaTextField();
         uploadPicButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         passwordField = new javax.swing.JPasswordField();
         reTypePasswordField = new javax.swing.JPasswordField();
         signInPanel = new javax.swing.JPanel();
-        signInPuctureHolder = new javax.swing.JLabel();
+        signInPuctureHolder = new ImageAvatar();
         loginSignInLabel = new javax.swing.JLabel();
         passwordSignInLabel = new javax.swing.JLabel();
         authPasswordField = new javax.swing.JPasswordField();
-        authLoginTextField = new javax.swing.JTextField();
+        authLoginTextField = new MoujaTextField();
         usersPanel = new javax.swing.JPanel();
         usersTablePanel = new javax.swing.JPanel();
         userScroll = new javax.swing.JScrollPane();
@@ -205,7 +145,7 @@ public class AdminControlFrame extends JFrame {
         productScroll = new javax.swing.JScrollPane();
         //changeColorButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         loggedInPanel = new javax.swing.JPanel();
-        loggedInPictureHolder = new javax.swing.JLabel();
+        loggedInPictureHolder = new ImageAvatar();
         modifyUserButton = new MoujaButton("",30, 30,Color.white,Color.gray);
         loggedUserName = new javax.swing.JLabel();
         loggedEmail = new javax.swing.JLabel();
@@ -213,19 +153,19 @@ public class AdminControlFrame extends JFrame {
         loggedcreationDate = new javax.swing.JLabel();
         usersGrid = new javax.swing.JPanel();
         productsGrid = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
     }
     
     private void initIcons(){
         logOutButton.setIcon(new javax.swing.ImageIcon(
             getClass().getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
-        uploadPictureHolder.setIcon(new javax.swing.ImageIcon(
+        uploadPictureHolder.setImage(new javax.swing.ImageIcon(
                 getClass().getResource("/com/example/GUI/resources/img/user.png")));
-        uploadPictureHolder.setVerticalAlignment(SwingConstants.CENTER);
-        uploadPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
-        signInPuctureHolder.setIcon(new javax.swing.ImageIcon(
+        signInPuctureHolder.setImage(new javax.swing.ImageIcon(
             getClass().getResource("/com/example/GUI/resources/img/user.png")));
-        signInPuctureHolder.setVerticalAlignment(SwingConstants.CENTER);
-        signInPuctureHolder.setHorizontalAlignment(SwingConstants.CENTER);
         exitButton.setIcon(new javax.swing.ImageIcon(
             getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
         homeButton.setIcon(new javax.swing.ImageIcon(
@@ -272,7 +212,48 @@ public class AdminControlFrame extends JFrame {
                 for (ActionListener listener : actions) {
                     searchBar.removeActionListener(listener);
                 }
-                searchBar.addActionListener(pActionListener);
+                searchBar.addEvent(new EventTextField() {
+                    @Override
+                    public void onPressed(EventCallBack call) {
+                        String search = searchBar.getText();
+                        if(search.equals("")){
+                            usersGrid.removeAll();
+                            for (int i = 0; i < users.size(); i++) {
+                                userPanels.add(new UserPanel(users.get(i),AdminControlFrame.color));
+                                usersGrid.add(userPanels.get(i));
+                            }
+                            for (int i = 0; i < 3; i++) {
+                                usersGrid.add(new UserPanel());
+                            }
+                            usersGrid.setLayout(new GridLayout(0,3,20,20));
+                        }else{
+                            usersGrid.removeAll();
+                            for (int i = 0; i < users.size(); i++) {
+                                if(users.get(i).getUsername().toLowerCase().contains(search.toLowerCase())){
+                                    userPanels.add(new UserPanel(users.get(i),AdminControlFrame.color));
+                                    usersGrid.add(userPanels.get(i));
+                                }
+                            }
+                            for (int i = 0; i < 3; i++) {
+                                usersGrid.add(new UserPanel());
+                            }
+                            usersGrid.setLayout(new GridLayout(0,3,20,20));
+                        }
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {}
+                        call.done();
+                        try {
+                            SwingUtilities.updateComponentTreeUI(AdminControlFrame.this);
+                        } catch (Exception e) {
+                            //TODO: handle exception
+                        }
+                    }
+                    @Override
+                    public void onCancel() {
+                        initUsers();
+                    }
+                });
                 searchBar.setVisible(true);
             }});
         productsButton.addActionListener(new ActionListener(){
@@ -283,7 +264,48 @@ public class AdminControlFrame extends JFrame {
                 for (ActionListener listener : actions) {
                     searchBar.removeActionListener(listener);
                 }
-                searchBar.addActionListener(cActionListener);
+                searchBar.addEvent(new EventTextField() {
+                    @Override
+                    public void onPressed(EventCallBack call) {
+                        String search = searchBar.getText();
+                        if(search.equals("")){
+                            productsGrid.removeAll();
+                            for (int i = 0; i < productList.size(); i++) {
+                                productPanels.add(new ProductItemPanel(productList.get(i),AdminControlFrame.color));
+                                productsGrid.add(productPanels.get(i));
+                            }
+                            for (int i = 0; i < 3; i++) {
+                                productsGrid.add(new ProductItemPanel());
+                            }
+                            productsGrid.setLayout(new GridLayout(0,3,20,20));
+                        }else{
+                            productsGrid.removeAll();
+                            for (int i = 0; i < productList.size(); i++) {
+                                if(productList.get(i).getName().toLowerCase().contains(search.toLowerCase())){
+                                    productPanels.add(new ProductItemPanel(productList.get(i),AdminControlFrame.color));
+                                    productsGrid.add(productPanels.get(i));
+                                }
+                            }
+                            for (int i = 0; i < 3; i++) {
+                                productsGrid.add(new ProductItemPanel());
+                            }
+                            productsGrid.setLayout(new GridLayout(0,3,20,20));
+                        }
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {}
+                        call.done();
+                        try {
+                            SwingUtilities.updateComponentTreeUI(AdminControlFrame.this);
+                        } catch (Exception e) {
+                            //TODO: handle exception
+                        }
+                    }
+                    @Override
+                    public void onCancel() {
+                        initProducts();
+                    }
+                });
                 searchBar.setVisible(true);
             }});
         settingsButton.addActionListener(new ActionListener(){
@@ -291,57 +313,7 @@ public class AdminControlFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 SettingsFrame.createSettingsPage(AdminControlFrame.color);
             }});
-        signUpButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (loginTextField.getText() == "" || String.valueOf(passwordField.getPassword()) == "") {
-                    showMessageDialog(null, "Account can not be created");
-                    return;
-                }
-                if (!String.valueOf(passwordField.getPassword()).equals(String.valueOf(reTypePasswordField.getPassword()))) {
-                    reTypePasswordField.setBorder(new LineBorder(Color.RED, 2));
-                    return;
-                }
-            
-                Icon icon = uploadPictureHolder.getIcon();
-                BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
-                    BufferedImage.TYPE_INT_ARGB);
-                Graphics g = image.getGraphics();
-                icon.paintIcon(new JLabel(), g, 0, 0);
-
-                g.dispose();
-                boolean accountCreated = DBmanagement.signUp(loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
-                if (accountCreated) {
-                    JOptionPane.showMessageDialog(null, "User Created Successfully", "Result", JOptionPane.PLAIN_MESSAGE);
-                    acountMgmtTabs.setSelectedIndex(1);
-                } else {
-                    showMessageDialog(null, "Account can not be created");
-                }
-            }});
-            uploadPicButton.addActionListener(new ActionListener(){
-                public ImageIcon resize(String imgPath) {
-                    ImageIcon path = new ImageIcon(imgPath);
-                    Image img = path.getImage();
-                    Image newImg = img.getScaledInstance(imageLabel.getWidth() * 2, imageLabel.getHeight() * 2,
-                            Image.SCALE_SMOOTH);
-                    ImageIcon image = new ImageIcon(newImg);
-                    return image;
-                }
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JFileChooser file = new JFileChooser();
-                    file.setCurrentDirectory(new File(System.getProperty("user.home")));
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "png");
-                    file.addChoosableFileFilter(filter);
-                    int res = file.showSaveDialog(null);
-                    if (res == JFileChooser.APPROVE_OPTION) {
-                        File selFile = file.getSelectedFile();
-                        String path = selFile.getAbsolutePath();
-                        uploadPictureHolder.setIcon(resize(path));
-                        pack();
-                    }
-                }});
-            connectButton.addActionListener(new ActionListener() {
+        connectButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if(authLoginTextField.getText().equals("") || String.valueOf(authPasswordField.getPassword()).equals("")){
@@ -359,7 +331,7 @@ public class AdminControlFrame extends JFrame {
                                 loggedPhoneNumber.setText(CurrentSession.getUser().getPhoneNumber());
                                 loggedUserName.setText(CurrentSession.getUser().getUsername());
                                 loggedcreationDate.setText(CurrentSession.getUser().getDate());
-                                loggedInPictureHolder.setIcon(new javax.swing.ImageIcon(CurrentSession.getUser().getImage()));
+                                loggedInPictureHolder.setImage(new javax.swing.ImageIcon(CurrentSession.getUser().getImage()));
                                 acountMgmtTabs.setSelectedIndex(2);
                             }
                         }
@@ -368,17 +340,17 @@ public class AdminControlFrame extends JFrame {
                         authPasswordField.setBorder(new LineBorder(Color.RED, 2));
                     }
                 }});
-                createNewAcountButton.addActionListener(new ActionListener() {
+        createNewAcountButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         acountMgmtTabs.setSelectedIndex(0);
                     }});
-                cancelSignUpButton.addActionListener(new ActionListener() {
+        cancelSignUpButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         acountMgmtTabs.setSelectedIndex(1);
                     }});
-                logOutButton.addActionListener(new ActionListener() {
+        logOutButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if(!CurrentSession.checkIfLogged()){
@@ -390,13 +362,13 @@ public class AdminControlFrame extends JFrame {
                         loggedPhoneNumber.setText("");
                         loggedUserName.setText("");
                         loggedcreationDate.setText("");
-                        loggedInPictureHolder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
+                        loggedInPictureHolder.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
                         acountMgmtTabs.setSelectedIndex(1);
                         MainFrame.startMainFrame(AdminControlFrame.color);
                         dispose();
                     }});
 
-                    removeUserButton.addActionListener(new ActionListener() {
+        removeUserButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             LinkedList<UserPanel> toRemove = new LinkedList<>();
@@ -411,7 +383,7 @@ public class AdminControlFrame extends JFrame {
                             initUsers();
                         }});
 
-                    removeProductButton.addActionListener(new ActionListener() {
+        removeProductButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             LinkedList<ProductItemPanel> toRemove = new LinkedList<>();
@@ -426,13 +398,13 @@ public class AdminControlFrame extends JFrame {
                             initProducts();
                         }});
 
-                    addUserButton.addActionListener(new ActionListener() {
+        addUserButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             AddUserFrame.startAddUserFrame(AdminControlFrame.color);
                         }});
 
-                    addProductButton.addActionListener(new ActionListener() {
+        addProductButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             AddProductFrame.startAddProductFrame(AdminControlFrame.color);
@@ -445,8 +417,12 @@ public class AdminControlFrame extends JFrame {
         users = DBget.getAllUsers();
         userPanels = new LinkedList<>();
         for (int i = 0; i < users.size(); i++) {
-            userPanels.add(new UserPanel(users.get(i)));
+            userPanels.add(new UserPanel(users.get(i),AdminControlFrame.color));
             usersGrid.add(userPanels.get(i));
+        }
+
+        for (int i = 0; i < 3; i++) {
+            usersGrid.add(new UserPanel());
         }
         usersGrid.setLayout(new GridLayout(0,3,20,20));
     }
@@ -457,15 +433,70 @@ public class AdminControlFrame extends JFrame {
         productList = DBget.getAllProducts();
         productPanels = new LinkedList<ProductItemPanel>();
         for (int i = 0; i < productList.size(); i++) {
-            productPanels.add(new ProductItemPanel(productList.get(i)));
+            productPanels.add(new ProductItemPanel(productList.get(i),AdminControlFrame.color));
             productsGrid.add(productPanels.get(i));
         }
+        for (int i = 0; i < 3; i++) {
+            productsGrid.add(new ProductItemPanel());
+        }
         productsGrid.setLayout(new GridLayout(0,3,20,20));
+    }
+
+    public static void connect(){
+        loggedEmail.setText(CurrentSession.getAdmin().getEmail());
+        loggedPhoneNumber.setText(CurrentSession.getAdmin().getPhoneNumber());
+        loggedUserName.setText(CurrentSession.getAdmin().getUsername());
+        loggedcreationDate.setText(CurrentSession.getAdmin().getDate());
+        if (CurrentSession.getAdmin().getImage() != null) {
+            loggedInPictureHolder.setImage(new javax.swing.ImageIcon(Scalr.resize(CurrentSession.getAdmin().getImage(), Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_EXACT, loggedInPictureHolder.getWidth(), loggedInPictureHolder.getHeight())));
+        }else{
+            loggedInPictureHolder.setImage(new ImageIcon(AdminControlFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+        }
+        acountMgmtTabs.setSelectedIndex(2);
     }
 
     public static void changeColors(Color color){
         AdminControlFrame.color = color;
         if (color != null) {
+            loggedInPictureHolder.setGradientColor1(color);
+            loggedInPictureHolder.setGradientColor2(color);
+            signInPuctureHolder.setGradientColor1(color);
+            signInPuctureHolder.setGradientColor2(color);
+            uploadPictureHolder.setGradientColor1(color);
+            uploadPictureHolder.setGradientColor2(color);
+            searchBar.setAnimationColor(color);
+            searchBar.setCaretColor(color);
+            authLoginTextField.setLineColor(color);
+            authPasswordField.addFocusListener(new FocusListener(){
+                @Override
+                public void focusGained(FocusEvent e) {
+                    authPasswordField.setBorder(BorderFactory.createLineBorder(color));
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    authPasswordField.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
+                }});
+            passwordField.addFocusListener(new FocusListener(){
+                @Override
+                public void focusGained(FocusEvent e) {
+                    passwordField.setBorder(BorderFactory.createLineBorder(color));
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    passwordField.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
+                }});
+            reTypePasswordField.addFocusListener(new FocusListener(){
+                @Override
+                public void focusGained(FocusEvent e) {
+                    reTypePasswordField.setBorder(BorderFactory.createLineBorder(color));
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    reTypePasswordField.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
+                }});
+            emailTextField.setLineColor(color);
+            loginTextField.setLineColor(color);
+            phoneNumberTextField.setLineColor(color);
             SidePanel.setBackground(color);
             addUserButton.changeButtonColor(color.brighter(), color.darker());
             //changeColorButton.changeButtonColor(color.brighter(), color.darker());
@@ -486,6 +517,8 @@ public class AdminControlFrame extends JFrame {
             removeUserButton.changeButtonColor(color.brighter(), color.darker());
             cancelSignUpButton.changeButtonColor(color.brighter(), color.darker());
             uploadPicButton.changeButtonColor(color.brighter(), color.darker());
+            initUsers();
+            initProducts();
         }
     }
 
@@ -823,43 +856,70 @@ public class AdminControlFrame extends JFrame {
 
         loggedcreationDate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        jLabel1.setText("Email :");
+
+        jLabel2.setText("Name :");
+
+        jLabel3.setText("Phone Number :");
+
+        jLabel4.setText("Creation Date :");
+
         javax.swing.GroupLayout loggedInPanelLayout = new javax.swing.GroupLayout(loggedInPanel);
         loggedInPanel.setLayout(loggedInPanelLayout);
         loggedInPanelLayout.setHorizontalGroup(
             loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loggedInPanelLayout.createSequentialGroup()
-                .addGap(326, 326, 326)
-                .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(loggedInPictureHolder, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(loggedUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(loggedEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(loggedPhoneNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(loggedcreationDate, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 294, Short.MAX_VALUE)
+                .addContainerGap(820, Short.MAX_VALUE)
                 .addComponent(modifyUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loggedInPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loggedInPanelLayout.createSequentialGroup()
+                        .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(104, 104, 104))
+                    .addGroup(loggedInPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(loggedUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(loggedEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(loggedPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(loggedcreationDate, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(456, 456, 456))
+            .addGroup(loggedInPanelLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(loggedInPictureHolder, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         loggedInPanelLayout.setVerticalGroup(
             loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loggedInPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(loggedInPictureHolder, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE)
+                .addComponent(loggedInPictureHolder, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(loggedUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(loggedEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loggedUserName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(loggedInPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(modifyUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(loggedInPanelLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(loggedPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(loggedcreationDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(61, Short.MAX_VALUE))))
+                    .addComponent(loggedEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loggedPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loggedcreationDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(61, 61, 61)
+                .addComponent(modifyUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         acountMgmtTabs.addTab("tab3", loggedInPanel);
@@ -1088,11 +1148,11 @@ public class AdminControlFrame extends JFrame {
 
     private JLabel emailLabel;
     private JLabel imageLabel;
-    private JLabel loggedEmail;
-    private JLabel loggedInPictureHolder;
-    private JLabel loggedPhoneNumber;
-    private JLabel loggedUserName;
-    private JLabel loggedcreationDate;
+    private static JLabel loggedEmail;
+    private static ImageAvatar loggedInPictureHolder;
+    private static JLabel loggedPhoneNumber;
+    private static JLabel loggedUserName;
+    private static JLabel loggedcreationDate;
     private JLabel loginLabel;
     private JLabel loginSignInLabel;
     private JLabel passwordLabel;
@@ -1100,22 +1160,26 @@ public class AdminControlFrame extends JFrame {
     private JLabel phoneLabel;
     private JLabel retypePasswordLabel;
     private JLabel searchIcon;
-    private JLabel signInPuctureHolder;
+    private static ImageAvatar signInPuctureHolder;
     private JLabel titleLabel;
-    private JLabel uploadPictureHolder;
+    private static ImageAvatar uploadPictureHolder;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
 
-    private JTabbedPane acountMgmtTabs;
-    private JTextField authLoginTextField;
-    private JPasswordField authPasswordField;
-    private JTextField emailTextField;
+    private static JTabbedPane acountMgmtTabs;
+    private static MoujaTextField authLoginTextField;
+    private static JPasswordField authPasswordField;
+    private static MoujaTextField emailTextField;
     private static JScrollPane productScroll;
     
-    private JTextField loginTextField;
+    private static MoujaTextField loginTextField;
     private JTabbedPane menuTabs;
-    private JPasswordField passwordField;
-    private JTextField phoneNumberTextField;
+    private static JPasswordField passwordField;
+    private static MoujaTextField phoneNumberTextField;
     private static JScrollPane userScroll;
-    private JPasswordField reTypePasswordField;
-    private JTextField searchBar;
+    private static JPasswordField reTypePasswordField;
+    private static TextFieldAnimation searchBar;
     private JSeparator titleSeparator;
 }

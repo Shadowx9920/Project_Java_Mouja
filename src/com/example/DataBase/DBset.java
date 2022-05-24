@@ -3,8 +3,10 @@ package com.example.DataBase;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 import com.example.Beans.Commande;
+import com.example.Beans.Product;
 
 import java.awt.image.BufferedImage;
 
@@ -162,13 +164,33 @@ public class DBset {
 
     public static boolean addCommandeUser(int commandeID,int userID){
         PreparedStatement statement = null;
-        String sqlAddProductQuery = "INSERT INTO CommandesUsers (commandeID,userID) " +
+        String sqlAddProductQuery = "INSERT INTO CommandesUser (commandeID,userID) " +
                 "VALUES ( ? , ? )";
         try {
             statement = DataBase.getConnection().prepareStatement(sqlAddProductQuery);
             statement.setInt(1, commandeID);
             statement.setInt(2, userID);
             statement.executeUpdate();
+            statement.close();
+            return true;
+        } catch (Exception e) {
+            System.err.println("SQL query failed");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean addCommandeProducts(int CommandeID,LinkedList<Product> products){
+        PreparedStatement statement = null;
+        String sqlAddProductQuery = "INSERT INTO CommandeProducts (CommandeID,ProductID) " +
+                "VALUES ( ? , ? )";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlAddProductQuery);
+            for(Product p : products){
+                statement.setInt(1, CommandeID);
+                statement.setInt(2, p.getId());
+                statement.executeUpdate();
+            }
             statement.close();
             return true;
         } catch (Exception e) {

@@ -93,23 +93,6 @@ public class DBmanagement {
         return true;
     }
 
-    // public static LinkedList<Product> selectProducts() {
-    //     LinkedList<Product> products = new LinkedList<Product>();
-    //     Statement statement = null;
-    //     ResultSet resultSet = null;
-    //     String query = "SELECT ID FROM Products;";
-    //     try {
-    //         statement = DataBase.getConnection().createStatement();
-    //         resultSet = statement.executeQuery(query);
-    //         while (resultSet.next()) {
-    //             products.add(DBget.getProduct(resultSet.getInt("ID")));
-    //         }
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //     }
-    //     return products;
-    // }
-
     public static Fournisseur getFournisseur(String name){
         Fournisseur f = null;
         Statement statement = null;
@@ -173,9 +156,10 @@ public class DBmanagement {
         }
         double totalPrice = 0;
         for (Product product : products) {
-            totalPrice = product.getPrice();
+            totalPrice += product.getPrice();
         }
         Commande c = DBset.addCommande(CurrentSession.getUser().getId(), totalPrice, true );
+        DBset.addCommandeProducts(c.getId(), products);
         DBset.addCommandeUser(c.getId(), CurrentSession.getUser().getId());
     }
 

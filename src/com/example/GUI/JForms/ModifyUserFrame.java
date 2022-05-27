@@ -23,22 +23,90 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.example.Beans.Accounts.Admin;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBmodify;
 import com.example.GUI.CurrentSession;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
+import com.example.GUI.Components.Notifications.Notification;
 
 public class ModifyUserFrame extends JFrame {
 
     public User user;
+    public Admin admin;
 
     public BufferedImage image = null;
 
-    public ModifyUserFrame(User user) {
+    public ModifyUserFrame(Admin admin) {
+        this.admin = admin;
+        setUp();
+        signUpButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (loginTextField.getText().equals("") || String.valueOf(passwordField.getPassword()).equals("")) {
+                    showMessageDialog(null, "Account can not be created");
+                    return;
+                }
+                if (!String.valueOf(passwordField.getPassword()).equals(String.valueOf(reTypePasswordField.getPassword()))) {
+                    reTypePasswordField.setBorder(new LineBorder(Color.RED, 2));
+                    return;
+                }
+                boolean accountModified = DBmodify.modifyAdmin(admin.getId(), loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
+                if (accountModified) {
+                    CurrentSession.setSession(loginTextField.getText(), String.valueOf(passwordField.getPassword()));
+                    Notification notification = new Notification(ModifyUserFrame.this, Notification.Type.SUCCESS, Notification.Location.BOTTOM_CENTER, "Admin Modified Successfully");
+                    notification.showNotification();
+                    try {
+                        AdminControlFrame.initUsers();
+                        AdminControlFrame.connect();
+                    } catch (Exception exc) {}
+                    try {
+                        MainFrame.updateFrame();
+                        MainFrame.connect();
+                    } catch (Exception exc) {}
+                    dispose();
+                } else {
+                    Notification notification = new Notification(ModifyUserFrame.this, Notification.Type.WARNING, Notification.Location.BOTTOM_CENTER, "Account can not be modified");
+                    notification.showNotification();
+                }
+            }});
+    }
 
+    public ModifyUserFrame(User user) {
         this.user = user;
-        
+        setUp();
+        signUpButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (loginTextField.getText().equals("") || String.valueOf(passwordField.getPassword()).equals("")) {
+                    showMessageDialog(null, "Account can not be created");
+                    return;
+                }
+                if (!String.valueOf(passwordField.getPassword()).equals(String.valueOf(reTypePasswordField.getPassword()))) {
+                    reTypePasswordField.setBorder(new LineBorder(Color.RED, 2));
+                    return;
+                }
+                boolean accountModified = DBmodify.modifyUser(user.getId(), loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
+                if (accountModified) {
+                    CurrentSession.setSession(loginTextField.getText(), String.valueOf(passwordField.getPassword()));
+                    JOptionPane.showMessageDialog(null, "User Modified Successfully", "Result", JOptionPane.PLAIN_MESSAGE);
+                    try {
+                        AdminControlFrame.initUsers();
+                        AdminControlFrame.connect();
+                    } catch (Exception exc) {}
+                    try {
+                        MainFrame.updateFrame();
+                        MainFrame.connect();
+                    } catch (Exception exc) {}
+                    dispose();
+                } else {
+                    showMessageDialog(null, "Account can not be modified");
+                }
+            }});
+    }
+
+    public void setUp(){
         initComponents();
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -100,35 +168,6 @@ public class ModifyUserFrame extends JFrame {
                     }
                     uploadPictureHolder.setIcon(resize(path));
                     pack();
-                }
-            }});
-
-        signUpButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (loginTextField.getText().equals("") || String.valueOf(passwordField.getPassword()).equals("")) {
-                    showMessageDialog(null, "Account can not be created");
-                    return;
-                }
-                if (!String.valueOf(passwordField.getPassword()).equals(String.valueOf(reTypePasswordField.getPassword()))) {
-                    reTypePasswordField.setBorder(new LineBorder(Color.RED, 2));
-                    return;
-                }
-                boolean accountModified = DBmodify.modifyUser(user.getId(), loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
-                if (accountModified) {
-                    CurrentSession.setSession(loginTextField.getText(), String.valueOf(passwordField.getPassword()));
-                    JOptionPane.showMessageDialog(null, "User Modified Successfully", "Result", JOptionPane.PLAIN_MESSAGE);
-                    try {
-                        AdminControlFrame.initUsers();
-                        AdminControlFrame.connect();
-                    } catch (Exception exc) {}
-                    try {
-                        MainFrame.updateFrame();
-                        MainFrame.connect();
-                    } catch (Exception exc) {}
-                    dispose();
-                } else {
-                    showMessageDialog(null, "Account can not be modified");
                 }
             }});
     }
@@ -328,6 +367,16 @@ public class ModifyUserFrame extends JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ModifyUserFrame(user).setVisible(true);
+                changeColors(color);
+            }
+        });
+    }
+
+    public static void startModifyUserFrame(Admin admin,Color color) {
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ModifyUserFrame(admin).setVisible(true);
                 changeColors(color);
             }
         });

@@ -256,9 +256,7 @@ public class MainFrame extends JFrame {
                         call.done();
                         try {
                             SwingUtilities.updateComponentTreeUI(MainFrame.this);
-                        } catch (Exception e) {
-                            //TODO: handle exception
-                        }
+                        } catch (Exception e) {}
                     }
                     @Override
                     public void onCancel() {
@@ -309,9 +307,7 @@ public class MainFrame extends JFrame {
                         call.done();
                         try {
                             SwingUtilities.updateComponentTreeUI(MainFrame.this);
-                        } catch (Exception e) {
-                            //TODO: handle exception
-                        }
+                        } catch (Exception e) {}
                     }
                     @Override
                     public void onCancel() {
@@ -428,6 +424,8 @@ public class MainFrame extends JFrame {
                         loggedcreationDate.setText("");
                         loggedInPictureHolder.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
                         acountMgmtTabs.setSelectedIndex(1);
+                        authLoginTextField.setText("");
+                        authPasswordField.setText("");
                         menuTabs.setSelectedIndex(0);
                         Notification notification = new Notification(MainFrame.this, Notification.Type.SUCCESS, Notification.Location.BOTTOM_CENTER, "Logged Out Successfully");
                         notification.showNotification();
@@ -491,9 +489,6 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(CurrentSession.checkIfLogged()){
-                    if(CurrentSession.checkIfAdmin()){
-                        JOptionPane.showMessageDialog(null, "You are not allowed to remove products from the cart because you are an admin", "Error", JOptionPane.ERROR_MESSAGE);
-                    }else{
                         for (int i = 0; i < cartItems.size(); i++) {
                             if (cartItems.get(i).selected) {
                                 cartList.remove(cartItems.get(i).product);
@@ -508,7 +503,6 @@ public class MainFrame extends JFrame {
                         initProducts();
                         Notification notification = new Notification(MainFrame.this, Notification.Type.SUCCESS, Notification.Location.BOTTOM_CENTER, "Products removed from cart succesfully");
                         notification.showNotification();
-                    }
                 }else{
                     Notification notification = new Notification(MainFrame.this, Notification.Type.WARNING, Notification.Location.BOTTOM_CENTER, "You must be logged in to remove products from your cart");
                     notification.showNotification();
@@ -519,13 +513,10 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(CurrentSession.checkIfLogged()){
-                    if(CurrentSession.checkIfAdmin()){
-                        JOptionPane.showMessageDialog(null, "You are not allowed to modify users because you are an admin", "Error", JOptionPane.ERROR_MESSAGE);
-                    }else{
-                        ModifyUserFrame.startModifyUserFrame(CurrentSession.getUser(), color);
-                    }
+                    ModifyUserFrame.startModifyUserFrame(CurrentSession.getUser(), color);
                 }else{
-                    JOptionPane.showMessageDialog(null, "You must be logged in to modify users", "Error", JOptionPane.ERROR_MESSAGE);
+                    Notification notification = new Notification(MainFrame.this, Notification.Type.WARNING, Notification.Location.BOTTOM_CENTER, "You must be logged in to modify users");
+                    notification.showNotification();
                 }
                 SwingUtilities.updateComponentTreeUI(MainFrame.this);
             }});

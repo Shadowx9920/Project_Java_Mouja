@@ -5,10 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import com.example.Beans.Product;
 import com.example.GUI.CurrentSession;
@@ -18,23 +22,35 @@ import com.example.GUI.JForms.ModifyProductFrame;
 import org.imgscalr.Scalr;
 
 public class ProductItemPanel extends PanelRound{
+
     public boolean selected = false;
     public Product product;
     public static Color color;
+    public boolean isViewingDetails = false;
+
     public ProductItemPanel(){
+        info = new JPanel();
         initComponents();
         setRoundBottomLeft(100);
         setRoundBottomRight(100);
         setRoundTopLeft(100);
         setRoundTopRight(100);
         productImage.setVisible(false);
-        productName.setVisible(false);
         productPrice.setVisible(false);
         viewDetailsButton.setVisible(false);
         modifyButton.setVisible(false);
     }
     public ProductItemPanel(Product product,Color color) {
+
         this.product = product;
+        
+        productBriefPanel = new ProductBrief(product);
+        productInfoPanel = new ProductInfo(product);
+
+        info = new JPanel();
+        info.setLayout(new BorderLayout());
+        info.add(productBriefPanel);
+
         initComponents();
 
         changeColors(color);
@@ -78,8 +94,7 @@ public class ProductItemPanel extends PanelRound{
 
         productImage.setVerticalAlignment(SwingConstants.CENTER);
         productImage.setHorizontalAlignment(SwingConstants.CENTER);
-        productName.setVerticalAlignment(SwingConstants.CENTER);
-        productName.setHorizontalAlignment(SwingConstants.CENTER);
+
         productPrice.setVerticalAlignment(SwingConstants.CENTER);
         productPrice.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -93,8 +108,6 @@ public class ProductItemPanel extends PanelRound{
             ModifyProductFrame.startModifyProductFrame(this.product,color);
         });
 
-        productName.setText(product.getName());
-
         if (product.getProductPicture() == null) {
             this.productImage.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/product.png")));
         }else{
@@ -103,10 +116,21 @@ public class ProductItemPanel extends PanelRound{
         productPrice.setText(product.getPrice().toString() + " $");
         productPrice.setHorizontalAlignment(SwingConstants.RIGHT);
 
+        info.setVisible(true);
         viewDetailsButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                isViewingDetails = !isViewingDetails;
+                if (isViewingDetails) {
+                    info.removeAll();
+                    info.add(productInfoPanel);
+                    SwingUtilities.updateComponentTreeUI(info);
+
+                }else{
+                    info.removeAll();
+                    info.add(productBriefPanel);
+                    SwingUtilities.updateComponentTreeUI(info);
+                }
             }});
     }
     
@@ -121,7 +145,6 @@ public class ProductItemPanel extends PanelRound{
         modifyButton = new MoujaButton("", 30, 30, Color.RED, Color.gray);
 
         productImage = new javax.swing.JLabel();
-        productName = new javax.swing.JLabel();
         productPrice = new javax.swing.JLabel();
 
         modifyButton.setMaximumSize(new java.awt.Dimension(30, 30));
@@ -136,10 +159,9 @@ public class ProductItemPanel extends PanelRound{
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(productName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(viewDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -148,15 +170,16 @@ public class ProductItemPanel extends PanelRound{
                         .addComponent(productPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(productImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(info)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(productImage, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(productName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(productPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(modifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -166,8 +189,10 @@ public class ProductItemPanel extends PanelRound{
     }                      
 
     private javax.swing.JLabel productImage;
-    private javax.swing.JLabel productName;
     private javax.swing.JLabel productPrice;
     private static MoujaButton viewDetailsButton;
     private static MoujaButton modifyButton;
+    private javax.swing.JPanel info;
+    private ProductInfo productInfoPanel;
+    private ProductBrief productBriefPanel;
 }

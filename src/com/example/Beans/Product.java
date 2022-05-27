@@ -2,6 +2,8 @@ package com.example.Beans;
 
 import java.awt.image.BufferedImage;
 
+import com.example.DataBase.DBget;
+
 public class Product {
     
     private int id;
@@ -10,7 +12,6 @@ public class Product {
     private String date;
     private BufferedImage productPicture;
     private Double price;
-
     
 
     public Product(int id, String name, String description, String date, BufferedImage productPicture, Double price) {
@@ -20,6 +21,7 @@ public class Product {
         this.date = date;
         this.productPicture = productPicture;
         this.price = price;
+        
     }
 
     public int getId() {
@@ -68,6 +70,10 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Fournisseur getFournisseur() {
+        return DBget.getFournisseurByProduct(this.getId());
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.example.GUI.Components.Charts;
 
-import com.example.GUI.Components.Charts.ModelLegend;
-
 public class LegendItem extends javax.swing.JPanel {
 
     public LegendItem(ModelLegend data) {
@@ -10,9 +8,7 @@ public class LegendItem extends javax.swing.JPanel {
         lbColor.setBackground(data.getColor());
         lbName.setText(data.getName());
     }
-
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    
     private void initComponents() {
 
         lbColor = new LabelColor();

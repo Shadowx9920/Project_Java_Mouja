@@ -30,6 +30,7 @@ import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
 import com.example.GUI.CurrentSession;
 import com.example.GUI.DBmanagement;
+import com.example.GUI.Components.FournisseurDataPanel;
 import com.example.GUI.Components.ImageAvatar;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.ProductItemPanel;
@@ -43,12 +44,14 @@ import org.imgscalr.Scalr;
 
 public class AdminControlFrame extends JFrame {
 
-    static LinkedList<User> users;
-    static LinkedList<Product> productList;
-    static LinkedList<UserPanel> userPanels;
-    static LinkedList<ProductItemPanel> productPanels;
-    
+    public static LinkedList<User> users;
+    public static LinkedList<Product> productList;
+    public static LinkedList<UserPanel> userPanels;
+    public static LinkedList<ProductItemPanel> productPanels;
+
     public static Color color = Color.red;
+
+    public static FournisseurDataPanel fournisseurDataPanel = new FournisseurDataPanel(color);
 
     public AdminControlFrame() {
         initLayout();
@@ -77,6 +80,8 @@ public class AdminControlFrame extends JFrame {
         usersGrid.setBorder(new EmptyBorder(10, 10, 10, 10));
         productsGrid.setBorder(new EmptyBorder(10, 10, 10, 10));
 
+        menuTabs.add("", fournisseurDataPanel);
+
         initIcons();
         initUsers();
         initProducts();
@@ -91,6 +96,7 @@ public class AdminControlFrame extends JFrame {
         cancelSignUpButton = new MoujaButton("Cancel",30, 75, Color.white,Color.gray);
         homeButton = new MoujaButton("Home",30, 75, Color.white,Color.gray);
         logOutButton = new MoujaButton("",30, 30, Color.white,Color.gray);
+        fournisseursButton = new MoujaButton("Fournisseurs",30, 75, Color.white,Color.gray);
 
         framePanel = new javax.swing.JPanel();
         SidePanel = new JPanel();
@@ -176,6 +182,8 @@ public class AdminControlFrame extends JFrame {
             getClass().getResource("/com/example/GUI/resources/img/world.png")));
         settingsButton.setIcon(new javax.swing.ImageIcon(
             getClass().getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
+        fournisseursButton.setIcon(new javax.swing.ImageIcon(
+            getClass().getResource("/com/example/GUI/resources/black_icons/supplier.png")));
         uploadPicButton.setIcon(new javax.swing.ImageIcon(
             getClass().getResource("/com/example/GUI/resources/black_icons/upload.png")));
         modifyUserButton.setIcon(new javax.swing.ImageIcon(
@@ -245,9 +253,7 @@ public class AdminControlFrame extends JFrame {
                         call.done();
                         try {
                             SwingUtilities.updateComponentTreeUI(AdminControlFrame.this);
-                        } catch (Exception e) {
-                            //TODO: handle exception
-                        }
+                        } catch (Exception e) {}
                     }
                     @Override
                     public void onCancel() {
@@ -297,9 +303,7 @@ public class AdminControlFrame extends JFrame {
                         call.done();
                         try {
                             SwingUtilities.updateComponentTreeUI(AdminControlFrame.this);
-                        } catch (Exception e) {
-                            //TODO: handle exception
-                        }
+                        } catch (Exception e) {}
                     }
                     @Override
                     public void onCancel() {
@@ -307,6 +311,13 @@ public class AdminControlFrame extends JFrame {
                     }
                 });
                 searchBar.setVisible(true);
+            }});
+
+        fournisseursButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchBar.setVisible(true);
+                menuTabs.setSelectedIndex(3);
             }});
         settingsButton.addActionListener(new ActionListener(){
             @Override
@@ -409,6 +420,10 @@ public class AdminControlFrame extends JFrame {
                         public void actionPerformed(ActionEvent e) {
                             AddProductFrame.startAddProductFrame(AdminControlFrame.color);
                         }});
+    
+        modifyUserButton.addActionListener(e -> {
+            ModifyUserFrame.startModifyUserFrame(CurrentSession.getAdmin(), AdminControlFrame.color);
+        });
     }                    
     
     public static void initUsers(){
@@ -458,6 +473,7 @@ public class AdminControlFrame extends JFrame {
     public static void changeColors(Color color){
         AdminControlFrame.color = color;
         if (color != null) {
+            fournisseurDataPanel.changeColors(color);
             loggedInPictureHolder.setGradientColor1(color);
             loggedInPictureHolder.setGradientColor2(color);
             signInPuctureHolder.setGradientColor1(color);
@@ -517,6 +533,7 @@ public class AdminControlFrame extends JFrame {
             removeUserButton.changeButtonColor(color.brighter(), color.darker());
             cancelSignUpButton.changeButtonColor(color.brighter(), color.darker());
             uploadPicButton.changeButtonColor(color.brighter(), color.darker());
+            fournisseursButton.changeButtonColor(color.brighter(), color.darker());
             initUsers();
             initProducts();
         }
@@ -546,26 +563,27 @@ public class AdminControlFrame extends JFrame {
 
         logOutButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        javax.swing.GroupLayout SidePanelLayout = new javax.swing.GroupLayout(SidePanel);
-        SidePanel.setLayout(SidePanelLayout);
-        SidePanelLayout.setHorizontalGroup(
-            SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SidePanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout sidePanelLayout = new javax.swing.GroupLayout(SidePanel);
+        SidePanel.setLayout(sidePanelLayout);
+        sidePanelLayout.setHorizontalGroup(
+            sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sidePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(productsButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(usersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SidePanelLayout.createSequentialGroup()
-                        .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(productsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(usersButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(homeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(sidePanelLayout.createSequentialGroup()
+                        .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 37, Short.MAX_VALUE))
-                    .addComponent(homeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(fournisseursButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        SidePanelLayout.setVerticalGroup(
-            SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SidePanelLayout.createSequentialGroup()
+        sidePanelLayout.setVerticalGroup(
+            sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sidePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(157, 157, 157)
@@ -573,8 +591,10 @@ public class AdminControlFrame extends JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(usersButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(productsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                .addComponent(productsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(fournisseursButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1125,6 +1145,7 @@ public class AdminControlFrame extends JFrame {
     private static MoujaButton uploadPicButton;
     private static MoujaButton removeUserButton;
     private static MoujaButton cancelSignUpButton;
+    private static MoujaButton fournisseursButton;
 
     private JPanel Header;
     private static JPanel MainPanel;

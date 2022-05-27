@@ -26,7 +26,7 @@ public class DBmodify {
         }
         return false;
     }
-    public static void modifyAdmin(int ID,String username, String password, BufferedImage image, String email,
+    public static boolean modifyAdmin(int ID,String username, String password, BufferedImage image, String email,
     String phoneNumber){
         PreparedStatement statement = null;
         String sqlQuery = "UPDATE Users SET username = ?,password = ?,isAdmin = ?, image = ?,date = datetime('now'), email = ?, phoneNumber = ? WHERE ID = ?;";
@@ -41,9 +41,11 @@ public class DBmodify {
             statement.setString(6, phoneNumber);
             statement.setInt(7, ID);
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
     public static void modifyProduct(int ID,String name, String description, BufferedImage productPicture, Double price){
         PreparedStatement statement = null;

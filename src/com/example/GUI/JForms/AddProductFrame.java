@@ -8,17 +8,24 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.example.Beans.Fournisseur;
+import com.example.DataBase.DBget;
 import com.example.GUI.DBmanagement;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
@@ -37,7 +44,12 @@ public class AddProductFrame extends javax.swing.JFrame {
 
         nameTextField.setLabelText("Product Name");
         priceTextField.setLabelText("Price");
-        fournisseurTextField.setLabelText("Provider");
+
+        LinkedList<Fournisseur> fournisseurs = DBget.getAllFournisseurs();
+        fournisseurComboBox.removeAllItems();
+        for (Fournisseur f : fournisseurs) {
+            fournisseurComboBox.addItem(f.getName());
+        }
 
         uploadPictureHolder.setVerticalAlignment(SwingConstants.CENTER);
         uploadPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
@@ -97,7 +109,7 @@ public class AddProductFrame extends javax.swing.JFrame {
                     String name = nameTextField.getText();
                     String price = priceTextField.getText();
                     String description = descriptionTextArea.getText();
-                    String Fournisseur = fournisseurTextField.getText();
+                    String Fournisseur = fournisseurComboBox.getSelectedItem().toString();
                     
                     try {
                         DBmanagement.addProduct(Fournisseur,name,description,image, Double.parseDouble(price));
@@ -113,7 +125,25 @@ public class AddProductFrame extends javax.swing.JFrame {
     private static void changeColors(Color color){
         nameTextField.setLineColor(color);
         priceTextField.setLineColor(color);
-        fournisseurTextField.setLineColor(color);
+        fournisseurComboBox.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseClicked(MouseEvent e) {}
+            
+            @Override
+            public void mousePressed(MouseEvent e) {}
+            
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                fournisseurComboBox.setBorder(new LineBorder(color,1));
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                fournisseurComboBox.setBorder(new LineBorder(Color.GRAY,1));
+            }});
         addButton.changeButtonColor(color.brighter(), color.darker());
         exitButton.changeButtonColor(color.brighter(), color.darker());
         uploadPicButton.changeButtonColor(color.brighter(), color.darker());
@@ -132,7 +162,7 @@ public class AddProductFrame extends javax.swing.JFrame {
         descriptionLabel = new javax.swing.JLabel();
         nameTextField = new MoujaTextField();
         uploadPicButton = new MoujaButton("",30, 30, Color.white,Color.gray);
-        fournisseurTextField = new MoujaTextField();
+        fournisseurComboBox = new JComboBox<String>();
         priceTextField = new MoujaTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
@@ -159,7 +189,7 @@ public class AddProductFrame extends javax.swing.JFrame {
 
         uploadPicButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        fournisseurTextField.setPreferredSize(new java.awt.Dimension(112, 22));
+        fournisseurComboBox.setPreferredSize(new java.awt.Dimension(112, 22));
 
         priceTextField.setPreferredSize(new java.awt.Dimension(112, 22));
 
@@ -192,7 +222,7 @@ public class AddProductFrame extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fournisseurTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fournisseurComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -209,7 +239,7 @@ public class AddProductFrame extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(fournisseurTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fournisseurComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -307,7 +337,7 @@ public class AddProductFrame extends javax.swing.JFrame {
     private static javax.swing.JTextArea descriptionTextArea;
     private static MoujaButton exitButton;
     private javax.swing.JLabel fournisseurLabel;
-    private static MoujaTextField fournisseurTextField;
+    private static JComboBox<String> fournisseurComboBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nameLabel;
     private static MoujaTextField nameTextField;

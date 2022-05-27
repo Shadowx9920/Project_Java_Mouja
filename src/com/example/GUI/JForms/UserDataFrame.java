@@ -3,11 +3,10 @@ package com.example.GUI.JForms;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.Calendar;
-import java.util.Date;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
@@ -79,20 +78,6 @@ public class UserDataFrame extends JFrame{
             totalMonthlyExpense = 0;
         }
 
-        // chart.addData(new ModelChart("January", new double[]{500}));
-        // chart.addData(new ModelChart("February", new double[]{600}));
-        // chart.addData(new ModelChart("March", new double[]{200}));
-        // chart.addData(new ModelChart("April", new double[]{480}));
-        // chart.addData(new ModelChart("May", new double[]{350}));
-        // chart.addData(new ModelChart("June", new double[]{190}));
-        // chart.addData(new ModelChart("July", new double[]{190}));
-        // chart.addData(new ModelChart("August", new double[]{190}));
-        // chart.addData(new ModelChart("September", new double[]{190}));
-        // chart.addData(new ModelChart("October", new double[]{190}));
-        // chart.addData(new ModelChart("November", new double[]{190}));
-        // chart.addData(new ModelChart("December", new double[]{190}));
-
-
         chart.setVisible(true);
     }
     
@@ -100,7 +85,7 @@ public class UserDataFrame extends JFrame{
         chart.addLegend("Income", color , color);
         userImage.setGradientColor1(color);
         userImage.setGradientColor2(color);
-        exitButton.changeButtonColor(color, Color.gray);
+        exitButton.changeButtonColor(color.brighter(), color.darker());
     }
 
     private void initComponents() {

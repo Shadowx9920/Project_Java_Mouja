@@ -1,6 +1,7 @@
 package com.example.DataBase;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
@@ -109,7 +110,27 @@ public class DBset {
         return false;
     }
 
+    public static boolean delProducts(int fournisseurID){
+        Statement statment = null;
+        String sqlQuery = "SELECT ProductID FROM FournisseurProducts WHERE FournisseurID=" + fournisseurID + ";";
+        try {
+            statment = DataBase.getConnection().createStatement();
+            ResultSet resultSet = statment.executeQuery(sqlQuery);
+            while (resultSet.next()) {
+                int productID = resultSet.getInt("ProductID");
+                delProduct(productID);
+            }
+            statment.close();
+            return true;
+        } catch (Exception e) {
+            System.err.println("SQL query failed");
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static boolean delFournisseur(int ID) {
+        delProducts(ID);
         Statement statement = null;
         String sqlDelUserQuery = "DELETE from Fournisseurs where ID=" + ID + ";";
         try {

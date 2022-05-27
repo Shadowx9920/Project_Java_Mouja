@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -190,6 +191,37 @@ public class DBmanagement {
                         break;
                     case 5:
                         data[i][j] = admins.get(i).getDate();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        TableModel model = new DefaultTableModel(data,columns);
+        return model;
+    }
+
+    public static TableModel getFournisseursTableModel(){
+        String[] columns = new String[] {
+                "Id", "Name", "Creation Date","Products"
+        };
+        int fournisseurCount = DBget.getFournisseurCount();
+        LinkedList<Fournisseur> fournisseurs = DBget.getAllFournisseurs();
+        Object[][] data = new Object[fournisseurCount][4];
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < 4; j++) {
+                switch (j) {
+                    case 0:
+                        data[i][j] = fournisseurs.get(i).getId();
+                        break;
+                    case 1:
+                        data[i][j] = fournisseurs.get(i).getName();
+                        break;
+                    case 2:
+                        data[i][j] = fournisseurs.get(i).getDate();
+                        break;
+                    case 3:
+                        data[i][j] = new JList<String>();
                         break;
                     default:
                         break;

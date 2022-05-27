@@ -16,12 +16,12 @@ import com.example.Beans.Accounts.User;
 public class DBget {
     public static User getUser(int ID) {
         User tmp = null;
-        Statement commandeStatement = null;
+        Statement productStatement = null;
         ResultSet resultSet = null;
         String commandeQuery = "SELECT * FROM Users";
         try {
-            commandeStatement = DataBase.getConnection().createStatement();
-            resultSet = commandeStatement.executeQuery(commandeQuery);
+            productStatement = DataBase.getConnection().createStatement();
+            resultSet = productStatement.executeQuery(commandeQuery);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -42,12 +42,12 @@ public class DBget {
 
     public static Admin getAdmin(int ID) {
         Admin tmp = null;
-        Statement commandeStatement = null;
+        Statement productStatement = null;
         ResultSet resultSet = null;
         String commandeQuery = "SELECT * FROM Users";
         try {
-            commandeStatement = DataBase.getConnection().createStatement();
-            resultSet = commandeStatement.executeQuery(commandeQuery);
+            productStatement = DataBase.getConnection().createStatement();
+            resultSet = productStatement.executeQuery(commandeQuery);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,7 +69,7 @@ public class DBget {
     public static Commande getCommande(int ID) {
         Commande tmp = null;
         LinkedList<Product> products = new LinkedList<Product>();
-        PreparedStatement commandeStatement = null;
+        PreparedStatement productStatement = null;
         PreparedStatement productsStatement = null;
         ResultSet resultSetCommande = null;
         ResultSet resultSetProducts = null;
@@ -77,13 +77,13 @@ public class DBget {
         String commandeQuery = "SELECT * FROM Commandes WHERE ID = ?;";
         String productsQuery = "SELECT * FROM CommandeProducts WHERE CommandeID = ?;";
         try {
-            commandeStatement = DataBase.getConnection().prepareStatement(commandeQuery);
-            commandeStatement.setInt(1, ID);
+            productStatement = DataBase.getConnection().prepareStatement(commandeQuery);
+            productStatement.setInt(1, ID);
 
             productsStatement = DataBase.getConnection().prepareStatement(productsQuery);
             productsStatement.setInt(1, ID);
 
-            resultSetCommande = commandeStatement.executeQuery();
+            resultSetCommande = productStatement.executeQuery();
             resultSetProducts = productsStatement.executeQuery();
             
             double totalPrice = 0;
@@ -106,20 +106,20 @@ public class DBget {
 
     public static Fournisseur getFournisseur(int ID) {
         Fournisseur tmp = null;
-        Statement commandeStatement = null;
+        Statement productStatement = null;
         ResultSet resultSet = null;
         LinkedList<Product> products = new LinkedList<Product>();
         String commandeQuery = "SELECT * FROM Fournisseurs;";
         String sqlPFQuery = "SELECT * FROM FournisseurProducts;";
         try {
-            commandeStatement = DataBase.getConnection().createStatement();
-            resultSet = commandeStatement.executeQuery(sqlPFQuery);
+            productStatement = DataBase.getConnection().createStatement();
+            resultSet = productStatement.executeQuery(sqlPFQuery);
             while (resultSet.next()) {
                 if (resultSet.getInt("FournisseurID") == ID) {
                     products.add(getProduct(resultSet.getInt("ProductID")));
                 }
             }
-            resultSet = commandeStatement.executeQuery(commandeQuery);
+            resultSet = productStatement.executeQuery(commandeQuery);
             while (resultSet.next()) {
                 if (resultSet.getInt("ID") == ID) {
                     tmp = new Fournisseur(resultSet.getInt("ID"), resultSet.getString("name"),
@@ -131,21 +131,52 @@ public class DBget {
         }
         return tmp;
     }
+    
+    public static Fournisseur getFournisseurByProduct(int productID){
+        Fournisseur tmp = null;
+        Statement Statement = null;
+        ResultSet resultSet = null;
 
+        String sqlPFQuery = "SELECT * FROM FournisseurProducts;";
+        try {
+            Statement = DataBase.getConnection().createStatement();
+            resultSet = Statement.executeQuery(sqlPFQuery);
+            while (resultSet.next()) {
+                if (resultSet.getInt("ProductID") == productID) {
+                    tmp = getFournisseur(resultSet.getInt("FournisseurID"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tmp;
+    }
+    
     public static Product getProduct(int ID) {
         Product tmp = null;
-        PreparedStatement commandeStatement = null;
+
+        PreparedStatement productStatement = null;
+
+
         ResultSet resultSet = null;
-        String commandeQuery = "SELECT * FROM Products WHERE ID = ?;";
+
+        String productQuery = "SELECT * FROM Products WHERE ID = ?;";
+        
         try {
-            commandeStatement = DataBase.getConnection().prepareStatement(commandeQuery);
-            commandeStatement.setInt(1, ID);
-            resultSet = commandeStatement.executeQuery();
+            productStatement = DataBase.getConnection().prepareStatement(productQuery);
+            productStatement.setInt(1, ID);
+            resultSet = productStatement.executeQuery();
+            if (resultSet.isClosed()){
+                return null;
+            }
             if (resultSet.getInt("ID") == ID) {
+
                 BufferedImage image = ImageProcessing.convertToBufferedImage(resultSet.getBytes("image"));
+                
                 tmp = new Product(resultSet.getInt("ID"), resultSet.getString("name"),
                         resultSet.getString("description"), resultSet.getString("date"), image,
                         resultSet.getDouble("price"));
+            
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -153,6 +184,22 @@ public class DBget {
         return tmp;
     }
 
+    public static LinkedList<Fournisseur> getAllFournisseurs(){
+        LinkedList<Fournisseur> tmp = new LinkedList<Fournisseur>();
+        Statement productStatement = null;
+        ResultSet resultSet = null;
+        String commandeQuery = "SELECT * FROM Fournisseurs";
+        try {
+            productStatement = DataBase.getConnection().createStatement();
+            resultSet = productStatement.executeQuery(commandeQuery);
+            while (resultSet.next()) {
+                tmp.add(getFournisseur(resultSet.getInt("ID")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tmp;
+    }
     public static LinkedList<User> getAllUsers() {
         LinkedList<User> users = new LinkedList<User>();
         PreparedStatement statement = null;

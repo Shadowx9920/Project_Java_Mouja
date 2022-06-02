@@ -11,6 +11,8 @@ import com.example.GUI.JForms.AddFournisseurFrame;
 
 public class FournisseurDataPanel extends javax.swing.JPanel {
 
+    static FournisseurTableModel model = new FournisseurTableModel();
+
     public FournisseurDataPanel(Color color) {
 
         initComponents();
@@ -24,7 +26,6 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
         modifyProvider.setIcon(new javax.swing.ImageIcon(
             getClass().getResource("/com/example/GUI/resources/black_icons/edit.png")));
 
-        FournisseurTableModel model = new FournisseurTableModel();
         jTable1.setModel(model);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
@@ -34,14 +35,10 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
 
         deleteProvider.addActionListener(e -> {
             int[] rows = jTable1.getSelectedRows();
-            for (int i = 0; i < model.getRowCount(); i++) {
-                for (int row : rows) {
-                    if (i == row) {
-                        DBset.delFournisseur((int)model.getValueAt(i, 0));
-                    }
-                }
+            for(int i=0;i<rows.length;i++){
+                DBset.delFournisseur((int)model.getValueAt(rows[i], 0));
             }
-            updateFrame();
+            updateFournisseurTable();
         });
 
         addProvider.addActionListener(e -> {
@@ -59,8 +56,22 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
         modifyProvider.changeButtonColor(color.brighter(), color.darker());
     }
 
-    public static void updateFrame(){
-        FournisseurTableModel model = new FournisseurTableModel();
+    public static void updateFournisseurTable(){
+        model = new FournisseurTableModel();
+        jTable1.setModel(model);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+    }
+
+    public static void searchFunction(String search){
+        if(search.equals("")){
+            updateFournisseurTable();
+            return;
+        }
+        model = new FournisseurTableModel(search);
         jTable1.setModel(model);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

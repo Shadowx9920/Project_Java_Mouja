@@ -42,6 +42,34 @@ public class FournisseurTableModel extends AbstractTableModel {
         }
     }
 
+    public FournisseurTableModel(String search) {
+        //int fournisseurCount = DBget.getFournisseurCount();
+        LinkedList<Fournisseur> fournisseurs = DBget.getAllFournisseurs();
+        for (Fournisseur fournisseur : fournisseurs) {
+            if( ! fournisseur.getName().toLowerCase().contains(search.toLowerCase()) ){
+                fournisseurs.remove(fournisseur);
+            }
+        }
+        rowData = new Object[fournisseurs.size()][4];
+        for (int i = 0; i < rowData.length; i++) {
+            for (int j = 0; j < 4; j++) {
+                    switch (j) {
+                        case 0:
+                            rowData[i][j] = fournisseurs.get(i).getId();
+                            break;
+                        case 1:
+                            rowData[i][j] = fournisseurs.get(i).getName();
+                            break;
+                        case 2:
+                            rowData[i][j] = fournisseurs.get(i).getDate();
+                            break;
+                        default:
+                            break;
+                    }
+            }
+        }
+    }
+
     @Override
     public int getRowCount() {
         return rowData.length;

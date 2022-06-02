@@ -3,6 +3,10 @@ package com.example.GUI.JForms;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.border.LineBorder;
 
 import com.example.DataBase.DBmodify;
 import com.example.DataBase.DBset;
@@ -29,7 +33,7 @@ public class AddFournisseurFrame extends javax.swing.JFrame {
 
             DBmodify.modifyFournisseur(ID, name);
             System.out.println("modifed");
-            FournisseurDataPanel.updateFrame();
+            FournisseurDataPanel.updateFournisseurTable();
         });
 
         addButton.setText("Modify");
@@ -50,7 +54,7 @@ public class AddFournisseurFrame extends javax.swing.JFrame {
             }
             DBset.addFournisseur(name);
             System.out.println("Added");
-            FournisseurDataPanel.updateFrame();
+            FournisseurDataPanel.updateFournisseurTable();
             //AdminControlFrame.updateFrame();
         });
     }
@@ -75,6 +79,27 @@ public class AddFournisseurFrame extends javax.swing.JFrame {
         exitButton.changeButtonColor(color.brighter(), color.darker());
         cancelButton.changeButtonColor(color.brighter(), color.darker());
         addButton.changeButtonColor(color.brighter(), color.darker());
+        jTextField1.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseClicked(MouseEvent e) {}
+
+            @Override
+            public void mousePressed(MouseEvent e) {}
+
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                jTextField1.setBorder(new LineBorder(color,1));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                jTextField1.setBorder(new LineBorder(Color.GRAY,1));
+            }
+            
+        });
     }
     
     private void initComponents() {
@@ -174,5 +199,5 @@ public class AddFournisseurFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;                  
+    private static javax.swing.JTextField jTextField1;                  
 }

@@ -317,6 +317,29 @@ public class AdminControlFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 searchBar.setVisible(true);
+                ActionListener[] actions = searchBar.getActionListeners();
+                for (ActionListener listener : actions) {
+                    searchBar.removeActionListener(listener);
+                }
+                searchBar.addEvent(new EventTextField() {
+                    @Override
+                    public void onPressed(EventCallBack call) {
+                        String search = searchBar.getText();
+                        FournisseurDataPanel.searchFunction(search);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {}
+                        call.done();
+                        try {
+                            SwingUtilities.updateComponentTreeUI(AdminControlFrame.this);
+                        } catch (Exception e) {}
+                    }
+                    @Override
+                    public void onCancel() {
+                        FournisseurDataPanel.searchFunction("");
+                    }
+                    
+                });
                 menuTabs.setSelectedIndex(3);
             }});
         settingsButton.addActionListener(new ActionListener(){

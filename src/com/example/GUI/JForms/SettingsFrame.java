@@ -23,6 +23,12 @@ public class SettingsFrame extends JFrame{
         initComponents();
         setLocation(x, y);
         initIcons();
+        if(UIManager.getLookAndFeel() instanceof FlatLightLaf) {
+            changeThemeButton.setSelected(false);
+        }
+        else {
+            changeThemeButton.setSelected(true);
+        }
         initButtonListeners();
     }
 

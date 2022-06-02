@@ -15,7 +15,6 @@ public class Main {
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }
-        //SplashScreen.startSplashScreen();
         new SplashScreen(null, true).setVisible(true);
         MainFrame.startMainFrame(MainFrame.color);
     }

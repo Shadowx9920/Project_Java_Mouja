@@ -97,7 +97,7 @@ public class MainFrame extends JFrame {
         productGrid.setBorder(new EmptyBorder(10, 10, 10, 10));
         kartGrid.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        initIcons();
+        initIcons(true);
         initProducts();
         initCart();
         initButtonListeners();
@@ -183,20 +183,36 @@ public class MainFrame extends JFrame {
         jLabel4 = new javax.swing.JLabel();
     }
     
-    private void initIcons(){
-        logOutButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
-        uploadPictureHolder.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
-        signInPuctureHolder.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
-        exitButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
-        homeButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/user-16.png")));
-        productsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/world.png")));
-        kartButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/shopping-cart.png")));
-        settingsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
-        uploadPicButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/upload.png")));
-        modifyUserButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/edit.png")));
-        addToKartButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/shopping-cart.png")));
-        payButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/dollar.png")));
-        removeFromKartButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/bin.png")));
+    private static void initIcons(boolean isdark){
+        if (isdark) {
+            logOutButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
+            uploadPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+            signInPuctureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+            exitButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
+            homeButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/user-16.png")));
+            productsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/world.png")));
+            kartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/shopping-cart.png")));
+            settingsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
+            uploadPicButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
+            modifyUserButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/edit.png")));
+            addToKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/shopping-cart.png")));
+            payButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/dollar.png")));
+            removeFromKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
+        }else{
+            logOutButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/sign-out.png")));
+            uploadPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+            signInPuctureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+            exitButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
+            homeButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/user-16.png")));
+            productsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/world.png")));
+            kartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/shopping-cart.png")));
+            settingsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/settings-sliders.png")));
+            uploadPicButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/upload.png")));
+            modifyUserButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/edit.png")));
+            addToKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/shopping-cart.png")));
+            payButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/dollar.png")));
+            removeFromKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/bin.png")));
+        }
     }  
     
     private void initButtonListeners(){
@@ -622,6 +638,12 @@ public class MainFrame extends JFrame {
             uploadPicButton.changeButtonColor(color.brighter(), color.darker());
             initProducts();
             initCart();
+            double y = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+            if (y < 128) {
+                initIcons(false);
+            }else{
+                initIcons(true);
+            }
         }
     }
 

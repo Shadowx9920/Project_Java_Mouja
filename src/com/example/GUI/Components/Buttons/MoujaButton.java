@@ -21,6 +21,7 @@ import javax.swing.Timer;
 public class MoujaButton extends JButton {
     private Color color1;
     private Color color2;
+    public double lumin;
     private final Timer timer;
     private final Timer timerPressed;
     private float alpha = 0.3f;
@@ -104,6 +105,12 @@ public class MoujaButton extends JButton {
     public void changeButtonColor(Color color1, Color color2) {
         this.color1 = color1;
         this.color2 = color2;
+        lumin = 0.2126*color1.getRed() + 0.7152*color1.getGreen() + 0.0722*color1.getBlue();
+        if (lumin < 128) {
+            setForeground(Color.WHITE);
+        } else {
+            setForeground(Color.BLACK);
+        }
         repaint();
     }
 

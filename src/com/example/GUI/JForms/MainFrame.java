@@ -106,6 +106,7 @@ public class MainFrame extends JFrame {
     } 
     
     private void initVar(){
+        uploadPicButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         connectButton = new MoujaButton("Sign In",30, 75, Color.white,Color.gray);
         signOutButton = new MoujaButton("Sign Out",30, 75, Color.white,Color.gray);
         createNewAcountButton = new MoujaButton("New Account",30, 75, Color.white,Color.gray);
@@ -113,6 +114,16 @@ public class MainFrame extends JFrame {
         homeButton = new MoujaButton("Home",30, 75, Color.white,Color.gray);
         logOutButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         modifyUserButton = new MoujaButton("",30, 30,Color.white,Color.gray);
+        productsButton = new MoujaButton("Products",30, 75, Color.white,Color.gray);
+        kartButton = new MoujaButton("Cart",30, 75, Color.white,Color.gray);
+        settingsButton = new MoujaButton("",30, 75, Color.white,Color.gray);
+        exitButton = new MoujaButton("",30, 30, Color.white,Color.gray);
+        signUpButton = new MoujaButton("Sign Up",30, 30, Color.white,Color.gray);
+        viewDetailsButton = new MoujaButton("",30, 30, Color.white,Color.gray);
+        addToKartButton = new MoujaButton("",30, 30, Color.white,Color.gray);
+        payButton = new MoujaButton("",30, 30, Color.white,Color.gray);
+        removeFromKartButton = new MoujaButton("",30, 30, Color.white,Color.gray);
+        changeColorButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         
         searchBar = new TextFieldAnimation();
         emailTextField = new MoujaTextField();
@@ -125,13 +136,9 @@ public class MainFrame extends JFrame {
 
         framePanel = new javax.swing.JPanel();
         SidePanel = new JPanel();
-        productsButton = new MoujaButton("Products",30, 75, Color.white,Color.gray);
-        kartButton = new MoujaButton("Cart",30, 75, Color.white,Color.gray);
-        settingsButton = new MoujaButton("",30, 75, Color.white,Color.gray);
         imageLabel = new JLabel();
         MainPanel = new javax.swing.JPanel();
         Header = new javax.swing.JPanel();
-        exitButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         titleSeparator = new javax.swing.JSeparator();
         titleLabel = new javax.swing.JLabel();
         seatchPanel = new javax.swing.JPanel();
@@ -139,7 +146,6 @@ public class MainFrame extends JFrame {
         menuTabs = new javax.swing.JTabbedPane();
         acountMgmtTabs = new javax.swing.JTabbedPane();
         signUpPanel = new javax.swing.JPanel();
-        signUpButton = new MoujaButton("Sign Up",30, 30, Color.white,Color.gray);
         uploadPictureHolder = new ImageAvatar();
         signUpDataPanel = new javax.swing.JPanel();
         loginLabel = new javax.swing.JLabel();
@@ -148,7 +154,6 @@ public class MainFrame extends JFrame {
         passwordLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
         
-        uploadPicButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         
         signInPanel = new javax.swing.JPanel();
         signInPuctureHolder = new ImageAvatar();
@@ -159,16 +164,11 @@ public class MainFrame extends JFrame {
         productScroll = new javax.swing.JScrollPane();
         productSpacerPanel = new javax.swing.JPanel();
         productsActionsPanel = new javax.swing.JPanel();
-        viewDetailsButton = new MoujaButton("",30, 30, Color.white,Color.gray);
-        addToKartButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         kartPanel = new javax.swing.JPanel();
         kartTablePanel = new javax.swing.JPanel();
         kartSpacerPanel = new javax.swing.JPanel();
         kartActionsPanel = new javax.swing.JPanel();
-        payButton = new MoujaButton("",30, 30, Color.white,Color.gray);
-        removeFromKartButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         kartPane = new javax.swing.JScrollPane();
-        changeColorButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         loggedInPanel = new javax.swing.JPanel();
         loggedInPictureHolder = new ImageAvatar();
         loggedUserName = new javax.swing.JLabel();

@@ -3,6 +3,8 @@ package com.example.Beans;
 import java.util.LinkedList;
 
 import com.example.Beans.Accounts.User;
+import com.example.DataBase.DBset;
+import com.example.GUI.CurrentSession;
 
 public class Commande {
 
@@ -78,5 +80,21 @@ public class Commande {
             total += p.getPrice();
         }
         return total;
+    }
+
+    public static void createNewCommande(LinkedList<Product> products) {
+        if(!CurrentSession.checkIfLogged()){
+            return;
+        }
+        if (CurrentSession.checkIfAdmin()) {
+            return;
+        }
+        double totalPrice = 0;
+        for (Product product : products) {
+            totalPrice += product.getPrice();
+        }
+        Commande c = DBset.addCommande(CurrentSession.getUser().getId(), totalPrice, true );
+        DBset.addCommandeProducts(c.getId(), products);
+        DBset.addCommandeUser(c.getId(), CurrentSession.getUser().getId());
     }
 }

@@ -81,5 +81,4 @@ public class Product {
         return "Product [date=" + date + ", description=" + description + ", id=" + id + ", name=" + name
                 +"]";
     }
-    
 }

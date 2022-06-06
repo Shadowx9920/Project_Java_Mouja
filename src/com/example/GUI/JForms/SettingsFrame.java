@@ -22,7 +22,6 @@ public class SettingsFrame extends JFrame{
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);
         initComponents();
         setLocation(x, y);
-        initIcons();
         if(UIManager.getLookAndFeel() instanceof FlatLightLaf) {
             changeThemeButton.setSelected(false);
         }
@@ -32,15 +31,22 @@ public class SettingsFrame extends JFrame{
         initButtonListeners();
     }
 
-    private void initIcons() {
-        exitButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
+    private static void initIcons(boolean isDark) {
+        if(isDark){
+            exitButton.setIcon(new javax.swing.ImageIcon(
+            SettingsFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
         changeColorsButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/palette.png")));
+            SettingsFrame.class.getResource("/com/example/GUI/resources/black_icons/palette.png")));
         aboutButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/icons8_info_16px_1.png")));
-        // changeThemeButton.setIcon(new javax.swing.ImageIcon(
-        //     getClass().getResource("/com/example/GUI/resources/img/theme.png")));
+            SettingsFrame.class.getResource("/com/example/GUI/resources/black_icons/icons8_info_16px_1.png")));
+        }else{
+            exitButton.setIcon(new javax.swing.ImageIcon(
+            SettingsFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
+        changeColorsButton.setIcon(new javax.swing.ImageIcon(
+            SettingsFrame.class.getResource("/com/example/GUI/resources/white_icons/palette.png")));
+        aboutButton.setIcon(new javax.swing.ImageIcon(
+            SettingsFrame.class.getResource("/com/example/GUI/resources/white_icons/icons8_info_16px_1.png")));
+        }
     }
 
     private void initButtonListeners(){
@@ -108,6 +114,12 @@ public class SettingsFrame extends JFrame{
         changeColorsButton.changeButtonColor(color.brighter(), color.darker());
         exitButton.changeButtonColor(color.brighter(), color.darker());
         aboutButton.changeButtonColor(color.brighter(), color.darker());
+        double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+            if (luminescence < 128) {
+                initIcons(false);
+            }else{
+                initIcons(true);
+            }
     }
 
     private void initComponents() {
@@ -195,6 +207,12 @@ public class SettingsFrame extends JFrame{
             public void run() {
                 new SettingsFrame().setVisible(true);
                 changeColors(color);
+                double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+                if (luminescence < 128) {
+                    initIcons(false);
+                }else{
+                    initIcons(true);
+                }
             }
         });
     }

@@ -64,9 +64,6 @@ public class AddFournisseurFrame extends javax.swing.JFrame {
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);
         setLocation(x, y);
-
-        exitButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
         exitButton.addActionListener(e -> {
             this.dispose();
         });
@@ -101,7 +98,15 @@ public class AddFournisseurFrame extends javax.swing.JFrame {
             
         });
     }
-    
+    public static void initIcons(boolean isDark){
+        if (isDark) {
+            exitButton.setIcon(new javax.swing.ImageIcon(
+            AddFournisseurFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
+        }else{
+            exitButton.setIcon(new javax.swing.ImageIcon(
+            AddFournisseurFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
+        }
+    }
     private void initComponents() {
 
         exitButton = new MoujaButton("",30,30,Color.RED,Color.WHITE);
@@ -180,6 +185,12 @@ public class AddFournisseurFrame extends javax.swing.JFrame {
             public void run() {
                 new AddFournisseurFrame().setVisible(true);
                 changeColors(color);
+                double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+                if (luminescence < 128) {
+                    initIcons(false);
+                }else{
+                    initIcons(true);
+                }
             }
         });
     }

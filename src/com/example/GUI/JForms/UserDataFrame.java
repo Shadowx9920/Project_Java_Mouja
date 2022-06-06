@@ -23,7 +23,7 @@ import com.example.GUI.Components.Charts.ModelChart;
 
 public class UserDataFrame extends JFrame{
 
-    User user;
+    static User user;
     LinkedList<Commande> commands = new LinkedList<Commande>();
     String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     
@@ -35,10 +35,9 @@ public class UserDataFrame extends JFrame{
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);
         setLocation(x, y);
 
-        this.user = user;
+        UserDataFrame.user = user;
         changeColors(color);
 
-        exitButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
         exitButton.addActionListener(e -> dispose());
 
         scrollBar.getVerticalScrollBar().setUnitIncrement(16);
@@ -48,13 +47,6 @@ public class UserDataFrame extends JFrame{
         userName.setText(user.getUsername());
         userPassword.setText(user.getPassword());
         userPhoneNumber.setText(user.getPhoneNumber());
-
-
-        if (user.getImage() == null) {
-            userImage.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
-        }else{
-            userImage.setImage(new ImageIcon(user.getImage())); 
-        }
 
         chart.start();
 
@@ -80,12 +72,36 @@ public class UserDataFrame extends JFrame{
 
         chart.setVisible(true);
     }
+
+    public static void initIcons(boolean isDark){
+        if(isDark){
+            if (user.getImage() == null) {
+                userImage.setImage(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/black_icons/user.png")));
+            }else{
+                userImage.setImage(new ImageIcon(user.getImage())); 
+            }
+            exitButton.setIcon(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
+        }else{
+            if (user.getImage() == null) {
+                userImage.setImage(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/white_icons/user.png")));
+            }else{
+                userImage.setImage(new ImageIcon(user.getImage())); 
+            }
+            exitButton.setIcon(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
+        }
+    }
     
     public static void changeColors(Color color){
         chart.addLegend("Income", color , color);
         userImage.setGradientColor1(color);
         userImage.setGradientColor2(color);
         exitButton.changeButtonColor(color.brighter(), color.darker());
+        double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+        if (luminescence < 128) {
+            initIcons(false);
+        }else{
+            initIcons(true);
+        }
     }
 
     private void initComponents() {

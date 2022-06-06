@@ -23,7 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.example.GUI.DBmanagement;
+import com.example.Beans.Accounts.Compte;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
 
@@ -109,7 +109,7 @@ public class AddUserFrame extends JFrame {
                     return;
                 }
                 
-                boolean accountCreated = DBmanagement.signUp(loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
+                boolean accountCreated = Compte.signUp(loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
                 if (accountCreated) {
                     JOptionPane.showMessageDialog(null, "User Created Successfully", "Result", JOptionPane.PLAIN_MESSAGE);
                     dispose();

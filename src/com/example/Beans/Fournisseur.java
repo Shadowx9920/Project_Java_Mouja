@@ -1,6 +1,12 @@
 package com.example.Beans;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
+
+import com.example.DataBase.DBget;
+import com.example.DataBase.DataBase;
 
 public class Fournisseur {
     public  int id;
@@ -52,4 +58,38 @@ public class Fournisseur {
         return "Fournisseur [date=" + date + ", id=" + id + ", name=" + name + ", products=" + products + "]";
     }
     
+    public static Fournisseur getFournisseur(String name){
+        Fournisseur f = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String query = "SELECT ID FROM Fournisseurs WHERE name = '"+name+"';";
+        try {
+            statement = DataBase.getConnection().createStatement();
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                f = DBget.getFournisseur(resultSet.getInt("ID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+
+    public static Boolean searchForFournisseur(String name){
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String sqlQuery = "SELECT name FROM Fournisseurs";
+        try {
+            statement = DataBase.getConnection().createStatement();
+            resultSet = statement.executeQuery(sqlQuery);
+            while (resultSet.next()) {
+                if (resultSet.getString("name").equals(name)) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -25,8 +25,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.example.Beans.Fournisseur;
+import com.example.Beans.Accounts.Admin;
 import com.example.DataBase.DBget;
-import com.example.GUI.DBmanagement;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
 
@@ -112,7 +112,7 @@ public class AddProductFrame extends javax.swing.JFrame {
                     String Fournisseur = fournisseurComboBox.getSelectedItem().toString();
                     
                     try {
-                        DBmanagement.addProduct(Fournisseur,name,description,image, Double.parseDouble(price));
+                        Admin.addProduct(Fournisseur,name,description,image, Double.parseDouble(price));
                     } catch (Exception e) {
                         showMessageDialog(null, "Please Provide Valid Data");
                     }

@@ -34,11 +34,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.imgscalr.Scalr;
+
 import com.example.Beans.Commande;
 import com.example.Beans.Product;
+import com.example.Beans.Accounts.Compte;
 import com.example.DataBase.DBget;
 import com.example.GUI.CurrentSession;
-import com.example.GUI.DBmanagement;
 import com.example.GUI.Components.ImageAvatar;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.ProductItemPanel;
@@ -47,8 +49,6 @@ import com.example.GUI.Components.Notifications.Notification;
 import com.example.GUI.Components.SearchBar.EventCallBack;
 import com.example.GUI.Components.SearchBar.EventTextField;
 import com.example.GUI.Components.SearchBar.TextFieldAnimation;
-
-import org.imgscalr.Scalr;
 public class MainFrame extends JFrame {
     
     static LinkedList<Product> products;
@@ -186,11 +186,11 @@ public class MainFrame extends JFrame {
     private static void initIcons(boolean isdark){
         if (isdark) {
             logOutButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
-            uploadPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
-            signInPuctureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+            uploadPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/user-big.png")));
+            signInPuctureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/user-big.png")));
             exitButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
             homeButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/user-16.png")));
-            productsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/world.png")));
+            productsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/world.png")));
             kartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/shopping-cart.png")));
             settingsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
             uploadPicButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
@@ -200,11 +200,11 @@ public class MainFrame extends JFrame {
             removeFromKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
         }else{
             logOutButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/sign-out.png")));
-            uploadPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
-            signInPuctureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+            uploadPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/user-big.png")));
+            signInPuctureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/user-big.png")));
             exitButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
             homeButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/user-16.png")));
-            productsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/world.png")));
+            productsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/world.png")));
             kartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/shopping-cart.png")));
             settingsButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/settings-sliders.png")));
             uploadPicButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/upload.png")));
@@ -349,7 +349,7 @@ public class MainFrame extends JFrame {
                     reTypePasswordField.setBorder(new LineBorder(Color.RED, 2));
                     return;
                 }
-                boolean accountCreated = DBmanagement.signUp(loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
+                boolean accountCreated = Compte.signUp(loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
                 if (accountCreated) {
                     JOptionPane.showMessageDialog(null, "User Created Successfully", "Result", JOptionPane.PLAIN_MESSAGE);
                     acountMgmtTabs.setSelectedIndex(1);
@@ -486,7 +486,7 @@ public class MainFrame extends JFrame {
                             Notification notification = new Notification(MainFrame.this, Notification.Type.INFO, Notification.Location.BOTTOM_CENTER, "You must add products to your cart before you can pay");
                             notification.showNotification();
                         }else{
-                            DBmanagement.createNewCommande(cartList);
+                            Commande.createNewCommande(cartList);
                             Notification notification = new Notification(MainFrame.this, Notification.Type.SUCCESS, Notification.Location.BOTTOM_CENTER, "You have paid succesfully");
                             notification.showNotification();
                             cartList.clear();
@@ -638,8 +638,8 @@ public class MainFrame extends JFrame {
             uploadPicButton.changeButtonColor(color.brighter(), color.darker());
             initProducts();
             initCart();
-            double y = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
-            if (y < 128) {
+            double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+            if (luminescence < 128) {
                 initIcons(false);
             }else{
                 initIcons(true);

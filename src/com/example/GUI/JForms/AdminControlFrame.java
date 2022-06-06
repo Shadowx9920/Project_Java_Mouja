@@ -25,11 +25,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import org.imgscalr.Scalr;
+
 import com.example.Beans.Product;
+import com.example.Beans.Accounts.Admin;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
 import com.example.GUI.CurrentSession;
-import com.example.GUI.DBmanagement;
 import com.example.GUI.Components.FournisseurDataPanel;
 import com.example.GUI.Components.ImageAvatar;
 import com.example.GUI.Components.MoujaTextField;
@@ -39,8 +41,6 @@ import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.Components.SearchBar.EventCallBack;
 import com.example.GUI.Components.SearchBar.EventTextField;
 import com.example.GUI.Components.SearchBar.TextFieldAnimation;
-
-import org.imgscalr.Scalr;
 
 public class AdminControlFrame extends JFrame {
 
@@ -82,7 +82,7 @@ public class AdminControlFrame extends JFrame {
 
         menuTabs.add("", fournisseurDataPanel);
 
-        initIcons();
+        initIcons(false);
         initUsers();
         initProducts();
         initButtonListeners();
@@ -165,37 +165,70 @@ public class AdminControlFrame extends JFrame {
         jLabel4 = new javax.swing.JLabel();
     }
     
-    private void initIcons(){
-        logOutButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
+    private static void initIcons(boolean isDark){
+        if(isDark){
+            logOutButton.setIcon(new javax.swing.ImageIcon(
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
         uploadPictureHolder.setImage(new javax.swing.ImageIcon(
-                getClass().getResource("/com/example/GUI/resources/img/user.png")));
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user.png")));
         signInPuctureHolder.setImage(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/user.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user.png")));
         exitButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
         homeButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/user-16.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user-16.png")));
         usersButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/group.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/group.png")));
         productsButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/img/world.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/world.png")));
         settingsButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
         fournisseursButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/supplier.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/supplier.png")));
         uploadPicButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/upload.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
         modifyUserButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/edit.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/edit.png")));
         removeProductButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/bin.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
         addUserButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/add-user.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/add-user.png")));
         removeUserButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/bin.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
         addProductButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/plus.png")));
+            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/plus.png")));
+        }else{
+            logOutButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/sign-out.png")));
+            uploadPictureHolder.setImage(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/user.png")));
+            signInPuctureHolder.setImage(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/user.png")));
+            exitButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
+            homeButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/user-16.png")));
+            usersButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/group.png")));
+            productsButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/world.png")));
+            settingsButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/settings-sliders.png")));
+            fournisseursButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/supplier.png")));
+            uploadPicButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/upload.png")));
+            modifyUserButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/edit.png")));
+            removeProductButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/bin.png")));
+            addUserButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/add-user.png")));
+            removeUserButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/bin.png")));
+            addProductButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/plus.png")));
+        }
     }  
     
     private void initButtonListeners(){
@@ -408,7 +441,7 @@ public class AdminControlFrame extends JFrame {
                             LinkedList<UserPanel> toRemove = new LinkedList<>();
                             for (UserPanel userPanel : userPanels) {
                                 if (userPanel.selected) {
-                                    DBmanagement.removeUserByID(userPanel.user.getId());
+                                    Admin.removeUserByID(userPanel.user.getId());
                                     toRemove.add(userPanel);
                                     SwingUtilities.updateComponentTreeUI(AdminControlFrame.this);
                                 }
@@ -423,7 +456,7 @@ public class AdminControlFrame extends JFrame {
                             LinkedList<ProductItemPanel> toRemove = new LinkedList<>();
                             for (ProductItemPanel productPanel : productPanels) {
                                 if (productPanel.selected) {
-                                    DBmanagement.removeProductByID(productPanel.product.getId());
+                                    Admin.removeProductByID(productPanel.product.getId());
                                     toRemove.add(productPanel);
                                 }
                             }
@@ -557,6 +590,12 @@ public class AdminControlFrame extends JFrame {
             cancelSignUpButton.changeButtonColor(color.brighter(), color.darker());
             uploadPicButton.changeButtonColor(color.brighter(), color.darker());
             fournisseursButton.changeButtonColor(color.brighter(), color.darker());
+            double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+            if (luminescence < 128) {
+                initIcons(false);
+            }else{
+                initIcons(true);
+            }
             initUsers();
             initProducts();
         }

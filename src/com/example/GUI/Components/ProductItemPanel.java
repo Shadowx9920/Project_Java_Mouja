@@ -1,25 +1,24 @@
 package com.example.GUI.Components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import org.imgscalr.Scalr;
 
 import com.example.Beans.Product;
 import com.example.GUI.CurrentSession;
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.JForms.ModifyProductFrame;
-
-import org.imgscalr.Scalr;
 
 public class ProductItemPanel extends PanelRound{
 

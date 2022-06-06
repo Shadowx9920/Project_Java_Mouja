@@ -73,7 +73,6 @@ public class ModifyProductFrame extends JFrame{
                 }
             }});
         
-        exitButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
         exitButton.addActionListener(e -> {
             dispose();
         });
@@ -84,12 +83,7 @@ public class ModifyProductFrame extends JFrame{
 
         uploadPictureHolder.setVerticalAlignment(SwingConstants.CENTER);
         uploadPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
-        uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/product.png")));
 
-        
-        uploadPicButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/upload.png")));
-    
         modifyButton.addActionListener(e -> {
             String name = nameTextField.getText();
             String price = priceTextField.getText();
@@ -106,6 +100,20 @@ public class ModifyProductFrame extends JFrame{
         });
     }
     
+    public static void initIcons(boolean isDark){
+        if(isDark){
+            uploadPicButton.setIcon(new javax.swing.ImageIcon(
+                ModifyProductFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
+            uploadPictureHolder.setIcon(new ImageIcon(ModifyProductFrame.class.getResource("/com/example/GUI/resources/black_icons/product.png")));
+            exitButton.setIcon(new ImageIcon(ModifyProductFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
+        }else{
+            uploadPicButton.setIcon(new javax.swing.ImageIcon(
+                ModifyProductFrame.class.getResource("/com/example/GUI/resources/white_icons/upload.png")));
+            uploadPictureHolder.setIcon(new ImageIcon(ModifyProductFrame.class.getResource("/com/example/GUI/resources/white_icons/product.png")));
+            exitButton.setIcon(new ImageIcon(ModifyProductFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
+        }
+    }
+
     private void initComponents() {
 
         modifyButton = new MoujaButton("Modify",30, 30, Color.white,Color.gray);
@@ -269,6 +277,12 @@ public class ModifyProductFrame extends JFrame{
         modifyButton.changeButtonColor(color.brighter(), color.darker());
         exitButton.changeButtonColor(color.brighter(), color.darker());
         uploadPicButton.changeButtonColor(color.brighter(), color.darker());
+        double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+        if (luminescence < 128) {
+            initIcons(false);
+        }else{
+            initIcons(true);
+        }
     }
 
     public static void startModifyProductFrame(Product product,Color color) {
@@ -293,5 +307,5 @@ public class ModifyProductFrame extends JFrame{
     private static MoujaTextField priceTextField;
     private javax.swing.JPanel signUpPanel;
     private static MoujaButton uploadPicButton;
-    private javax.swing.JLabel uploadPictureHolder;
+    private static javax.swing.JLabel uploadPictureHolder;
 }

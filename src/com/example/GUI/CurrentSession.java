@@ -1,6 +1,7 @@
 package com.example.GUI;
 
 import com.example.Beans.Accounts.Admin;
+import com.example.Beans.Accounts.Compte;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
 
@@ -17,13 +18,13 @@ public class CurrentSession {
     private static Admin admin = null;
 
     public static boolean setSession(String login, String password){
-        int ID = DBmanagement.searchForUsers(login, password);
+        int ID = Compte.searchForUsers(login, password);
         if (ID == -1)
             return false;
         if (ID == -2)
             return false;
-        DBmanagement.checkIfAdmin(ID);
-        if (DBmanagement.checkIfAdmin(ID)) {
+        Compte.checkIfAdmin(ID);
+        if (Compte.checkIfAdmin(ID)) {
             setAdmin(DBget.getAdmin(ID));
             return true;
         } else {

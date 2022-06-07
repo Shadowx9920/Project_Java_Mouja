@@ -56,7 +56,7 @@ public class AddProductFrame extends CustomJFrame {
         uploadPictureHolder.setVerticalAlignment(SwingConstants.CENTER);
         uploadPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
 
-        uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/product.png")));
+        uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/product.png")));
 
         exitButton.setIcon(new javax.swing.ImageIcon(
             getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));

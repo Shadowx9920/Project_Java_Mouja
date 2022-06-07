@@ -51,7 +51,7 @@ public class AddUserFrame extends CustomJFrame {
         emailTextField.setLabelText("Email");
         emailTextField.setText("");
 
-        uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
+        uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/user-big.png")));
 
         exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
         exitButton.addActionListener(new java.awt.event.ActionListener() {

@@ -112,9 +112,9 @@ public class SettingsFrame extends JFrame{
 
     public static void changeColors(Color color){
         changeThemeButton.changeColor(color.brighter());
-        changeColorsButton.changeButtonColor(color.brighter(), color.darker());
-        exitButton.changeButtonColor(color.brighter(), color.darker());
-        aboutButton.changeButtonColor(color.brighter(), color.darker());
+        changeColorsButton.changeButtonColor(color, color);
+        exitButton.changeButtonColor(color, color);
+        aboutButton.changeButtonColor(color, color);
         double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
             if (luminescence < 128) {
                 initIcons(false);

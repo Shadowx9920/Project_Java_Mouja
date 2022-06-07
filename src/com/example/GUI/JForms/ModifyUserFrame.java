@@ -204,11 +204,11 @@ public class ModifyUserFrame extends JFrame {
 
     public static void initIcons(boolean isDark){
         if(isDark){
-            uploadPictureHolder.setIcon(new ImageIcon(ModifyUserFrame.class.getResource("/com/example/GUI/resources/black_icons/user.png")));
+            uploadPictureHolder.setIcon(new ImageIcon(ModifyUserFrame.class.getResource("/com/example/GUI/resources/black_icons/user-big.png")));
             exitButton.setIcon(new ImageIcon(ModifyUserFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
             uploadPicButton.setIcon(new ImageIcon(ModifyUserFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
         }else{
-            uploadPictureHolder.setIcon(new ImageIcon(ModifyUserFrame.class.getResource("/com/example/GUI/resources/white_icons/user.png")));
+            uploadPictureHolder.setIcon(new ImageIcon(ModifyUserFrame.class.getResource("/com/example/GUI/resources/white_icons/user-big.png")));
             exitButton.setIcon(new ImageIcon(ModifyUserFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
             uploadPicButton.setIcon(new ImageIcon(ModifyUserFrame.class.getResource("/com/example/GUI/resources/white_icons/upload.png")));
         }

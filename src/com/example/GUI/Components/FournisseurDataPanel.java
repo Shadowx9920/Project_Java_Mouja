@@ -7,7 +7,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.example.DataBase.DBset;
 import com.example.GUI.Components.Buttons.MoujaButton;
-import com.example.GUI.Components.Notifications.Notification;
 import com.example.GUI.JForms.AddFournisseurFrame;
 
 public class FournisseurDataPanel extends javax.swing.JPanel {

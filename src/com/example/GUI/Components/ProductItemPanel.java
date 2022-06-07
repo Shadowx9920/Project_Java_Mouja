@@ -91,27 +91,27 @@ public class ProductItemPanel extends PanelRound{
             public void mouseExited(MouseEvent e) {
             }});
 
+        if (product.getProductPicture() == null) {
+            productImage.setIcon(new ImageIcon(ProductItemPanel.class.getResource("/com/example/GUI/resources/black_icons/product.png")));
+        }else{
+            productImage.setIcon(new ImageIcon(Scalr.resize(product.getProductPicture(), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, 160, 160)));
+        }
+
         productImage.setVerticalAlignment(SwingConstants.CENTER);
         productImage.setHorizontalAlignment(SwingConstants.CENTER);
 
         productPrice.setVerticalAlignment(SwingConstants.CENTER);
         productPrice.setHorizontalAlignment(SwingConstants.CENTER);
 
-        viewDetailsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/icons8_info_16px_1.png")));
 
         viewDetailsButton.addActionListener(e -> {
         });
 
-        modifyButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/edit.png")));
         modifyButton.addActionListener(e -> {
             ModifyProductFrame.startModifyProductFrame(this.product,color);
         });
 
-        if (product.getProductPicture() == null) {
-            this.productImage.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/product.png")));
-        }else{
-            this.productImage.setIcon(new ImageIcon(Scalr.resize(product.getProductPicture(), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, 160, 160)));
-        }
+        
         productPrice.setText(product.getPrice().toString() + " $");
         productPrice.setHorizontalAlignment(SwingConstants.RIGHT);
 
@@ -132,11 +132,27 @@ public class ProductItemPanel extends PanelRound{
                 }
             }});
     }
+
+    public static void initIcons(boolean isDark){
+        if(isDark){
+            viewDetailsButton.setIcon(new ImageIcon(ProductItemPanel.class.getResource("/com/example/GUI/resources/black_icons/icons8_info_16px_1.png")));
+            modifyButton.setIcon(new ImageIcon(ProductItemPanel.class.getResource("/com/example/GUI/resources/black_icons/edit.png")));
+        }else{
+            viewDetailsButton.setIcon(new ImageIcon(ProductItemPanel.class.getResource("/com/example/GUI/resources/white_icons/icons8_info_16px_1.png")));
+            modifyButton.setIcon(new ImageIcon(ProductItemPanel.class.getResource("/com/example/GUI/resources/white_icons/edit.png")));
+        }
+    }
     
     public static void changeColors(Color color){
         ProductItemPanel.color = color;
-        viewDetailsButton.changeButtonColor(color, Color.GRAY);
-        modifyButton.changeButtonColor(color, Color.GRAY);
+        viewDetailsButton.changeButtonColor(color, color);
+        modifyButton.changeButtonColor(color, color);
+        double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+        if (luminescence < 128) {
+            initIcons(false);
+        }else{
+            initIcons(true);
+        }
     }
 
     private void initComponents() {
@@ -187,7 +203,7 @@ public class ProductItemPanel extends PanelRound{
         );
     }                      
 
-    private javax.swing.JLabel productImage;
+    private static javax.swing.JLabel productImage;
     private javax.swing.JLabel productPrice;
     private static MoujaButton viewDetailsButton;
     private static MoujaButton modifyButton;

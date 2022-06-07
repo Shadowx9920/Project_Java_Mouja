@@ -32,7 +32,6 @@ import com.example.Beans.Accounts.Admin;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
 import com.example.GUI.CurrentSession;
-import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.FournisseurDataPanel;
 import com.example.GUI.Components.ImageAvatar;
 import com.example.GUI.Components.MoujaTextField;

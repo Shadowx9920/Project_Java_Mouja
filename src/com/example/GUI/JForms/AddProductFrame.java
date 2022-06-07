@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -27,16 +28,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.example.Beans.Fournisseur;
 import com.example.Beans.Accounts.Admin;
 import com.example.DataBase.DBget;
-import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
 
-public class AddProductFrame extends CustomJFrame {
+public class AddProductFrame extends JFrame {
 
     BufferedImage image = null;
 
     public AddProductFrame() {
-        super();
         initComponents();
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -176,6 +175,8 @@ public class AddProductFrame extends CustomJFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setUndecorated(true);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+
         addButton.setPreferredSize(new java.awt.Dimension(69, 30));
         nameLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         nameLabel.setText("Name :");

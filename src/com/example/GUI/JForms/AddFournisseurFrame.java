@@ -6,16 +6,16 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JFrame;
 import javax.swing.border.LineBorder;
 
 import com.example.DataBase.DBmodify;
 import com.example.DataBase.DBset;
-import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.FournisseurDataPanel;
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.Components.Notifications.Notification;
 
-public class AddFournisseurFrame extends CustomJFrame {
+public class AddFournisseurFrame extends JFrame {
 
     public  AddFournisseurFrame(int ID) {
         super();
@@ -42,7 +42,6 @@ public class AddFournisseurFrame extends CustomJFrame {
     }
 
     public AddFournisseurFrame() {
-        super();
         initComponents();
 
         config();
@@ -121,6 +120,7 @@ public class AddFournisseurFrame extends CustomJFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setUndecorated(true);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
 
         exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
 

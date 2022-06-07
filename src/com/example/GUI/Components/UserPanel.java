@@ -74,9 +74,6 @@ public class UserPanel extends PanelRound {
         userPhoneNumber.setVerticalAlignment(SwingConstants.CENTER);
         userPhoneNumber.setHorizontalAlignment(SwingConstants.CENTER);
 
-        modifyUserButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/edit.png")));
-        viewDetailsButton.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/icons8_info_16px_1.png")));
-
         setMaximumSize(getPreferredSize());
 
         addMouseListener(new MouseListener(){
@@ -116,12 +113,28 @@ public class UserPanel extends PanelRound {
         });
     }
 
+    public static void initIcons(boolean isDark){
+        if(isDark){
+            modifyUserButton.setIcon(new ImageIcon(UserPanel.class.getResource("/com/example/GUI/resources/black_icons/edit.png")));
+            viewDetailsButton.setIcon(new ImageIcon(UserPanel.class.getResource("/com/example/GUI/resources/black_icons/icons8_info_16px_1.png")));
+        }else{
+            modifyUserButton.setIcon(new ImageIcon(UserPanel.class.getResource("/com/example/GUI/resources/white_icons/edit.png")));
+            viewDetailsButton.setIcon(new ImageIcon(UserPanel.class.getResource("/com/example/GUI/resources/white_icons/icons8_info_16px_1.png")));
+        }
+    }
+
     public void changeColors(Color color){
         this.color = color;
-        modifyUserButton.changeButtonColor(color, Color.GRAY);
-        viewDetailsButton.changeButtonColor(color, Color.GRAY);
+        modifyUserButton.changeButtonColor(color, color);
+        viewDetailsButton.changeButtonColor(color, color);
         userImage.setGradientColor1(color);
         userImage.setGradientColor2(color);
+        double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+        if (luminescence < 128) {
+            initIcons(false);
+        }else{
+            initIcons(true);
+        }
     }
     
     private void initComponents() {

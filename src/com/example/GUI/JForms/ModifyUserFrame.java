@@ -27,7 +27,6 @@ import com.example.Beans.Accounts.Admin;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBmodify;
 import com.example.GUI.CurrentSession;
-import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.Components.Notifications.Notification;

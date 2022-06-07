@@ -12,24 +12,23 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
 
 import com.example.Beans.Commande;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
-import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.ImageAvatar;
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.Components.Charts.LineChart;
 import com.example.GUI.Components.Charts.ModelChart;
 
-public class UserDataFrame extends CustomJFrame{
+public class UserDataFrame extends JFrame{
 
     static User user;
     LinkedList<Commande> commands = new LinkedList<Commande>();
     String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     
     public UserDataFrame(User user,Color color) {
-        super();
         initComponents();
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -128,6 +127,7 @@ public class UserDataFrame extends CustomJFrame{
         jSeparator1 = new javax.swing.JSeparator();
 
         setUndecorated(true);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
 
         exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
 

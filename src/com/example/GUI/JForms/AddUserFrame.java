@@ -24,16 +24,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.example.Beans.Accounts.Compte;
-import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
 
-public class AddUserFrame extends CustomJFrame {
+public class AddUserFrame extends JFrame {
 
     BufferedImage image = null;
 
     public AddUserFrame() {
-        super();
         initComponents();
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -143,10 +141,10 @@ public class AddUserFrame extends CustomJFrame {
             public void focusLost(FocusEvent e) {
                 reTypePasswordField.setBorder(new LineBorder(Color.GRAY, 1));
             }});
-        cancelSignUpButton.changeButtonColor(color.brighter(), color.darker());
-        signUpButton.changeButtonColor(color.brighter(), color.darker());
-        exitButton.changeButtonColor(color.brighter(), color.darker());
-        uploadPicButton.changeButtonColor(color.brighter(), color.darker());
+        cancelSignUpButton.changeButtonColor(color, color);
+        signUpButton.changeButtonColor(color, color);
+        exitButton.changeButtonColor(color, color);
+        uploadPicButton.changeButtonColor(color, color);
     }
     
     private void initComponents() {
@@ -171,6 +169,7 @@ public class AddUserFrame extends CustomJFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setUndecorated(true);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
 
         signUpButton.setPreferredSize(new java.awt.Dimension(69, 30));
 

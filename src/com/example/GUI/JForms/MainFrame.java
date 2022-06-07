@@ -341,16 +341,19 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (loginTextField.getText().equals("") || String.valueOf(passwordField.getPassword()).equals("")) {
-                    showMessageDialog(null, "Account can not be created");
+                    Notification notification = new Notification(MainFrame.this, Notification.Type.WARNING, Notification.Location.BOTTOM_CENTER, "Account cannot be created");
+                    notification.showNotification();
                     return;
                 }
                 if (!String.valueOf(passwordField.getPassword()).equals(String.valueOf(reTypePasswordField.getPassword()))) {
-                    reTypePasswordField.setBorder(new LineBorder(Color.RED, 2));
+                    Notification notification = new Notification(MainFrame.this, Notification.Type.WARNING, Notification.Location.BOTTOM_CENTER, "Password and retypr password are not the same");
+                    notification.showNotification();
                     return;
                 }
                 boolean accountCreated = Compte.signUp(loginTextField.getText(), String.valueOf(passwordField.getPassword()), image, emailTextField.getText(), phoneNumberTextField.getText());
                 if (accountCreated) {
-                    JOptionPane.showMessageDialog(null, "User Created Successfully", "Result", JOptionPane.PLAIN_MESSAGE);
+                    Notification notification = new Notification(MainFrame.this, Notification.Type.SUCCESS, Notification.Location.BOTTOM_CENTER, "User Created succesfully");
+                    notification.showNotification();
                     acountMgmtTabs.setSelectedIndex(1);
                 } else {
                     showMessageDialog(null, "Account can not be created");

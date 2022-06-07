@@ -430,7 +430,7 @@ public class AdminControlFrame extends JFrame {
                         loggedPhoneNumber.setText("");
                         loggedUserName.setText("");
                         loggedcreationDate.setText("");
-                        loggedInPictureHolder.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
+                        loggedInPictureHolder.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/user-big.png")));
                         acountMgmtTabs.setSelectedIndex(1);
                         MainFrame.startMainFrame(AdminControlFrame.color);
                         dispose();

@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.example.DataBase.DBset;
 import com.example.GUI.Components.Buttons.MoujaButton;
+import com.example.GUI.Components.Notifications.Notification;
 import com.example.GUI.JForms.AddFournisseurFrame;
 
 public class FournisseurDataPanel extends javax.swing.JPanel {
@@ -35,8 +36,13 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
 
         deleteProvider.addActionListener(e -> {
             int[] rows = jTable1.getSelectedRows();
+            if (rows.length == 0) {
+                return;
+            }
             for(int i=0;i<rows.length;i++){
-                DBset.delFournisseur((int)model.getValueAt(rows[i], 0));
+                try {
+                    DBset.delFournisseur((int)model.getValueAt(rows[i], 0));
+                } catch (Exception ec) {}
             }
             updateFournisseurTable();
         });

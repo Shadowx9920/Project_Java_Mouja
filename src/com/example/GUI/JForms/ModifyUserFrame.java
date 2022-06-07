@@ -27,6 +27,7 @@ import com.example.Beans.Accounts.Admin;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBmodify;
 import com.example.GUI.CurrentSession;
+import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.Components.Notifications.Notification;
@@ -189,10 +190,10 @@ public class ModifyUserFrame extends JFrame {
             public void focusLost(FocusEvent e) {
                 reTypePasswordField.setBorder(new LineBorder(Color.GRAY, 1));
             }});
-        cancelSignUpButton.changeButtonColor(color.brighter(), color.darker());
-        signUpButton.changeButtonColor(color.brighter(), color.darker());
-        exitButton.changeButtonColor(color.brighter(), color.darker());
-        uploadPicButton.changeButtonColor(color.brighter(), color.darker());
+        cancelSignUpButton.changeButtonColor(color, color);
+        signUpButton.changeButtonColor(color, color);
+        exitButton.changeButtonColor(color, color);
+        uploadPicButton.changeButtonColor(color, color);
 
         double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
             if (luminescence < 128) {
@@ -235,6 +236,7 @@ public class ModifyUserFrame extends JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setUndecorated(true);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
 
         signUpButton.setPreferredSize(new java.awt.Dimension(69, 30));
 

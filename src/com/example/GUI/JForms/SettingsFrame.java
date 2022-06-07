@@ -4,6 +4,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.Components.Buttons.SwitchButton.EventSwitchSelected;
@@ -134,6 +135,7 @@ public class SettingsFrame extends JFrame{
         aboutButton = new MoujaButton("",30,30,Color.RED,Color.gray);
 
         setUndecorated(true);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
 
         //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 

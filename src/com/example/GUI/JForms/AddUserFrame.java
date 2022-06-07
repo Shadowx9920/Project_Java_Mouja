@@ -24,15 +24,16 @@ import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.example.Beans.Accounts.Compte;
+import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
 
-public class AddUserFrame extends JFrame {
+public class AddUserFrame extends CustomJFrame {
 
     BufferedImage image = null;
 
     public AddUserFrame() {
-
+        super();
         initComponents();
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

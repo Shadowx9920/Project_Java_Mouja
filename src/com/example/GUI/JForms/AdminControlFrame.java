@@ -32,6 +32,7 @@ import com.example.Beans.Accounts.Admin;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
 import com.example.GUI.CurrentSession;
+import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.FournisseurDataPanel;
 import com.example.GUI.Components.ImageAvatar;
 import com.example.GUI.Components.MoujaTextField;
@@ -54,6 +55,7 @@ public class AdminControlFrame extends JFrame {
     public static FournisseurDataPanel fournisseurDataPanel = new FournisseurDataPanel(color);
 
     public AdminControlFrame() {
+        super();
         initLayout();
 
         connect();
@@ -521,7 +523,7 @@ public class AdminControlFrame extends JFrame {
         if (CurrentSession.getAdmin().getImage() != null) {
             loggedInPictureHolder.setImage(new javax.swing.ImageIcon(Scalr.resize(CurrentSession.getAdmin().getImage(), Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_EXACT, loggedInPictureHolder.getWidth(), loggedInPictureHolder.getHeight())));
         }else{
-            loggedInPictureHolder.setImage(new ImageIcon(AdminControlFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+            loggedInPictureHolder.setImage(new ImageIcon(AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user-big.png")));
         }
         acountMgmtTabs.setSelectedIndex(2);
     }
@@ -570,26 +572,29 @@ public class AdminControlFrame extends JFrame {
             loginTextField.setLineColor(color);
             phoneNumberTextField.setLineColor(color);
             SidePanel.setBackground(color);
-            addUserButton.changeButtonColor(color.brighter(), color.darker());
+            addUserButton.changeButtonColor(color, color);
             //changeColorButton.changeButtonColor(color.brighter(), color.darker());
-            usersButton.changeButtonColor(color.brighter(), color.darker());
-            modifyUserButton.changeButtonColor(color.brighter(), color.darker());
-            connectButton.changeButtonColor(color.brighter(), color.darker());
-            createNewAcountButton.changeButtonColor(color.brighter(), color.darker());
-            settingsButton.changeButtonColor(color.brighter(), color.darker());
-            removeProductButton.changeButtonColor(color.brighter(), color.darker());
-            addProductButton.changeButtonColor(color.brighter(), color.darker());
-            exitButton.changeButtonColor(color.brighter(), color.darker());
-            homeButton.changeButtonColor(color.brighter(), color.darker());
-            productsButton.changeButtonColor(color.brighter(), color.darker());
-            logOutButton.changeButtonColor(color.brighter(), color.darker());
-            signOutButton.changeButtonColor(color.brighter(), color.darker());
-            signUpButton.changeButtonColor(color.brighter(), color.darker());
-            uploadPicButton.changeButtonColor(color.brighter(), color.darker());
-            removeUserButton.changeButtonColor(color.brighter(), color.darker());
-            cancelSignUpButton.changeButtonColor(color.brighter(), color.darker());
-            uploadPicButton.changeButtonColor(color.brighter(), color.darker());
-            fournisseursButton.changeButtonColor(color.brighter(), color.darker());
+            usersButton.changeButtonColor(color, color);
+            modifyUserButton.changeButtonColor(color, color);
+            connectButton.changeButtonColor(color, color);
+            createNewAcountButton.changeButtonColor(color, color);
+            settingsButton.changeButtonColor(color, color);
+            removeProductButton.changeButtonColor(color, color);
+            addProductButton.changeButtonColor(color, color);
+            exitButton.changeButtonColor(color, color);
+            homeButton.changeButtonColor(color, color);
+            productsButton.changeButtonColor(color, color);
+            logOutButton.changeButtonColor(color, color);
+            signOutButton.changeButtonColor(color, color);
+            signUpButton.changeButtonColor(color, color);
+            uploadPicButton.changeButtonColor(color, color);
+            removeUserButton.changeButtonColor(color, color);
+            cancelSignUpButton.changeButtonColor(color, color);
+            uploadPicButton.changeButtonColor(color, color);
+            fournisseursButton.changeButtonColor(color, color);
+
+            
+
             double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
             if (luminescence < 128) {
                 initIcons(false);
@@ -612,6 +617,7 @@ public class AdminControlFrame extends JFrame {
         setUndecorated(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
 
         framePanel.setLayout(new java.awt.BorderLayout());
 

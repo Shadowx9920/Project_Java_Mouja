@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -41,6 +42,7 @@ import com.example.Beans.Product;
 import com.example.Beans.Accounts.Compte;
 import com.example.DataBase.DBget;
 import com.example.GUI.CurrentSession;
+import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.ImageAvatar;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.ProductItemPanel;
@@ -64,7 +66,6 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         initLayout();
-
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);
@@ -422,7 +423,7 @@ public class MainFrame extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         image = null;
-                        uploadPictureHolder.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
+                        uploadPictureHolder.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/user-big.png")));
                         acountMgmtTabs.setSelectedIndex(1);
                     }});
         logOutButton.addActionListener(new ActionListener() {
@@ -438,7 +439,7 @@ public class MainFrame extends JFrame {
                         loggedPhoneNumber.setText("");
                         loggedUserName.setText("");
                         loggedcreationDate.setText("");
-                        loggedInPictureHolder.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
+                        loggedInPictureHolder.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/user-big.png")));
                         acountMgmtTabs.setSelectedIndex(1);
                         authLoginTextField.setText("");
                         authPasswordField.setText("");
@@ -617,25 +618,25 @@ public class MainFrame extends JFrame {
             loginTextField.setLineColor(color);
             phoneNumberTextField.setLineColor(color);
             SidePanel.setBackground(color);
-            addToKartButton.changeButtonColor(color.brighter(), color.darker());
-            changeColorButton.changeButtonColor(color.brighter(), color.darker());
-            productsButton.changeButtonColor(color.brighter(), color.darker());
-            modifyUserButton.changeButtonColor(color.brighter(), color.darker());
-            connectButton.changeButtonColor(color.brighter(), color.darker());
-            createNewAcountButton.changeButtonColor(color.brighter(), color.darker());
-            settingsButton.changeButtonColor(color.brighter(), color.darker());
-            removeFromKartButton.changeButtonColor(color.brighter(), color.darker());
-            payButton.changeButtonColor(color.brighter(), color.darker());
-            exitButton.changeButtonColor(color.brighter(), color.darker());
-            homeButton.changeButtonColor(color.brighter(), color.darker());
-            kartButton.changeButtonColor(color.brighter(), color.darker());
-            logOutButton.changeButtonColor(color.brighter(), color.darker());
-            signOutButton.changeButtonColor(color.brighter(), color.darker());
-            signUpButton.changeButtonColor(color.brighter(), color.darker());
-            uploadPicButton.changeButtonColor(color.brighter(), color.darker());
-            viewDetailsButton.changeButtonColor(color.brighter(), color.darker());
-            cancelSignUpButton.changeButtonColor(color.brighter(), color.darker());
-            uploadPicButton.changeButtonColor(color.brighter(), color.darker());
+            addToKartButton.changeButtonColor(color, color);
+            changeColorButton.changeButtonColor(color, color);
+            productsButton.changeButtonColor(color, color);
+            modifyUserButton.changeButtonColor(color, color);
+            connectButton.changeButtonColor(color, color);
+            createNewAcountButton.changeButtonColor(color, color);
+            settingsButton.changeButtonColor(color, color);
+            removeFromKartButton.changeButtonColor(color, color);
+            payButton.changeButtonColor(color, color);
+            exitButton.changeButtonColor(color, color);
+            homeButton.changeButtonColor(color, color);
+            kartButton.changeButtonColor(color, color);
+            logOutButton.changeButtonColor(color, color);
+            signOutButton.changeButtonColor(color, color);
+            signUpButton.changeButtonColor(color, color);
+            uploadPicButton.changeButtonColor(color, color);
+            viewDetailsButton.changeButtonColor(color, color);
+            cancelSignUpButton.changeButtonColor(color, color);
+            uploadPicButton.changeButtonColor(color, color);
             initProducts();
             initCart();
             double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
@@ -658,11 +659,9 @@ public class MainFrame extends JFrame {
         setUndecorated(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
 
-        //framePanel.setBackground(new java.awt.Color(255, 255, 255));
         framePanel.setLayout(new java.awt.BorderLayout());
-
-        //SidePanel.setBackground(new java.awt.Color(153, 0, 153));
 
         homeButton.setPreferredSize(new java.awt.Dimension(73, 30));
 

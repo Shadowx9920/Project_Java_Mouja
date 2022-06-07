@@ -133,6 +133,7 @@ public class ModifyProductFrame extends JFrame{
         jLabel4 = new javax.swing.JLabel();
 
         setUndecorated(true);
+        getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
 
         modifyButton.setPreferredSize(new java.awt.Dimension(69, 30));
 
@@ -273,9 +274,9 @@ public class ModifyProductFrame extends JFrame{
                 descriptionTextArea.setBorder(new LineBorder(Color.GRAY,1));
             }
         });
-        cancelButton.changeButtonColor(color.brighter(), color.darker());
-        modifyButton.changeButtonColor(color.brighter(), color.darker());
-        exitButton.changeButtonColor(color.brighter(), color.darker());
+        cancelButton.changeButtonColor(color, color);
+        modifyButton.changeButtonColor(color, color);
+        exitButton.changeButtonColor(color, color);
         uploadPicButton.changeButtonColor(color.brighter(), color.darker());
         double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
         if (luminescence < 128) {

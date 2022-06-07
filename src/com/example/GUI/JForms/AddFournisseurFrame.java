@@ -10,13 +10,15 @@ import javax.swing.border.LineBorder;
 
 import com.example.DataBase.DBmodify;
 import com.example.DataBase.DBset;
+import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.FournisseurDataPanel;
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.Components.Notifications.Notification;
 
-public class AddFournisseurFrame extends javax.swing.JFrame {
+public class AddFournisseurFrame extends CustomJFrame {
 
     public  AddFournisseurFrame(int ID) {
+        super();
         initComponents();
 
         config();
@@ -40,6 +42,7 @@ public class AddFournisseurFrame extends javax.swing.JFrame {
     }
 
     public AddFournisseurFrame() {
+        super();
         initComponents();
 
         config();

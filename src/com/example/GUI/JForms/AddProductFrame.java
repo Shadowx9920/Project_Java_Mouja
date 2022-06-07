@@ -27,14 +27,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.example.Beans.Fournisseur;
 import com.example.Beans.Accounts.Admin;
 import com.example.DataBase.DBget;
+import com.example.GUI.Components.CustomJFrame;
 import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.Buttons.MoujaButton;
 
-public class AddProductFrame extends javax.swing.JFrame {
+public class AddProductFrame extends CustomJFrame {
 
     BufferedImage image = null;
 
     public AddProductFrame() {
+        super();
         initComponents();
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

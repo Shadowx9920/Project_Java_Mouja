@@ -37,6 +37,7 @@ public class ProductItemPanel extends JPanel{
         viewDetailsButton.setVisible(false);
         modifyButton.setVisible(false);
     }
+    
     public ProductItemPanel(Product product,Color color) {
 
         this.product = product;

@@ -95,6 +95,7 @@ public class CommandesHistoryFrame extends JFrame{
 
         setUndecorated(true);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
 

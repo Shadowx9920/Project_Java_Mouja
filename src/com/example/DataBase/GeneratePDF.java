@@ -3,7 +3,13 @@ package com.example.DataBase;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.LinkedList;
 
+import com.example.Beans.Commande;
+import com.example.Beans.Fournisseur;
+import com.example.Beans.Product;
+import com.example.Beans.Accounts.Admin;
+import com.example.Beans.Accounts.User;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
@@ -67,10 +73,9 @@ public class GeneratePDF {
         addEmptyLine(preface, 1);
         
         // Lets write a big header
-        preface.add(new Paragraph("Mouja Repport", catFont));
+        preface.add(new Paragraph("                                             Mouja Report", catFont));
         preface.setAlignment(Element.ALIGN_CENTER);
         
-        preface.setAlignment(Element.ALIGN_CENTER);
         addEmptyLine(preface, 4);
 
 
@@ -80,13 +85,13 @@ public class GeneratePDF {
                 smallBold));
         addEmptyLine(preface, 3);
         preface.add(new Paragraph(
-                "This document describes something which is very important ",
+                "This document gives a detailed description of all the contents of the app, and the history of every transaction made by users. ",
                 smallBold));
 
         addEmptyLine(preface, 8);
 
         preface.add(new Paragraph(
-                "This document is a preliminary version and not subject to your license agreement or any other agreement with vogella.com ;-).",
+                "This document is a preliminary version and not subject to your license agreement or any other agreement.",
                 redFont));
 
         document.add(preface);
@@ -95,69 +100,138 @@ public class GeneratePDF {
     }
 
     private static void addContent(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", catFont);
-        anchor.setName("First Chapter");
+        Anchor anchor = new Anchor("Admins And Users", catFont);
+        anchor.setName("Admins And Users");
 
-        // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
 
-        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
+        Paragraph subPara = new Paragraph("Admins List", subFont);
+        
         Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Hello"));
+        
+        createAdminsList(subCatPart);
 
-        subPara = new Paragraph("Subcategory 2", subFont);
+        subPara = new Paragraph("Users List:", subFont);
         subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Paragraph 1"));
-        subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("Paragraph 3"));
 
-        // add a list
-        createList(subCatPart);
+        createUsersList(subCatPart);
         Paragraph paragraph = new Paragraph();
         addEmptyLine(paragraph, 5);
         subCatPart.add(paragraph);
 
-        // add a table
-        createTable(subCatPart);
-
-        // now add all this to the document
         document.add(catPart);
 
-        // Next section
-        anchor = new Anchor("Second Chapter", catFont);
-        anchor.setName("Second Chapter");
+        //--------------------------------------------------------
 
-        // Second parameter is the number of the chapter
+        anchor = new Anchor("Products", catFont);
+        anchor.setName("Products");
+
         catPart = new Chapter(new Paragraph(anchor), 1);
 
-        subPara = new Paragraph("Subcategory", subFont);
+        subPara = new Paragraph("Products List:", subFont);
         subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("This is a very important message"));
+        
+        createProductsList(subCatPart);
 
-        // now add all this to the document
+        document.add(catPart);
+
+        //--------------------------------------------------------
+
+        anchor = new Anchor("Fournisseurs", catFont);
+        anchor.setName("Fournisseurs");
+
+        catPart = new Chapter(new Paragraph(anchor), 1);
+
+        subPara = new Paragraph("Fournisseurs List:", subFont);
+        subCatPart = catPart.addSection(subPara);
+        
+        createFournisseursList(subCatPart);
+
+        document.add(catPart);
+
+        //--------------------------------------------------------
+
+        anchor = new Anchor("Commandes:", catFont);
+        anchor.setName("Commandes:");
+
+        catPart = new Chapter(new Paragraph(anchor), 1);
+
+        subPara = new Paragraph("Commandes List:", subFont);
+        subCatPart = catPart.addSection(subPara);
+        
+        createCommandesList(subCatPart);
+
+        document.add(catPart);
+
+        //--------------------------------------------------------
+
+        anchor = new Anchor("Commandes et Produits :", catFont);
+        anchor.setName("Commandes et Produits :");
+
+        catPart = new Chapter(new Paragraph(anchor), 1);
+
+        subPara = new Paragraph("Chaque Commandes avec ces Produits :", subFont);
+        subCatPart = catPart.addSection(subPara);
+        
+        createCommandesProductList(subCatPart);
+
+        document.add(catPart);
+
+        //--------------------------------------------------------
+
+        anchor = new Anchor("Commandes et Utilisateurs :", catFont);
+        anchor.setName("Commandes et Utilisateurs :");
+
+        catPart = new Chapter(new Paragraph(anchor), 1);
+
+        subPara = new Paragraph("Chaque Utilisateurs avec ces Commandes :", subFont);
+        subCatPart = catPart.addSection(subPara);
+        
+        createCommandesUsersList(subCatPart);
+
         document.add(catPart);
     }
 
     public static void generateUsers(Section subCatPart) throws BadElementException{
-        PdfPTable table = new PdfPTable(3);
 
-        // t.setBorderColor(BaseColor.GRAY);
-        // t.setPadding(4);
-        // t.setSpacing(4);
-        // t.setBorderWidth(1);
+        LinkedList<User> users = DBget.getAllUsers();
 
-        PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
+        PdfPTable table = new PdfPTable(6);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("ID"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Table Header 2"));
+        c1 = new PdfPCell(new Phrase("Name"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Table Header 3"));
+        c1 = new PdfPCell(new Phrase("Password"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Email"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Number"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Creation Date"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
         table.setHeaderRows(1);
+
+        for (User user : users) {
+            table.addCell(user.getId() + "");
+            table.addCell(user.getUsername());
+            table.addCell(user.getPassword());
+            table.addCell(user.getEmail());
+            table.addCell(user.getPhoneNumber());
+            table.addCell(user.getDate());
+        }
 
         table.addCell("1.0");
         table.addCell("1.1");
@@ -200,6 +274,79 @@ public class GeneratePDF {
 
         subCatPart.add(table);
 
+    }
+    
+    private static void createAdminsList(Section subCatPart){
+        LinkedList<Admin> admins = DBget.getAllAdmins();
+        List list = new List(false, false, 10);
+        for (Admin admin : admins) {
+            list.add("  Name : "+admin.getUsername() + "\n" +"  -- Password : " +admin.getPassword() + "\n" + "  -- Email : " +admin.getEmail() + "\n" + "  -- Number : " +admin.getPhoneNumber() + "\n" + "  -- CreationDate : " +admin.getDate());
+        }
+        subCatPart.add(list);
+    }
+    
+    private static void createUsersList(Section subCatPart){
+        LinkedList<User> users = DBget.getAllUsers();
+        List list = new List(true, false, 10);
+        for (User user : users) {
+            list.add("  UserName : " +user.getUsername() + "\n" + "  -- Password : " +user.getPassword() + "\n" + "  -- Email : " +user.getEmail() + "\n" + "  -- Phone Number : " +user.getPhoneNumber() + "\n" + "  -- Creation Date : " +user.getDate());
+        }
+        subCatPart.add(list);
+    }
+
+    private static void createProductsList(Section subCatPart){
+        LinkedList<Product> products = DBget.getAllProducts();
+        List list = new List(true, false, 10);
+        for (Product product : products) {
+            list.add("  Name : " +product.getName() + "\n" + "  -- Price : " +product.getPrice() + "\n" + "  -- Description : " +product.getDescription() + "\n" + "  -- Creation Date : " +product.getDate());
+        }
+        subCatPart.add(list);
+    }
+
+    private static void createFournisseursList(Section subCatPart){
+        LinkedList<Fournisseur> fournisseurs = DBget.getAllFournisseurs();
+        List list = new List(true, false, 10);
+        for (Fournisseur fournisseur : fournisseurs) {
+            list.add("  ID : " +fournisseur.getId()+"\n"+"  -- Name : " +fournisseur.getName() + "\n" + "  -- Creation Date : " +fournisseur.getDate());
+        }
+        subCatPart.add(list);
+    }
+
+    private static void createCommandesList(Section subCatPart) {
+        LinkedList<Commande> commandes = DBget.getAllCommandes();
+        List list = new List(true, false, 10);
+        for (Commande commande : commandes) {
+            list.add("  ID : " +commande.getId()+"\n" + "  -- Buyer : " +commande.getBuyer().getUsername() + "\n"  + "  -- Total Price : " +commande.getTotalPrice()+"\n"+"  -- Creation Date : " +commande.getDate());
+        }
+        subCatPart.add(list);
+    }
+
+    private static void createCommandesProductList(Section subCatPart){
+        LinkedList<Commande> commandes = DBget.getAllCommandes();
+        List list = new List(true, false, 10);
+        for (Commande commande : commandes) {
+            String ListMsg = "  ID : " +commande.getId();
+            LinkedList<Product> products = DBget.getCommandeProducts(commande.getId());
+            for (Product Product : products) {
+                ListMsg += "\n  -- Product : " +Product.getName();
+            }
+            list.add(ListMsg);
+        }
+        subCatPart.add(list);
+    }
+
+    private static void createCommandesUsersList(Section subCatPart){
+        LinkedList<User> users = DBget.getAllUsers();
+        List list = new List(true, false, 10);
+        for (User user : users) {
+            String ListMsg = "  User Name : " + user.getUsername();
+            LinkedList<Commande> Commandes = DBget.getAllUserCommandes(user.getId());
+            for (Commande commande : Commandes) {
+                ListMsg += "\n  -- Commande ID : " +commande.getId();
+            }
+            list.add(ListMsg);
+        }
+        subCatPart.add(list);
     }
 
     private static void createList(Section subCatPart) {

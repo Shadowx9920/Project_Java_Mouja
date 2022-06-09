@@ -203,6 +203,10 @@ public class MainFrame extends JFrame {
             payButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/dollar.png")));
             removeFromKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
             viewHistoryButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/history.png")));
+            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
+            Image logoImg = logo.getImage();
+            Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(scaledLogoImage));
         }else{
             logOutButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/sign-out.png")));
             uploadPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/user-big.png")));
@@ -218,6 +222,10 @@ public class MainFrame extends JFrame {
             payButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/dollar.png")));
             removeFromKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/bin.png")));
             viewHistoryButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/history.png")));
+            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/app-logo.png"));
+            Image logoImg = logo.getImage();
+            Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(scaledLogoImage));
         }
     }  
     
@@ -473,7 +481,6 @@ public class MainFrame extends JFrame {
                                         kartGrid.add(cartItems.get(i));
                                     }
                                     kartGrid.setLayout((new GridLayout(0,3,20,20)));
-                                    initProducts();
                                     Notification notification = new Notification(MainFrame.this, Notification.Type.SUCCESS, Notification.Location.BOTTOM_CENTER, "Products added to cart succesfully");
                                     notification.showNotification();
                                 }
@@ -502,6 +509,7 @@ public class MainFrame extends JFrame {
                             cartItems.clear();
                             kartGrid.removeAll();
                             initCart();
+                            initProducts();
                         }
                     }
                 }else{
@@ -555,7 +563,7 @@ public class MainFrame extends JFrame {
             if (CurrentSession.getUser().getImage() != null) {
                 loggedInPictureHolder.setImage(new javax.swing.ImageIcon(Scalr.resize(CurrentSession.getUser().getImage(), Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_EXACT, loggedInPictureHolder.getWidth(), loggedInPictureHolder.getHeight())));
             }else{
-                loggedInPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/img/user.png")));
+                loggedInPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/user-big.png")));
             }
             acountMgmtTabs.setSelectedIndex(2);
         }
@@ -565,11 +573,13 @@ public class MainFrame extends JFrame {
         productGrid.removeAll();
         products = DBget.getAllProducts();
         items = new LinkedList<>();
-        for (int i = 0; i < products.size(); i++) {
-            items.add(new ProductItemPanel(products.get(i), color));
-            productGrid.add(items.get(i));
+        for (Product product : products) {
+            if (product.getQuantity() > 0) {
+                ProductItemPanel item = new ProductItemPanel(product, color);
+                items.add(item);
+                productGrid.add(item);
+            }
         }
-
         for (int i = 0; i < 4; i++) {
             productGrid.add(new ProductItemPanel());
         }
@@ -669,6 +679,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         framePanel.setLayout(new java.awt.BorderLayout());
 
@@ -693,18 +704,17 @@ public class MainFrame extends JFrame {
                     .addComponent(productsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(homeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(sidePanelLayout.createSequentialGroup()
-                        .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 37, Short.MAX_VALUE)))
+                        .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 87, Short.MAX_VALUE))
+                    .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         sidePanelLayout.setVerticalGroup(
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(127, 127, 127)
+                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90)
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(productsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1308,7 +1318,7 @@ public class MainFrame extends JFrame {
     private JPanel loggedInPanel;
 
     private JLabel emailLabel;
-    private JLabel imageLabel;
+    private static JLabel imageLabel;
     private static JLabel loggedEmail;
     private static ImageAvatar loggedInPictureHolder;
     private static JLabel loggedPhoneNumber;

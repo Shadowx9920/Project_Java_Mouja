@@ -12,16 +12,17 @@ public class Product {
     private String date;
     private BufferedImage productPicture;
     private Double price;
+    private int quantity;
     
 
-    public Product(int id, String name, String description, String date, BufferedImage productPicture, Double price) {
+    public Product(int id, String name, String description, String date, BufferedImage productPicture, Double price,int quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
         this.productPicture = productPicture;
         this.price = price;
-        
+        this.quantity = quantity;
     }
 
     public int getId() {
@@ -70,6 +71,14 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public int getQuantity(){
+        return quantity;
+    }
+
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
     }
 
     public Fournisseur getFournisseur() {

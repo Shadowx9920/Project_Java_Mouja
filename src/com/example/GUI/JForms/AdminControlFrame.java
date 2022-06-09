@@ -8,10 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.Image;
 import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +33,7 @@ import com.example.Beans.Product;
 import com.example.Beans.Accounts.Admin;
 import com.example.Beans.Accounts.User;
 import com.example.DataBase.DBget;
+import com.example.DataBase.GeneratePDF;
 import com.example.GUI.CurrentSession;
 import com.example.GUI.Components.FournisseurDataPanel;
 import com.example.GUI.Components.ImageAvatar;
@@ -38,6 +41,7 @@ import com.example.GUI.Components.MoujaTextField;
 import com.example.GUI.Components.ProductItemPanel;
 import com.example.GUI.Components.UserPanel;
 import com.example.GUI.Components.Buttons.MoujaButton;
+import com.example.GUI.Components.Notifications.Notification;
 import com.example.GUI.Components.SearchBar.EventCallBack;
 import com.example.GUI.Components.SearchBar.EventTextField;
 import com.example.GUI.Components.SearchBar.TextFieldAnimation;
@@ -99,6 +103,7 @@ public class AdminControlFrame extends JFrame {
         logOutButton = new MoujaButton("",30, 30, Color.white,Color.gray);
         fournisseursButton = new MoujaButton("Fournisseurs",30, 75, Color.white,Color.gray);
         viewHistoryButton = new MoujaButton("",30, 75, Color.white,Color.gray);
+        downloadRepportButton = new MoujaButton("",30, 30, Color.white,Color.gray);
 
         framePanel = new javax.swing.JPanel();
         SidePanel = new JPanel();
@@ -175,37 +180,44 @@ public class AdminControlFrame extends JFrame {
     private static void initIcons(boolean isDark){
         if(isDark){
             logOutButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
-        uploadPictureHolder.setImage(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/sign-out.png")));
+            uploadPictureHolder.setImage(new javax.swing.ImageIcon(
+                    AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user.png")));
+            signInPuctureHolder.setImage(new javax.swing.ImageIcon(
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user.png")));
-        signInPuctureHolder.setImage(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user.png")));
-        exitButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
-        homeButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user-16.png")));
-        usersButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/group.png")));
-        productsButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/world.png")));
-        settingsButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
-        fournisseursButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/supplier.png")));
-        uploadPicButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
-        modifyUserButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/edit.png")));
-        removeProductButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
-        addUserButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/add-user.png")));
-        removeUserButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
-        addProductButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/plus.png")));
-        viewHistoryButton.setIcon(new javax.swing.ImageIcon(
-            AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/history.png")));
+            exitButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
+            homeButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/user-16.png")));
+            usersButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/group.png")));
+            productsButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/world.png")));
+            settingsButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/settings-sliders.png")));
+            fournisseursButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/supplier.png")));
+            uploadPicButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
+            modifyUserButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/edit.png")));
+            removeProductButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
+            addUserButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/add-user.png")));
+            removeUserButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
+            addProductButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/plus.png")));
+            viewHistoryButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/history.png")));
+            downloadRepportButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/rapport.png")));
+            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/app-logo.png"));
+            Image logoImg = logo.getImage();
+            Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(scaledLogoImage));
+            imageLabel.setBorder(new LineBorder(Color.BLACK,1));
         }else{
             logOutButton.setIcon(new javax.swing.ImageIcon(
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/sign-out.png")));
@@ -239,6 +251,13 @@ public class AdminControlFrame extends JFrame {
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/plus.png")));
             viewHistoryButton.setIcon(new javax.swing.ImageIcon(
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/history.png")));
+            downloadRepportButton.setIcon(new javax.swing.ImageIcon(
+                AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/rapport.png")));
+            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/app-logo.png"));
+            Image logoImg = logo.getImage();
+            Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(scaledLogoImage));
+            
         }
     }  
     
@@ -495,6 +514,22 @@ public class AdminControlFrame extends JFrame {
         viewHistoryButton.addActionListener(e -> {
             CommandesHistoryFrame.startCommandesHistoryFrame(AdminControlFrame.color);
         });
+    
+        downloadRepportButton.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser(); 
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Select Folder");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+            if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                GeneratePDF.generatePDF(chooser.getSelectedFile().getAbsolutePath());
+                Notification notification = new Notification(AdminControlFrame.this, Notification.Type.SUCCESS, Notification.Location.BOTTOM_CENTER, "report downloaded successfully");
+                notification.showNotification();
+            }else{
+                Notification notification = new Notification(AdminControlFrame.this, Notification.Type.WARNING, Notification.Location.BOTTOM_CENTER, "report download aborted");
+                notification.showNotification();
+            }
+        });
     }                    
     
     public static void initUsers(){
@@ -544,7 +579,7 @@ public class AdminControlFrame extends JFrame {
     public static void changeColors(Color color){
         AdminControlFrame.color = color;
         if (color != null) {
-            fournisseurDataPanel.changeColors(color);
+            FournisseurDataPanel.changeColors(color);
             loggedInPictureHolder.setGradientColor1(color);
             loggedInPictureHolder.setGradientColor2(color);
             signInPuctureHolder.setGradientColor1(color);
@@ -606,6 +641,7 @@ public class AdminControlFrame extends JFrame {
             uploadPicButton.changeButtonColor(color, color);
             fournisseursButton.changeButtonColor(color, color);
             viewHistoryButton.changeButtonColor(color, color);
+            downloadRepportButton.changeButtonColor(color, color);
             double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
             if (luminescence < 128) {
                 initIcons(false);
@@ -629,6 +665,7 @@ public class AdminControlFrame extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         framePanel.setLayout(new java.awt.BorderLayout());
 
@@ -642,6 +679,8 @@ public class AdminControlFrame extends JFrame {
 
         logOutButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
+        fournisseursButton.setPreferredSize(new java.awt.Dimension(73, 30));
+
         javax.swing.GroupLayout sidePanelLayout = new javax.swing.GroupLayout(SidePanel);
         SidePanel.setLayout(sidePanelLayout);
         sidePanelLayout.setHorizontalGroup(
@@ -649,14 +688,13 @@ public class AdminControlFrame extends JFrame {
             .addGroup(sidePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(productsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(productsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                     .addComponent(usersButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(homeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(sidePanelLayout.createSequentialGroup()
-                        .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 37, Short.MAX_VALUE))
+                        .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(fournisseursButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -664,16 +702,16 @@ public class AdminControlFrame extends JFrame {
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(157, 157, 157)
+                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90)
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(usersButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(productsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(fournisseursButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                .addComponent(fournisseursButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
                 .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -966,6 +1004,7 @@ public class AdminControlFrame extends JFrame {
         jLabel8.setText("Copyright MoujaStore. All rights reserved.");
 
         viewHistoryButton.setPreferredSize(new java.awt.Dimension(30, 30));
+        downloadRepportButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         javax.swing.GroupLayout loggedInPanelLayout = new javax.swing.GroupLayout(loggedInPanel);
         loggedInPanel.setLayout(loggedInPanelLayout);
@@ -975,6 +1014,8 @@ public class AdminControlFrame extends JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(downloadRepportButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(viewHistoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(modifyUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1025,11 +1066,12 @@ public class AdminControlFrame extends JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(loggedcreationDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61)
-                .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(modifyUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(loggedInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(viewHistoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(viewHistoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(downloadRepportButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -1247,6 +1289,7 @@ public class AdminControlFrame extends JFrame {
     private static MoujaButton cancelSignUpButton;
     private static MoujaButton fournisseursButton;
     private static MoujaButton viewHistoryButton;
+    private static MoujaButton downloadRepportButton;
 
     private JPanel Header;
     private static JPanel MainPanel;
@@ -1269,7 +1312,7 @@ public class AdminControlFrame extends JFrame {
     private JPanel loggedInPanel;
 
     private JLabel emailLabel;
-    private JLabel imageLabel;
+    private static JLabel imageLabel;
     private static JLabel loggedEmail;
     private static ImageAvatar loggedInPictureHolder;
     private static JLabel loggedPhoneNumber;

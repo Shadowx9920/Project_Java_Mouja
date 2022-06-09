@@ -3,6 +3,7 @@ package com.example.Beans;
 import java.util.LinkedList;
 
 import com.example.Beans.Accounts.User;
+import com.example.DataBase.DBmodify;
 import com.example.DataBase.DBset;
 import com.example.GUI.CurrentSession;
 
@@ -91,6 +92,11 @@ public class Commande {
         }
         double totalPrice = 0;
         for (Product product : products) {
+            int quantity = product.getQuantity();
+            int newQuantity = quantity - 1;
+
+            DBmodify.substractQuantity(product.getId(), newQuantity);
+            
             totalPrice += product.getPrice();
         }
         Commande c = DBset.addCommande(CurrentSession.getUser().getId(), totalPrice, true );

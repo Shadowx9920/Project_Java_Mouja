@@ -3,6 +3,7 @@ package com.example.GUI.Components;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -47,6 +48,10 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
         });
 
         modifyProvider.addActionListener(e -> {
+            if(jTable1.getSelectedRow() == -1){
+                JOptionPane.showMessageDialog(null, "Veuillez sélectionner un fournisseur à modifier");
+                return;
+            }
             AddFournisseurFrame.startAddFournisseurFrame((int)jTable1.getValueAt(jTable1.getSelectedRow(), 0),colorr);
         });
     }

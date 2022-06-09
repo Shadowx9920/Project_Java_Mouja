@@ -52,12 +52,12 @@ public class DBset {
         return false;
     }
 
-    public static boolean addProduct(int FournisseurID, String name, String description, BufferedImage image, Double price) {
+    public static boolean addProduct(int FournisseurID, String name, String description, BufferedImage image, Double price,int quantity) {
         PreparedStatement statement = null;
         Statement stmt = null;
         byte[] imgData = ImageProcessing.convertImgtoBytes(image);
         int ID = IdManager.generateNewID(DataBase.getConnection());
-        String sqlAddProductQuery = "INSERT INTO Products VALUES(?,?,?,?,datetime('now'),?);";
+        String sqlAddProductQuery = "INSERT INTO Products VALUES(?,?,?,?,datetime('now'),?,?);";
         String addFournisseurLink = "INSERT INTO FournisseurProducts (ProductID,FournisseurID)" +
                 "VALUES(" + ID + "," + FournisseurID + ")";
         try {
@@ -68,6 +68,7 @@ public class DBset {
             statement.setString(3, description);
             statement.setBytes(4, imgData);
             statement.setDouble(5,price);
+            statement.setInt(6, quantity);
             statement.executeUpdate();
             stmt.executeUpdate(addFournisseurLink);
             statement.close();
@@ -212,6 +213,36 @@ public class DBset {
                 statement.setInt(2, p.getId());
                 statement.executeUpdate();
             }
+            statement.close();
+            return true;
+        } catch (Exception e) {
+            System.err.println("SQL query failed");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean removeUserCommandes(int userId){
+        PreparedStatement statement = null;
+        String sqlAddProductQuery = "DELETE from CommandesUser where userID=" + userId + ";";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlAddProductQuery);
+            statement.executeUpdate();
+            statement.close();
+            return true;
+        } catch (Exception e) {
+            System.err.println("SQL query failed");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean removeProductCommande(int productID) {
+        PreparedStatement statement = null;
+        String sqlAddProductQuery = "DELETE from CommandeProducts where ProductID=" + productID + ";";
+        try {
+            statement = DataBase.getConnection().prepareStatement(sqlAddProductQuery);
+            statement.executeUpdate();
             statement.close();
             return true;
         } catch (Exception e) {

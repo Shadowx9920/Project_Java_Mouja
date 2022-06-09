@@ -236,6 +236,7 @@ public class ModifyUserFrame extends JFrame {
 
         setUndecorated(true);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         signUpButton.setPreferredSize(new java.awt.Dimension(69, 30));
 

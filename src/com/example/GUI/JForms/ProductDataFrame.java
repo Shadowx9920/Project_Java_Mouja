@@ -47,6 +47,7 @@ public class ProductDataFrame extends JFrame{
         productDescription.setLineWrap(true);
         productDescription.setText("Description :     " +product.getDescription());
         productDescription.setEditable(false);
+        productQuantity.setText("Quantity :     " + product.getQuantity());
         if (product.getProductPicture() == null) {
             productPicture.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/product.png")));
         }else{
@@ -59,7 +60,7 @@ public class ProductDataFrame extends JFrame{
             setUserHistory();
         }
     }
-
+    
     public void setAdminHistory(){
         Vector<Object> columnNames = new Vector<Object>();
         columnNames.add("User");
@@ -169,6 +170,7 @@ public class ProductDataFrame extends JFrame{
 
         setUndecorated(true);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
 

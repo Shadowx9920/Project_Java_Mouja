@@ -84,7 +84,8 @@ public class DataBase {
                 "description     TEXT," +
                 "image            BLOB," +
                 "date        TEXT          NOT NULL,"+
-                "price       DOUBLE        NOT NULL)";
+                "price       DOUBLE        NOT NULL,"+
+                "quantity    INTEGER       NOT NULL)";
         String sqlCreateFournisseurQuery = "CREATE TABLE Fournisseurs " +
                 "(ID INT PRIMARY KEY     NOT NULL," +
                 " name           CHAR(50)    NOT NULL," +

@@ -1,6 +1,9 @@
 package com.example.GUI.Components.SplashScreen;
 
 import java.awt.Color;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 
 /**
@@ -13,7 +16,7 @@ public class SplashScreen extends javax.swing.JDialog {
     public SplashScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        getContentPane().setBackground(new Color(221, 221, 221));
+        getContentPane().setBackground(Color.GRAY);
         //  To disable key Alt+F4 to close dialog
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
     }
@@ -35,7 +38,10 @@ public class SplashScreen extends javax.swing.JDialog {
         });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        //jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/logo.png"))); // NOI18N
+        ImageIcon logo = new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
+        Image logoImg = logo.getImage();
+        Image scaledLogoImage = logoImg.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+        jLabel1.setIcon(new javax.swing.ImageIcon(scaledLogoImage)); // NOI18N
 
         lbStatus.setForeground(new java.awt.Color(200, 200, 200));
         lbStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

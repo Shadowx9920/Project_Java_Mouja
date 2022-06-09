@@ -77,14 +77,14 @@ public class UserDataFrame extends JFrame{
     public static void initIcons(boolean isDark){
         if(isDark){
             if (user.getImage() == null) {
-                userImage.setImage(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/black_icons/user.png")));
+                userImage.setImage(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/black_icons/user-big.png")));
             }else{
                 userImage.setImage(new ImageIcon(user.getImage())); 
             }
             exitButton.setIcon(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
         }else{
             if (user.getImage() == null) {
-                userImage.setImage(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/white_icons/user.png")));
+                userImage.setImage(new ImageIcon(UserDataFrame.class.getResource("/com/example/GUI/resources/white_icons/user-big.png")));
             }else{
                 userImage.setImage(new ImageIcon(user.getImage())); 
             }
@@ -128,6 +128,7 @@ public class UserDataFrame extends JFrame{
 
         setUndecorated(true);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
 

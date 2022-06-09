@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.border.LineBorder;
 
@@ -100,6 +101,7 @@ public class AddFournisseurFrame extends JFrame {
             
         });
     }
+    
     public static void initIcons(boolean isDark){
         if (isDark) {
             exitButton.setIcon(new javax.swing.ImageIcon(
@@ -109,6 +111,7 @@ public class AddFournisseurFrame extends JFrame {
             AddFournisseurFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
         }
     }
+    
     private void initComponents() {
 
         exitButton = new MoujaButton("",30,30,Color.RED,Color.WHITE);
@@ -121,6 +124,7 @@ public class AddFournisseurFrame extends JFrame {
 
         setUndecorated(true);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
@@ -128,7 +132,7 @@ public class AddFournisseurFrame extends JFrame {
 
         cancelButton.setPreferredSize(new java.awt.Dimension(50, 30));
 
-        addButton.setPreferredSize(new java.awt.Dimension(30, 30));
+        addButton.setPreferredSize(new java.awt.Dimension(50, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Provider :");

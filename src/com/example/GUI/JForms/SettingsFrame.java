@@ -1,7 +1,9 @@
 package com.example.GUI.JForms;
 
+import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
@@ -18,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 public class SettingsFrame extends JFrame{
+
     public SettingsFrame() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);
@@ -112,6 +115,19 @@ public class SettingsFrame extends JFrame{
                     } catch (Exception e) {}
                 }
             }});
+
+            aboutButton.addActionListener(e -> {
+                String msg = "This Application is a school ProjectApp made by: \n" +
+                        "Youssef AhmedOutahar\n" +
+                        "Kaoutar Marhfour\n" +
+                        "Hassan Alami Merrouni\n" +
+                        "Malak Bekkai\n" +
+                        "Wijdane ElMouhtadi\n" +
+                        "Mohamed Jalal Loissame\n" +
+                        "Manal Laamrani El Idrissi\n" +
+                        "";
+                JOptionPane.showMessageDialog(null, msg, "About", JOptionPane.INFORMATION_MESSAGE);
+            });
     }
 
     public static void changeColors(Color color){
@@ -140,6 +156,7 @@ public class SettingsFrame extends JFrame{
 
         setUndecorated(true);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
+        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 

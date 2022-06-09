@@ -17,21 +17,23 @@ public class Admin extends Compte{
     }
 
     public static void removeUserByID(int Id) {
+        DBset.removeUserCommandes(Id);
         DBset.delUser(Id);
     }
 
-    public static void addProduct(String FournisseurName, String Productname, String description, BufferedImage image, Double price){
+    public static void addProduct(String FournisseurName, String Productname, String description, BufferedImage image, Double price,int quantity){
         if (Fournisseur.searchForFournisseur(FournisseurName)) {
             Fournisseur tmp = Fournisseur.getFournisseur(FournisseurName);
-            DBset.addProduct(tmp.id, Productname, description, image, price);
+            DBset.addProduct(tmp.id, Productname, description, image, price,quantity);
         }else{
             DBset.addFournisseur(FournisseurName);
             Fournisseur tmp = Fournisseur.getFournisseur(FournisseurName);
-            DBset.addProduct(tmp.id, Productname, description, image, price);
+            DBset.addProduct(tmp.id, Productname, description, image, price,quantity);
         }
     }
 
     public static void removeProductByID(int Id) {
+        DBset.removeProductCommande(Id);
         DBset.delProduct(Id);
     }
 }

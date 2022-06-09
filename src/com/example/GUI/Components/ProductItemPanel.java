@@ -9,9 +9,10 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import org.imgscalr.Scalr;
 
@@ -19,21 +20,18 @@ import com.example.Beans.Product;
 import com.example.GUI.CurrentSession;
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.JForms.ModifyProductFrame;
+import com.example.GUI.JForms.ProductDataFrame;
 
-public class ProductItemPanel extends PanelRound{
+public class ProductItemPanel extends JPanel{
 
     public boolean selected = false;
     public Product product;
     public static Color color;
-    public boolean isViewingDetails = false;
+    public Color bgColor = getBackground();
 
     public ProductItemPanel(){
         info = new JPanel();
         initComponents();
-        setRoundBottomLeft(100);
-        setRoundBottomRight(100);
-        setRoundTopLeft(100);
-        setRoundTopRight(100);
         productImage.setVisible(false);
         productPrice.setVisible(false);
         viewDetailsButton.setVisible(false);
@@ -44,7 +42,6 @@ public class ProductItemPanel extends PanelRound{
         this.product = product;
         
         productBriefPanel = new ProductBrief(product);
-        productInfoPanel = new ProductInfo(product);
 
         info = new JPanel();
         info.setLayout(new BorderLayout());
@@ -53,11 +50,6 @@ public class ProductItemPanel extends PanelRound{
         initComponents();
 
         changeColors(color);
-
-        setRoundBottomLeft(100);
-        setRoundBottomRight(100);
-        setRoundTopLeft(100);
-        setRoundTopRight(100);
 
         setBorder(BorderFactory.createRaisedBevelBorder());
 
@@ -73,8 +65,13 @@ public class ProductItemPanel extends PanelRound{
             public void mouseClicked(MouseEvent e) {
                 selected = !selected;
                 if(selected) {
+                    Color c = getBackground().darker().darker();
+                    setBackground(c);
+                    productBriefPanel.setBackground(c);
                     setBorder(BorderFactory.createLoweredBevelBorder());
                 } else {
+                    setBackground(bgColor);
+                    productBriefPanel.setBackground(bgColor);
                     setBorder(BorderFactory.createRaisedBevelBorder());
                 }
             }
@@ -103,10 +100,6 @@ public class ProductItemPanel extends PanelRound{
         productPrice.setVerticalAlignment(SwingConstants.CENTER);
         productPrice.setHorizontalAlignment(SwingConstants.CENTER);
 
-
-        viewDetailsButton.addActionListener(e -> {
-        });
-
         modifyButton.addActionListener(e -> {
             ModifyProductFrame.startModifyProductFrame(this.product,color);
         });
@@ -119,16 +112,10 @@ public class ProductItemPanel extends PanelRound{
         viewDetailsButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                isViewingDetails = !isViewingDetails;
-                if (isViewingDetails) {
-                    info.removeAll();
-                    info.add(productInfoPanel);
-                    SwingUtilities.updateComponentTreeUI(info);
-
+                if (CurrentSession.checkIfLogged()) {
+                    ProductDataFrame.startProductDataFrame(product, color);
                 }else{
-                    info.removeAll();
-                    info.add(productBriefPanel);
-                    SwingUtilities.updateComponentTreeUI(info);
+                    JOptionPane.showMessageDialog(null, "You Are Not Logged in.");
                 }
             }});
     }
@@ -208,6 +195,5 @@ public class ProductItemPanel extends PanelRound{
     private static MoujaButton viewDetailsButton;
     private static MoujaButton modifyButton;
     private javax.swing.JPanel info;
-    private ProductInfo productInfoPanel;
     private ProductBrief productBriefPanel;
 }

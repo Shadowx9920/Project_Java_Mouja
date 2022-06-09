@@ -48,10 +48,6 @@ public class AddUserFrame extends JFrame {
         phoneNumberTextField.setText("");
         emailTextField.setLabelText("Email");
         emailTextField.setText("");
-
-        uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/user-big.png")));
-
-        exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
         exitButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,8 +61,6 @@ public class AddUserFrame extends JFrame {
                 dispose();
             }
         });
-
-        uploadPicButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/upload.png")));
         uploadPicButton.addActionListener(new ActionListener(){
             public ImageIcon resize(String imgPath) {
                 ImageIcon path = new ImageIcon(imgPath);
@@ -145,6 +139,24 @@ public class AddUserFrame extends JFrame {
         signUpButton.changeButtonColor(color, color);
         exitButton.changeButtonColor(color, color);
         uploadPicButton.changeButtonColor(color, color);
+        double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+        if (luminescence < 128) {
+            initIcons(false);
+        }else{
+            initIcons(true);
+        }
+    }
+    
+    public static void initIcons(boolean isDark){
+        if (isDark) {
+            uploadPictureHolder.setIcon(new ImageIcon(AddUserFrame.class.getResource("/com/example/GUI/resources/black_icons/user-big.png")));
+            exitButton.setIcon(new javax.swing.ImageIcon(AddUserFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
+            uploadPicButton.setIcon(new javax.swing.ImageIcon(AddUserFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
+        } else {
+            uploadPictureHolder.setIcon(new ImageIcon(AddUserFrame.class.getResource("/com/example/GUI/resources/white_icons/user-big.png")));
+            exitButton.setIcon(new javax.swing.ImageIcon(AddUserFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
+            uploadPicButton.setIcon(new javax.swing.ImageIcon(AddUserFrame.class.getResource("/com/example/GUI/resources/white_icons/upload.png")));
+        }
     }
     
     private void initComponents() {
@@ -336,5 +348,5 @@ public class AddUserFrame extends JFrame {
     private javax.swing.JPanel signUpDataPanel;
     private javax.swing.JPanel signUpPanel;
     private static MoujaButton uploadPicButton;
-    private javax.swing.JLabel uploadPictureHolder;
+    private static javax.swing.JLabel uploadPictureHolder;
 }

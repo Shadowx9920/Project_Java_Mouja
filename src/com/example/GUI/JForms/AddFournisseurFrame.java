@@ -75,9 +75,9 @@ public class AddFournisseurFrame extends JFrame {
     }
 
     public static void changeColors(Color color) {
-        exitButton.changeButtonColor(color.brighter(), color.darker());
-        cancelButton.changeButtonColor(color.brighter(), color.darker());
-        addButton.changeButtonColor(color.brighter(), color.darker());
+        exitButton.changeButtonColor(color, color);
+        cancelButton.changeButtonColor(color, color);
+        addButton.changeButtonColor(color, color);
         jTextField1.addMouseListener(new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent e) {}
@@ -203,6 +203,12 @@ public class AddFournisseurFrame extends JFrame {
             public void run() {
                 new AddFournisseurFrame(fournisseurID).setVisible(true);
                 changeColors(color);
+                double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+                if (luminescence < 128) {
+                    initIcons(false);
+                }else{
+                    initIcons(true);
+                }
             }
         });
     }

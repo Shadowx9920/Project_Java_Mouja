@@ -200,6 +200,7 @@ public class DBget {
         }
         return tmp;
     }
+    
     public static LinkedList<User> getAllUsers() {
         LinkedList<User> users = new LinkedList<User>();
         PreparedStatement statement = null;

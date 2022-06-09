@@ -7,8 +7,6 @@ public class User extends Compte{
     String phoneNumber){
         super(id,username,password,date,image,email,phoneNumber);
     }
-    public void orderSomething(){}
-    public void checkIndividualProduct(){}
 
     @Override
     public String toString() {

@@ -3,6 +3,7 @@ package com.example.GUI.Components;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.example.DataBase.DBset;
@@ -13,18 +14,13 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
 
     static FournisseurTableModel model = new FournisseurTableModel();
 
+    public static Color colorr;
+
     public FournisseurDataPanel(Color color) {
 
         initComponents();
 
         changeColors(color);
-
-        addProvider.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/plus.png")));
-        deleteProvider.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/bin.png")));
-        modifyProvider.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/edit.png")));
 
         jTable1.setModel(model);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -47,18 +43,43 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
         });
 
         addProvider.addActionListener(e -> {
-            AddFournisseurFrame.startAddFournisseurFrame(color);
+            AddFournisseurFrame.startAddFournisseurFrame(colorr);
         });
 
         modifyProvider.addActionListener(e -> {
-            AddFournisseurFrame.startAddFournisseurFrame((int)jTable1.getValueAt(jTable1.getSelectedRow(), 0),color);
+            AddFournisseurFrame.startAddFournisseurFrame((int)jTable1.getValueAt(jTable1.getSelectedRow(), 0),colorr);
         });
     }
 
-    public void changeColors(Color color) {
-        deleteProvider.changeButtonColor(color.brighter(), color.darker());
-        addProvider.changeButtonColor(color.brighter(), color.darker());
-        modifyProvider.changeButtonColor(color.brighter(), color.darker());
+    public static void initIcons(boolean isDark){
+        if(isDark){
+            addProvider.setIcon(new javax.swing.ImageIcon(
+                FournisseurDataPanel.class.getResource("/com/example/GUI/resources/black_icons/plus.png")));
+            deleteProvider.setIcon(new javax.swing.ImageIcon(
+                FournisseurDataPanel.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
+            modifyProvider.setIcon(new javax.swing.ImageIcon(
+                FournisseurDataPanel.class.getResource("/com/example/GUI/resources/black_icons/edit.png")));
+        }else{
+            addProvider.setIcon(new javax.swing.ImageIcon(
+                FournisseurDataPanel.class.getResource("/com/example/GUI/resources/white_icons/plus.png")));
+            deleteProvider.setIcon(new javax.swing.ImageIcon(
+                FournisseurDataPanel.class.getResource("/com/example/GUI/resources/white_icons/bin.png")));
+            modifyProvider.setIcon(new javax.swing.ImageIcon(
+                FournisseurDataPanel.class.getResource("/com/example/GUI/resources/white_icons/edit.png")));
+        }
+    }
+
+    public static void changeColors(Color color) {
+        colorr = color;
+        deleteProvider.changeButtonColor(color, color);
+        addProvider.changeButtonColor(color, color);
+        modifyProvider.changeButtonColor(color, color);
+        double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+        if (luminescence < 128) {
+            initIcons(false);
+        }else{
+            initIcons(true);
+        }
     }
 
     public static void updateFournisseurTable(){
@@ -93,6 +114,7 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         FournisseurSpacerPanel = new javax.swing.JPanel();
         fournisseurActionsPanel = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
         addProvider = new MoujaButton("",30,30,Color.RED,Color.WHITE);
         deleteProvider = new MoujaButton("",30,30,Color.RED,Color.WHITE);
         modifyProvider = new MoujaButton("", 30, 30, Color.RED, Color.WHITE);
@@ -128,12 +150,17 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
 
         modifyProvider.setPreferredSize(new java.awt.Dimension(30, 30));
 
+        jLabel8.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel8.setText("Copyright MoujaStore. All rights reserved.");
+
         javax.swing.GroupLayout fournisseurActionsPanelLayout = new javax.swing.GroupLayout(fournisseurActionsPanel);
         fournisseurActionsPanel.setLayout(fournisseurActionsPanelLayout);
         fournisseurActionsPanelLayout.setHorizontalGroup(
             fournisseurActionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fournisseurActionsPanelLayout.createSequentialGroup()
-                .addContainerGap(753, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 452, Short.MAX_VALUE)
                 .addComponent(addProvider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(modifyProvider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,7 +175,8 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
                 .addGroup(fournisseurActionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteProvider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addProvider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modifyProvider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(modifyProvider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         fournisseurTablePanel.add(fournisseurActionsPanel, java.awt.BorderLayout.PAGE_END);
@@ -199,5 +227,6 @@ public class FournisseurDataPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane fournisseurScroll;
     private javax.swing.JPanel fournisseurTablePanel;
     private static javax.swing.JTable jTable1; 
-    private static MoujaButton modifyProvider;            
+    private static MoujaButton modifyProvider;  
+    private static javax.swing.JLabel jLabel8;
 }

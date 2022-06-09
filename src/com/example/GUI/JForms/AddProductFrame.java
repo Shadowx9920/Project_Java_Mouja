@@ -54,11 +54,6 @@ public class AddProductFrame extends JFrame {
 
         uploadPictureHolder.setVerticalAlignment(SwingConstants.CENTER);
         uploadPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
-
-        uploadPictureHolder.setIcon(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/product.png")));
-
-        exitButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/cross.png")));
         exitButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,9 +67,6 @@ public class AddProductFrame extends JFrame {
                 dispose();
             }
         });
-        
-        uploadPicButton.setIcon(new javax.swing.ImageIcon(
-            getClass().getResource("/com/example/GUI/resources/black_icons/upload.png")));
         uploadPicButton.addActionListener(new ActionListener(){
             public ImageIcon resize(String imgPath) {
                 ImageIcon path = new ImageIcon(imgPath);
@@ -145,10 +137,28 @@ public class AddProductFrame extends JFrame {
             public void mouseExited(MouseEvent e) {
                 fournisseurComboBox.setBorder(new LineBorder(Color.GRAY,1));
             }});
-        addButton.changeButtonColor(color.brighter(), color.darker());
-        exitButton.changeButtonColor(color.brighter(), color.darker());
-        uploadPicButton.changeButtonColor(color.brighter(), color.darker());
-        cancelButton.changeButtonColor(color.brighter(), color.darker());
+        addButton.changeButtonColor(color, color);
+        exitButton.changeButtonColor(color, color);
+        uploadPicButton.changeButtonColor(color, color);
+        cancelButton.changeButtonColor(color, color);
+        double luminescence = 0.2126*color.getRed() + 0.7152*color.getGreen() + 0.0722*color.getBlue();
+        if (luminescence < 128) {
+            initIcons(false);
+        }else{
+            initIcons(true);
+        }
+    }
+
+    public static void initIcons(boolean isDark){
+        if (isDark) {
+            uploadPicButton.setIcon(new javax.swing.ImageIcon(AddProductFrame.class.getResource("/com/example/GUI/resources/black_icons/upload.png")));
+            uploadPictureHolder.setIcon(new ImageIcon(AddProductFrame.class.getResource("/com/example/GUI/resources/black_icons/product.png")));
+            exitButton.setIcon(new javax.swing.ImageIcon(AddProductFrame.class.getResource("/com/example/GUI/resources/black_icons/cross.png")));
+        } else {
+            uploadPicButton.setIcon(new javax.swing.ImageIcon(AddProductFrame.class.getResource("/com/example/GUI/resources/white_icons/upload.png")));
+            uploadPictureHolder.setIcon(new ImageIcon(AddProductFrame.class.getResource("/com/example/GUI/resources/white_icons/product.png")));
+            exitButton.setIcon(new javax.swing.ImageIcon(AddProductFrame.class.getResource("/com/example/GUI/resources/white_icons/cross.png")));
+        }
     }
     
     private void initComponents() {
@@ -229,14 +239,14 @@ public class AddProductFrame extends JFrame {
                             .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addContainerGap(253, Short.MAX_VALUE))
         );
         dataPanelLayout.setVerticalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataPanelLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(uploadPicButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -304,19 +314,17 @@ public class AddProductFrame extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 876, Short.MAX_VALUE)
+            .addGap(0, 896, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(signUpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(0, 10, Short.MAX_VALUE)
+                    .addComponent(signUpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 512, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 12, Short.MAX_VALUE)
                     .addComponent(signUpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 13, Short.MAX_VALUE)))
         );
@@ -348,7 +356,7 @@ public class AddProductFrame extends JFrame {
     private static MoujaTextField priceTextField;
     private javax.swing.JPanel signUpPanel;
     private static MoujaButton uploadPicButton;
-    private javax.swing.JLabel uploadPictureHolder; 
+    private static javax.swing.JLabel uploadPictureHolder; 
     private JLabel jLabel1;
     private JLabel jLabel2;
     private JLabel jLabel3;

@@ -57,7 +57,7 @@ public class UserPanel extends PanelRound {
         userImage.setGradientColor2(color);
         
         if (user.getImage() == null) {
-            this.userImage.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/img/user.png")));
+            this.userImage.setImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/user-big.png")));
             //this.userImage.setIcon();
         }else{
             this.userImage.setImage(new ImageIcon(Scalr.resize(user.getImage(), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, 160, 160)));

@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import com.example.GUI.Components.FournisseurDataPanel;
 import com.example.GUI.Components.Buttons.MoujaButton;
 import com.example.GUI.Components.Buttons.SwitchButton.EventSwitchSelected;
 import com.example.GUI.Components.Buttons.SwitchButton.SwitchButton;
@@ -67,6 +68,9 @@ public class SettingsFrame extends JFrame{
                 } catch (Exception e) {}
                 try {
                     AdminControlFrame.changeColors(color);
+                } catch (Exception e) {}
+                try {
+                    FournisseurDataPanel.changeColors(color);
                 } catch (Exception e) {}
                 changeColors(color);
                 SwingUtilities.updateComponentTreeUI(SettingsFrame.this);

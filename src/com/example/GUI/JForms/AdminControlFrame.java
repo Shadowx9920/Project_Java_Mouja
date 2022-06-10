@@ -213,11 +213,11 @@ public class AdminControlFrame extends JFrame {
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/history.png")));
             downloadRepportButton.setIcon(new javax.swing.ImageIcon(
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/rapport.png")));
-            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/app-logo.png"));
+            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
             Image logoImg = logo.getImage();
             Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
             imageLabel.setIcon(new ImageIcon(scaledLogoImage));
-            imageLabel.setBorder(new LineBorder(Color.BLACK,1));
+            searchBar.setForeground(Color.white);
         }else{
             logOutButton.setIcon(new javax.swing.ImageIcon(
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/sign-out.png")));
@@ -257,7 +257,7 @@ public class AdminControlFrame extends JFrame {
             Image logoImg = logo.getImage();
             Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
             imageLabel.setIcon(new ImageIcon(scaledLogoImage));
-            
+            searchBar.setForeground(Color.BLACK);
         }
     }  
     

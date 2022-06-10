@@ -16,7 +16,6 @@ import javax.swing.table.DefaultTableModel;
 import com.example.Beans.Commande;
 import com.example.Beans.Product;
 import com.example.DataBase.DBget;
-import com.example.GUI.CurrentSession;
 import com.example.GUI.Components.Buttons.MoujaButton;
 
 public class CommandesHistoryFrame extends JFrame{

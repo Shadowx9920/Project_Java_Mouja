@@ -203,10 +203,10 @@ public class MainFrame extends JFrame {
             payButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/dollar.png")));
             removeFromKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/bin.png")));
             viewHistoryButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/history.png")));
-            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
-            Image logoImg = logo.getImage();
-            Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(scaledLogoImage));
+            // ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
+            // Image logoImg = logo.getImage();
+            // Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
+            // imageLabel.setIcon(new ImageIcon(scaledLogoImage));
         }else{
             logOutButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/sign-out.png")));
             uploadPictureHolder.setImage(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/user-big.png")));
@@ -222,10 +222,10 @@ public class MainFrame extends JFrame {
             payButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/dollar.png")));
             removeFromKartButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/bin.png")));
             viewHistoryButton.setIcon(new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/history.png")));
-            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/app-logo.png"));
-            Image logoImg = logo.getImage();
-            Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(scaledLogoImage));
+            // ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/app-logo.png"));
+            // Image logoImg = logo.getImage();
+            // Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
+            // imageLabel.setIcon(new ImageIcon(scaledLogoImage));
         }
     }  
     
@@ -679,7 +679,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
-        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
+        // setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         framePanel.setLayout(new java.awt.BorderLayout());
 
@@ -737,7 +737,7 @@ public class MainFrame extends JFrame {
         //titleSeparator.setBackground(new java.awt.Color(0, 0, 0));
 
         titleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        titleLabel.setText("Mouja Store");
+        titleLabel.setText("Valerius Store");
 
         //seatchPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -873,7 +873,7 @@ public class MainFrame extends JFrame {
         cancelSignUpButton.setPreferredSize(new java.awt.Dimension(69, 23));
 
         jLabel7.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel7.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel7.setText("Copyright ValeriusStore. All rights reserved.");
 
         javax.swing.GroupLayout signUpPanelLayout = new javax.swing.GroupLayout(signUpPanel);
         signUpPanel.setLayout(signUpPanelLayout);
@@ -938,7 +938,7 @@ public class MainFrame extends JFrame {
         createNewAcountButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel9.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel9.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel9.setText("Copyright ValeriusStore. All rights reserved.");
 
         javax.swing.GroupLayout signInPanelLayout = new javax.swing.GroupLayout(signInPanel);
         signInPanel.setLayout(signInPanelLayout);
@@ -1000,7 +1000,7 @@ public class MainFrame extends JFrame {
         jLabel4.setText("Creation Date :");
 
         jLabel8.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel8.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel8.setText("Copyright ValeriusStore. All rights reserved.");
 
         viewHistoryButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
@@ -1119,7 +1119,7 @@ public class MainFrame extends JFrame {
         addToKartButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel5.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel5.setText("Copyright ValeriusStore. All rights reserved.");
 
         javax.swing.GroupLayout productsActionsPanelLayout = new javax.swing.GroupLayout(productsActionsPanel);
         productsActionsPanel.setLayout(productsActionsPanelLayout);
@@ -1188,7 +1188,7 @@ public class MainFrame extends JFrame {
         removeFromKartButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel6.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel6.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel6.setText("Copyright ValeriusStore. All rights reserved.");
 
         javax.swing.GroupLayout kartActionsPanelLayout = new javax.swing.GroupLayout(kartActionsPanel);
         kartActionsPanel.setLayout(kartActionsPanelLayout);

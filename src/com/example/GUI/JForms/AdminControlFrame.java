@@ -213,10 +213,10 @@ public class AdminControlFrame extends JFrame {
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/history.png")));
             downloadRepportButton.setIcon(new javax.swing.ImageIcon(
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/black_icons/rapport.png")));
-            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
-            Image logoImg = logo.getImage();
-            Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(scaledLogoImage));
+            // ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
+            // Image logoImg = logo.getImage();
+            // Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
+            // imageLabel.setIcon(new ImageIcon(scaledLogoImage));
             searchBar.setForeground(Color.white);
         }else{
             logOutButton.setIcon(new javax.swing.ImageIcon(
@@ -253,10 +253,10 @@ public class AdminControlFrame extends JFrame {
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/history.png")));
             downloadRepportButton.setIcon(new javax.swing.ImageIcon(
                 AdminControlFrame.class.getResource("/com/example/GUI/resources/white_icons/rapport.png")));
-            ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/app-logo.png"));
-            Image logoImg = logo.getImage();
-            Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(scaledLogoImage));
+            // ImageIcon logo = new ImageIcon(MainFrame.class.getResource("/com/example/GUI/resources/white_icons/app-logo.png"));
+            // Image logoImg = logo.getImage();
+            // Image scaledLogoImage = logoImg.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
+            // imageLabel.setIcon(new ImageIcon(scaledLogoImage));
             searchBar.setForeground(Color.BLACK);
         }
     }  
@@ -665,7 +665,7 @@ public class AdminControlFrame extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getRootPane().setBorder(new LineBorder(Color.BLACK,2,true));
-        setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
+        // setIconImage(new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png")).getImage());
 
         framePanel.setLayout(new java.awt.BorderLayout());
 
@@ -723,7 +723,7 @@ public class AdminControlFrame extends JFrame {
         exitButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         titleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        titleLabel.setText("Mouja Store");
+        titleLabel.setText("Valerius Store");
 
         javax.swing.GroupLayout seatchPanelLayout = new javax.swing.GroupLayout(seatchPanel);
         seatchPanel.setLayout(seatchPanelLayout);
@@ -876,7 +876,7 @@ public class AdminControlFrame extends JFrame {
         cancelSignUpButton.setPreferredSize(new java.awt.Dimension(69, 23));
 
         jLabel7.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel7.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel7.setText("Copyright ValeriusStore. All rights reserved.");
 
         javax.swing.GroupLayout signUpPanelLayout = new javax.swing.GroupLayout(signUpPanel);
         signUpPanel.setLayout(signUpPanelLayout);
@@ -939,7 +939,7 @@ public class AdminControlFrame extends JFrame {
         createNewAcountButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel9.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel9.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel9.setText("Copyright ValeriusStore. All rights reserved.");
 
         javax.swing.GroupLayout signInPanelLayout = new javax.swing.GroupLayout(signInPanel);
         signInPanel.setLayout(signInPanelLayout);
@@ -1001,7 +1001,7 @@ public class AdminControlFrame extends JFrame {
         jLabel4.setText("Creation Date :");
 
         jLabel8.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel8.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel8.setText("Copyright ValeriusStore. All rights reserved.");
 
         viewHistoryButton.setPreferredSize(new java.awt.Dimension(30, 30));
         downloadRepportButton.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -1119,7 +1119,7 @@ public class AdminControlFrame extends JFrame {
         addUserButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel5.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel5.setText("Copyright ValeriusStore. All rights reserved.");
 
         javax.swing.GroupLayout productsActionsPanelLayout = new javax.swing.GroupLayout(usersActionsPanel);
         usersActionsPanel.setLayout(productsActionsPanelLayout);
@@ -1183,7 +1183,7 @@ public class AdminControlFrame extends JFrame {
         removeProductButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jLabel6.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel6.setText("Copyright MoujaStore. All rights reserved.");
+        jLabel6.setText("Copyright ValeriusStore. All rights reserved.");
 
         javax.swing.GroupLayout kartActionsPanelLayout = new javax.swing.GroupLayout(productActionsPanel);
         productActionsPanel.setLayout(kartActionsPanelLayout);

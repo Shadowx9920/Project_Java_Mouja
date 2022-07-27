@@ -37,11 +37,11 @@ public class SplashScreen extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ImageIcon logo = new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
-        Image logoImg = logo.getImage();
-        Image scaledLogoImage = logoImg.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-        jLabel1.setIcon(new javax.swing.ImageIcon(scaledLogoImage)); // NOI18N
+        // jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        // ImageIcon logo = new ImageIcon(getClass().getResource("/com/example/GUI/resources/black_icons/app-logo.png"));
+        // Image logoImg = logo.getImage();
+        // Image scaledLogoImage = logoImg.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+        // jLabel1.setIcon(new javax.swing.ImageIcon(scaledLogoImage)); // NOI18N
 
         lbStatus.setForeground(new java.awt.Color(200, 200, 200));
         lbStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
